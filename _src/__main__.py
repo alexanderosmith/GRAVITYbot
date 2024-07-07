@@ -2,92 +2,129 @@
 # DOCUMENTATION NOTES : #############################################################################
 # File Creator: Alexander O. Smith (2024-present), aosmith@syr.edu
 # Current Maintainer: Alexander O. Smith, aosmith@syr.edu
-# Last Update: April 19, 2024
+# Last Update: July 7, 2024
 # Program Goal:
 # This file is the main executable Python file of "GravityBot"
 #####################################################################################################
 #####################################################################################################
 # DEPENDENCIES ######################################################################################
-import os, sys, re, csv, openai
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-import pandas as pd
-import _alog as alog
+# Package Dependencies
+import os, sys, pytz, re, csv, openai
 from datetime import datetime
+import pandas as pd
+# API Imports
 from openai import OpenAI
 from panoptes_client import Panoptes
+# Local enviornment imports and path appends
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from dotenv import find_dotenv, load_dotenv
+#import _test_alog as alog # This file needs to be fixed before I use it.
 import prompts
 # Example of how to import a prompt from prompts py file.
 #####################################################################################################
 # Load the Talk CSV file
 # !!! Eventually set this up so it runs dynamically within the same project
-talk_file = './_data/ex_GS_TalkComments_2024-01-29.csv'
-
+talk_file = './_data/project-1104-comments_2024-06-18.csv'
 #####################################################################################################
 # Functions #########################################################################################
 # 1. load_text          :   loads talk data
 # 2. segment_by_time    :   limits talk data to those within particular dates
-# 3. chat_with_gpt      :   calls chatGPT bot
-# 4. main               :   runs above functions in order, and loads prompt file info
+# 3. chat_with_gpt3     :   calls chatGPT3 bot (less expensive, lower input rate limit)
+# 4. chat_with_gpt4     :   calls chatGPT4 bot (more expensive, higher input rate limit)
+# 5. main               :   initiates above functions, and loads prompt file info
 #####################################################################################################
-# Function: gets data from Zooniverse using Panoptes client
-# def zooniverse_talk_git():
-#   
 # Function: loads data and gets comments which contain text
 def load_text(file_path):
-    text_dat = []
+    talk_url = 'https://www.zooniverse.org/projects/zooniverse/gravity-spy/talk/'
+
     with open(file_path, encoding='utf-8') as file:
         reader = csv.DictReader(file)
+        # Define the Universal timezone
+        utc = pytz.UTC
+
+        # Set up lists for dataframe return
+        txt         =   []
+        times       =   []
+        comment_urls=   []
+
         for row in reader:
-            text = row['comment_body']
-            text = re.sub('[^A-Za-z0-9\>\s]', '', text)
+            # Text cleaning (saves money and makes it easier to not rate limit)
+            text = row['comment_body']  
+            text = re.sub('[^A-Za-z0-9\>\s\'\"\?\.\!]', ' ', text)
+            text = re.sub('\.+', ' ', text)
+            text = re.sub('projects zooniverse gravity spy talk subjects', ' ', text)
+            text = re.sub('zooniverse gravity spy talk comment page', ' ', text)
+            text = re.sub('\s[b-z][\.\s]', ' ', text)
             text = re.sub('[\n]', ' ', text)
-            text = re.sub('\s+', ' ', text)  
-            # Comment Data
-            timestamp = row['comment_created_at']  
-            # Captures only those comments containing text.
-            if re.search(r'.', text):  # Regex to find questions
-                text_dat.append({'timestamp': timestamp, 'text': text})
+            text = re.sub('[0-9]+\s', ' ', text)
+            text = re.sub('[a-z][0-9]+', ' ', text)
+            text = re.sub('\s+', ' ', text)
+            txt.append(text)
+            # Building Comment URLs to "cite" when GRAVITYbot needs to reference a comment
+            board = str(row['board_id'])+'/'
+            disc_id = str(row['discussion_id'])+'/'
+            comment_url = talk_url+board+disc_id
+            comment_urls.append(comment_url)
+            # Define time formats with and without microseconds
+            fmt_dot_ms = '%Y-%m-%d %H:%M:%S.%f%z'
+            fmt_wo_ms = '%Y-%m-%d %H:%M:%S%z'
+            
+            # Timestamp Data Clean
+            timestamp = row['comment_created_at']
+
+            for fmt in (fmt_dot_ms, fmt_wo_ms):
+                try:
+                # Parse the timestamp
+                    time = datetime.strptime(timestamp, fmt).astimezone(utc)
+                    times.append(time)
+                    break
+                except: 
+                    if fmt == fmt_wo_ms:
+                        print(f'Datetime Conversion Warning')
+                        times.append('datetime_conversion_issue')
+                        break
+        # Generate DataFrame of data necessary for GRAVITYbot interpretation
+        text_dat = pd.DataFrame({
+            'timestamp'     : times,
+            'comment'       : txt,
+            'comment_url'   : comment_urls,
+        })
+
     return text_dat
 
 # Function: transforms dates to segment questions
 def segment_by_time(text_dat, start_date, end_date):
+    # Parse and localize start_date and end_date to UTC
+    utc = pytz.UTC
     start_dt = datetime.strptime(start_date, '%Y-%m-%d')
+    start_dt = utc.localize(start_dt)
     end_dt = datetime.strptime(end_date, '%Y-%m-%d')
-    segmented_txt = [t for t in text_dat if start_dt <= datetime.strptime(
-        t['timestamp'], '%Y-%m-%dT%H:%M:%S.%fZ') <= end_dt]
+    end_dt = utc.localize(end_dt)
+
+    # Get the comments and URLs between the date range start_date & end_date
+    talk_dat = text_dat[(text_dat['timestamp'] >= start_dt) & (text_dat['timestamp'] <= end_dt)]
     
-    # Make segmented text a single string.
-    talk_dat = ""
-    for t in segmented_txt:
-        #print(t['text'])
-        talk_dat += " "+t['text']
-    return talk_dat
+    gpt_talk_reduce = talk_dat[['comment', 'comment_url']]
+    # To-Do: Learn how to get chatGPT to read a dataframe object, and update the prompts accordingly
+    gpt_talk_str = gpt_talk_reduce.to_string(header = False, index = False)
+    gpt_talk_str = re.sub('\s+', ' ', gpt_talk_str)
+    
+    return gpt_talk_str
 
-# Function: sends prompts to chatGPT
-#### NOTICE: Be careful with this function! It costs the money.
-_ = load_dotenv(find_dotenv())
-client = OpenAI(api_key=os.environ.get("OPENAI_API_KEY"))
-
-def chat_with_gpt(user_prompt, sys_prompt):
+def chat_with_gpt4(user_prompt, sys_prompt):
+    _ = load_dotenv(find_dotenv())
+    client = OpenAI(api_key=os.environ.get("OPENAI_API_KEY")) 
     
     response = client.chat.completions.create(
-        
         # Messages: priming the model for a response
         messages = [
-            # System role tells the model a "role" to respond
-            {'role' : 'system', 'content' : sys_prompt},
-            # User role is what "we" the user are asking/telling the model
-            {"role": "user", "content": user_prompt}
+            
+            {'role' : 'system', 'content' : sys_prompt},# System "role" in which openAI responds
+            {'role': 'user', 'content': user_prompt}    # What "I" am asking/telling the model
             ],
-        # Model: The openAI model for the project
-        model="gpt-3.5-turbo-0125",
-
-        # Temperature: How accurate do we want it to be?
-        temperature=0.6,
-        # Maximum token output.
-        #### NOTICE: Making this number bigger makes things more expensive.
-        max_tokens=500
+        model="gpt-4-turbo",                            # The openAI model for the project
+        temperature=    0.8,                            # Lower = more flexibility, Higher = more accurate
+        max_tokens=     2000                            # NOTICE: higher tokens, more money.
     )
 
     # Outfile of Call and Response to GravitySpy
@@ -99,31 +136,28 @@ def chat_with_gpt(user_prompt, sys_prompt):
 
     return response.choices[0].message.content
 
-
 # Main Function: Calls all previous functions for a user specified time frame
-def main():
-    # Call load_text
+def main():    
+    # Validate openAPI key stored in .env
+    # _ = load_dotenv(find_dotenv())
+    # client = OpenAI(api_key=os.environ.get("OPENAI_API_KEY"))   
+
+    # Call load_text function
     txt = load_text(talk_file)
 
-    # Call segment_by_time for correct time span
-    talk_dat = segment_by_time(txt, '2023-01-06', '2023-01-07')
-
-    # Validate openAPI key stored in .env
-    _ = load_dotenv(find_dotenv())
-    client = OpenAI(
-    api_key=os.environ.get("OPENAI_API_KEY")
-    )    
-
-    # Call aLog script
-    alog_call = _alog
-
+    # Call segment_by_time function
+    # To-Do: Find a way to automate these dates
+    talk_dat0 = segment_by_time(txt, '2024-06-01', '2024-06-05')
+    talk_dat1 = segment_by_time(txt, '2024-06-06', '2024-06-11') 
 
     # Call ex_func_prompt_gen from prompts.py 
-    prompt_func = prompts.ex_func_prompt_gen(talk_dat)
+    prompt_func = prompts.ligo_prompt(talk_dat0, talk_dat1)
 
     # Call chatGPT function
-    gsBot = chat_with_gpt(prompt_func[0], prompt_func[1])
-
+    #gsBot = chat_with_gpt3(prompt_func[0], prompt_func[1])
+    gsBot = chat_with_gpt4(prompt_func[0], prompt_func[1])
+    print(gsBot)
+    
     return gsBot
 
 gsBotResponse = main()

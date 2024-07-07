@@ -1,12 +1,8 @@
 # Ignore .env file
 .env
-
 # Ignore project data, metadata, and output files
 *.csv
 *.json
 /data/*.csv
 /data/*.json
-gravityBot_output.txt
-
-# Ignore the /tests directory
-/tests
+test_gravityBot_output.txt
