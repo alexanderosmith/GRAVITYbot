@@ -48,6 +48,26 @@ proj_id = p_id('zooniverse/gravity-spy')
 talk_export = Project(proj_id).get_export(export_type='talk_comments', generate=True,  wait=True)
 ### NOTES FOR FUTURE UPDATES: ########################################################################
 # When I run this for the second time, I get this error:
+# Traceback (most recent call last):
+# File "/home/aosmith/Documents/Projects/GRAVITYbot/_data/talk_data.py", line 48, in <module>
+#   talk_export = Project(proj_id).get_export(export_type='talk_comments', generate=True,  wait=True)
+#                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+# File "/home/aosmith/Documents/Projects/GRAVITYbot/GRAVITYbot_env/lib/python3.11/site-packages/panoptes_client/exportable.py", line 71, in get_export
+#   self.generate_export(export_type)
+# File "/home/aosmith/Documents/Projects/GRAVITYbot/GRAVITYbot_env/lib/python3.11/site-packages/panoptes_client/exportable.py", line 152, in generate_export
+#   return talk.post_data_request(
+#          ^^^^^^^^^^^^^^^^^^^^^^^
+# File "/home/aosmith/Documents/Projects/GRAVITYbot/GRAVITYbot_env/lib/python3.11/site-packages/panoptes_client/panoptes.py", line 1167, in post_data_request
+#   return self.http_post(
+#          ^^^^^^^^^^^^^^^
+# File "/home/aosmith/Documents/Projects/GRAVITYbot/GRAVITYbot_env/lib/python3.11/site-packages/panoptes_client/panoptes.py", line 1147, in http_post
+#   return Panoptes.client().post(*args, **kwargs)
+#          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+# File "/home/aosmith/Documents/Projects/GRAVITYbot/GRAVITYbot_env/lib/python3.11/site-packages/panoptes_client/panoptes.py", line 400, in post
+#   return self.json_request(
+#          ^^^^^^^^^^^^^^^^^^
+# File "/home/aosmith/Documents/Projects/GRAVITYbot/GRAVITYbot_env/lib/python3.11/site-packages/panoptes_client/panoptes.py", line 289, in json_request
+#   raise PanoptesAPIException(json_response['error'])
 # panoptes_client.panoptes.PanoptesAPIException: Validation failed: Kind has already been created
 # However, this exception does not seem to be documented, so I do not know how to address this.
 # Although, I suppose I could follow the traceback to learn something: line 128 in json_request
@@ -61,12 +81,12 @@ talk_export = Project(proj_id).get_export(export_type='talk_comments', generate=
 # 3. Create the required dataframe from the JSON.
 #####################################################################################################
 # Import JSON as DataFrame, and save as CSV using Pandas:
-talk_dat = pd.read_json('./_data/project-1104-comments_2024-06-18.json')
-talk_dat.to_csv('./_data/project-1104-comments_2024-06-18.csv')
+talk_dat = pd.read_json('./_data/project-1104-comments_2024-07-08.json')
+talk_dat.to_csv('./_data/project-1104-comments_2024-07-08.csv')
 
 
 # Comparing Updated Talk Data with historical Talk Data
-ex_talk_dat = pd.read_csv('./_data/ex_GS_TalkComments_2024-01-29.csv')
+ex_talk_dat = pd.read_csv('./_data/ex_GS_TalkComments_2024-07-08.csv')
 len(list(talk_dat))
 len(list(ex_talk_dat))
 #####################################################################################################

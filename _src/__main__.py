@@ -4,7 +4,7 @@
 # Current Maintainer: Alexander O. Smith, aosmith@syr.edu
 # Last Update: July 7, 2024
 # Program Goal:
-# This file is the main executable Python file of "GravityBot"
+# This file is the main executable Python file of "GRAVITYbot"
 #####################################################################################################
 #####################################################################################################
 # DEPENDENCIES ######################################################################################
@@ -24,7 +24,7 @@ import prompts
 #####################################################################################################
 # Load the Talk CSV file
 # !!! Eventually set this up so it runs dynamically within the same project
-talk_file = './_data/project-1104-comments_2024-06-18.csv'
+talk_file = './_data/project-1104-comments_2024-07-07.csv'
 #####################################################################################################
 # Functions #########################################################################################
 # 1. load_text          :   loads talk data
@@ -124,7 +124,7 @@ def chat_with_gpt4(user_prompt, sys_prompt):
             ],
         model="gpt-4-turbo",                            # The openAI model for the project
         temperature=    0.8,                            # Lower = more flexibility, Higher = more accurate
-        max_tokens=     2000                            # NOTICE: higher tokens, more money.
+        max_tokens=     4000                            # NOTICE: higher tokens, more money.
     )
 
     # Outfile of Call and Response to GravitySpy
@@ -147,8 +147,8 @@ def main():
 
     # Call segment_by_time function
     # To-Do: Find a way to automate these dates
-    talk_dat0 = segment_by_time(txt, '2024-06-01', '2024-06-05')
-    talk_dat1 = segment_by_time(txt, '2024-06-06', '2024-06-11') 
+    talk_dat0 = segment_by_time(txt, '2024-06-24', '2024-06-29')
+    talk_dat1 = segment_by_time(txt, '2024-06-30', '2024-07-07') 
 
     # Call ex_func_prompt_gen from prompts.py 
     prompt_func = prompts.ligo_prompt(talk_dat0, talk_dat1)
