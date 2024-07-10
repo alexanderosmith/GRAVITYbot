@@ -25,27 +25,34 @@ from panoptes_client import panoptes, Panoptes, Project, exportable
 from dotenv import find_dotenv, load_dotenv
 import pandas as pd
 #####################################################################################################
-# Verify Panoptes credentials (make sure your credentials are added to the .env file) 
-#   Notice: you must have proper role credentials to download data. 
-#   If you do not have proper credentials, ask the project owner for them. 
-_ = load_dotenv(find_dotenv())
-p_user = os.environ.get("PANOPTES_USER")
-p_pass = os.environ.get("PANOPTES_PASS")
-client = Panoptes.connect(username = p_user , password = p_pass)
+# To Do:
+# 1. Clean up this function. It could probably be simpler. E.g. not a function in a function. 
+# 2. Try to use this to return the compressed file directly into the project rather than an email. 
+# 3. Uncompress the file. 
+def get_talk_dat():
+    
+    # Make sure your Panoptes log-in credentials are added to the .env file 
+    # If you do not have proper credentials, ask the project owner for them. 
+    _ = load_dotenv(find_dotenv())
+    p_user = os.environ.get("PANOPTES_USER")
+    p_pass = os.environ.get("PANOPTES_PASS")
+    client = Panoptes.connect(username = p_user , password = p_pass)
 
-# Get Project ID via the project slug:
-# The project slug is a part of the URL of your project. E.G.
-#   Project url: https://www.zooniverse.org/projects/zooniverse/gravity-spy
-#   Project slug: 'zooniverse/gravity-spy' 
-def p_id(slug):
-    project = Project.find(slug=str(slug))
-    proj_id = int(str(project).split(' ')[1].split('>')[0])
-    return proj_id
-# Getting Project ID for Gravity Spy
-proj_id = p_id('zooniverse/gravity-spy')
+    # Get Project ID via the project slug:
+    # The project slug is a part of the URL of your project. E.G.
+    #   Project url: https://www.zooniverse.org/projects/zooniverse/gravity-spy
+    #   Project slug: 'zooniverse/gravity-spy' 
+    def p_id(slug):
+        project = Project.find(slug=str(slug))
+        proj_id = int(str(project).split(' ')[1].split('>')[0])
+        return proj_id
+    # Getting Project ID for Gravity Spy
+    proj_id = p_id('zooniverse/gravity-spy')
 
-# Returns an Email with Project ID associated Talk forum data as JSON
-talk_export = Project(proj_id).get_export(export_type='talk_comments', generate=True,  wait=True)
+    # Returns an Email with Project ID associated Talk forum data as JSON
+    talk_export = Project(proj_id).get_export(export_type='talk_comments', generate=True,  wait=True)
+
+    
 ### NOTES FOR FUTURE UPDATES: ########################################################################
 # When I run this for the second time, I get this error:
 # Traceback (most recent call last):

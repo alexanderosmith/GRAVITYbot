@@ -20,14 +20,14 @@ Possible future tasks it might be applied to are:
 ## Getting Started:
 
 ### Dependencies:
-- Python 3.7+
+- Python 3.10+
 - openai, datetime, dotenv, pandas
 - Zooniverse Talk Pages CSV File
 
 ### Initializing the Project:
-This is currently under revision, and subject to updates of the project. However, currently the project needs a directory containing prompts.py, GravityBot_main.py, the Talk Pages Data File, and an .env file. First make sure you have an env file containing an openAI key assigned to variable OPENAI_API_KEY.
+This is currently under revision, and subject to updates of the project. However, currently the project needs a directory containing prompts.py, __main__.py, the Talk Pages Data File, and an .env file. First make sure you have an env file containing an openAI key assigned to variable OPENAI_API_KEY and the username and password to Zooniverse with rights to download Talk data.
 
-Next, both GravityBot_main.py and prompts.py may need some configuration Minimally, to run the project, one must run the GravityBot_main.py after configuring it:
+Next, both __main__.py and prompts.py may need some configuration. Minimally, to run the project, one must run the __main__.py after configuration:
  
 1. Set the working directory
 2. Set the Talk Pages directory location with the correct csv filename.
@@ -35,7 +35,7 @@ Next, both GravityBot_main.py and prompts.py may need some configuration Minimal
 4. (Optional): Define which prompt function, variable you wish GRAVITYbot to run.
 5. (Optional): Tuning the openAI parameters
 
-While optional, you may further configure a custom bot by making custom prompts within prompts.py. This file contains more detailed instructions about how to create a prompt.
+While optional, prompts.py contains more detailed instructions about how to create a prompt.
 
 ## Help:
 
@@ -50,6 +50,6 @@ This project is licensed under an MIT "Expat" License. See the LICENSE.md file f
 
 ## Acknowledgments:
 
-We begin by acknowledging with respect the Onondaga Nation, Central Fire of the Haudenosaunee Confederacy, on whose ancestral lands we now inhabit. Wherever you are located be aware of the Indigenous Peoples on whose lands you reside. We are mindful that the technology that makes this conference possible comes from the mineral extraction by multinational corporations, which decimate and displace Indigenous people and their land all over the world. May the information you glean from this podcast motivate you to uphold Indigenous values, protect Mother Earth, Honor Indian Treaties and hold your government and various institutions accountable who stand in the way.
+We begin by acknowledging with respect the Onondaga Nation, Central Fire of the Haudenosaunee Confederacy, on whose ancestral lands Syracuse now inhabits. We are mindful that the technology that makes this project possible comes from the mineral extraction by multinational corporations, which decimate and displace Indigenous people and their land all over the world.
 
 Additionally, Alexander would like to thank Gabriel Davila - Campos and Una Joh for advice and initial guidance in development. 
