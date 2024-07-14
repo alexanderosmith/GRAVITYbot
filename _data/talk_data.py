@@ -20,15 +20,22 @@
 #####################################################################################################
 #####################################################################################################
 # DEPENDENCIES ######################################################################################
-import os, requests, json
+import os, requests, json, tarfile
+from io import BytesIO
 from panoptes_client import panoptes, Panoptes, Project, exportable
 from dotenv import find_dotenv, load_dotenv
+import urllib.request as urllib2
 import pandas as pd
 #####################################################################################################
 # To Do:
-# 1. Clean up this function. It could probably be simpler. E.g. not a function in a function. 
-# 2. Try to use this to return the compressed file directly into the project rather than an email. 
-# 3. Uncompress the file. 
+# 1. Figure out the order/necessity of describe_export(), generate_export(), get_export()
+# 2. Clean up first function. It could probably be simpler. E.g. not a function in a function.
+#   a. get_talk_dat() could accept "slug" (the project url extension)
+#   b. Then def p_id(slug) could probably be restructured such that it's not a function.
+#   c. Add the tar extraction stuff into the function
+#   d. Get rid of comments as necessary. This is really comment heavy. 
+#   e. Document more for future.
+# 3. Generate a main function that decides if a new data download is necessary?   
 def get_talk_dat():
     
     # Make sure your Panoptes log-in credentials are added to the .env file 
@@ -48,44 +55,35 @@ def get_talk_dat():
         return proj_id
     # Getting Project ID for Gravity Spy
     proj_id = p_id('zooniverse/gravity-spy')
-
+    #######
+    # TO-DO! I need to figure out which of these functions actually returns the URL such that talk_describe() reads it.
+    # Order of testing! (DON'T FORGET TO DO THIS IN THIS ORDER TO SAVE TIME)
+    # 1. First run talk_describe and print the results. If URL is not there, then that doesn't generate the URL.
+    # 2. Run talk_generate and then talk_describe. If URL is not in talk_describe, then give it a few minutes, and try again.
+    # 3. If 1 and 2 don't work, then try talk_export, then talk_describe. 
+    # 4. If none of these work then we are very confused. 
+    #######
     # Returns an Email with Project ID associated Talk forum data as JSON
-    talk_export = Project(proj_id).get_export(export_type='talk_comments', generate=True,  wait=True)
+    talk_describe = Project(proj_id).describe_export('talk_comments')
+    #talk_generate = Project(proj_id).generate_export('talk_comments')
+    #talk_export = Project(proj_id).get_export(export_type='talk_comments', generate=False,  wait=True)
+    return talk_describe
 
-    
+print(get_talk_dat())
+talk_dat = get_talk_dat()
+talk_url = talk_dat['data_requests'][0]['url']
+talk_req = urllib2.urlopen(talk_url).read()
+file = BytesIO(talk_req)
+
+with tarfile.open(fileobj=file, mode='r:gz') as tar:
+    # This extracts the file
+    tar.extractall(path="./_data")
+#contents = tarfile.open(fileobj=talk_req, mode='r:*')
+
+# 'https://zooniverse-static.s3.amazonaws.com/talk-exports.zooniverse.org/project-1104-comments_2024-07-13.tar.gz?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAIHHVKYCIG4GRJ4KQ%2F20240713%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20240713T185906Z&X-Amz-Expires=604800&X-Amz-SignedHeaders=host&X-Amz-Signature=a69ffc5bf3651a0a8417e95ef3f8ae270b65b5f7becc8dcc6bddafa36f596367'
+
 ### NOTES FOR FUTURE UPDATES: ########################################################################
-# When I run this for the second time, I get this error:
-# Traceback (most recent call last):
-# File "/home/aosmith/Documents/Projects/GRAVITYbot/_data/talk_data.py", line 48, in <module>
-#   talk_export = Project(proj_id).get_export(export_type='talk_comments', generate=True,  wait=True)
-#                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-# File "/home/aosmith/Documents/Projects/GRAVITYbot/GRAVITYbot_env/lib/python3.11/site-packages/panoptes_client/exportable.py", line 71, in get_export
-#   self.generate_export(export_type)
-# File "/home/aosmith/Documents/Projects/GRAVITYbot/GRAVITYbot_env/lib/python3.11/site-packages/panoptes_client/exportable.py", line 152, in generate_export
-#   return talk.post_data_request(
-#          ^^^^^^^^^^^^^^^^^^^^^^^
-# File "/home/aosmith/Documents/Projects/GRAVITYbot/GRAVITYbot_env/lib/python3.11/site-packages/panoptes_client/panoptes.py", line 1167, in post_data_request
-#   return self.http_post(
-#          ^^^^^^^^^^^^^^^
-# File "/home/aosmith/Documents/Projects/GRAVITYbot/GRAVITYbot_env/lib/python3.11/site-packages/panoptes_client/panoptes.py", line 1147, in http_post
-#   return Panoptes.client().post(*args, **kwargs)
-#          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-# File "/home/aosmith/Documents/Projects/GRAVITYbot/GRAVITYbot_env/lib/python3.11/site-packages/panoptes_client/panoptes.py", line 400, in post
-#   return self.json_request(
-#          ^^^^^^^^^^^^^^^^^^
-# File "/home/aosmith/Documents/Projects/GRAVITYbot/GRAVITYbot_env/lib/python3.11/site-packages/panoptes_client/panoptes.py", line 289, in json_request
-#   raise PanoptesAPIException(json_response['error'])
-# panoptes_client.panoptes.PanoptesAPIException: Validation failed: Kind has already been created
-# However, this exception does not seem to be documented, so I do not know how to address this.
-# Although, I suppose I could follow the traceback to learn something: line 128 in json_request
-# This resulted in a deadend for two reasons:
-# 1. The source code isn't enumerated, and 2. where it appears the error occurred is calling "self"
-# I'm going to call it quits for here, and move on... 
-### DOCUMENTED STEPS FOR WORK AROUND UNTIL AUTOMATION IS SOLVED #####################################
-# Current workaround from moderation requires a few steps:
-# 1. Manually download the tar file from the p_user email to the data directory and untar it;
-# 2. Import and deseriealize the JSON file;
-# 3. Create the required dataframe from the JSON.
+#
 #####################################################################################################
 # Import JSON as DataFrame, and save as CSV using Pandas:
 talk_dat = pd.read_json('./_data/project-1104-comments_2024-07-08.json')

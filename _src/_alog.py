@@ -7,7 +7,7 @@
 # This script automates gathering aLOG posts from LIGO to be analyzed for Citizen Scientists
 #####################################################################################################
 # DEPENDENCIES ######################################################################################
-import feedparser as fp                     # Parsing LIGO's aLOG RSSs
+#import feedparser as fp                     # Parsing LIGO's aLOG RSSs
 from bs4 import BeautifulSoup as bs         # Scraping static HTML urls
 from datetime import datetime, timedelta    # Managing datetime objects
 import lxml.html as lh                      # Translating HTML/XML/LXML to readable format
