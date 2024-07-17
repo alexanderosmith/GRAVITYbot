@@ -27,11 +27,6 @@ from datetime import date
 import urllib.request as urllib2
 import pandas as pd
 #####################################################################################################
-# To Do:
-# 1. Make more dynamic to deal with Panoptes API issues and once-per-day downloads
-# 2. Figure out how to delete/backup older data
-# 3. Decide on whether aLOG data should be integrated into this or distinct. 
-#####################################################################################################
 
 def get_talk_dat(slug):
     ### VALIDATING CREDENTIALS FOR DOWNLOADING TALK DATA ###
@@ -85,4 +80,8 @@ def main():
 
 talk = main()
 #####################################################################################################
-
+# To Do/Possible Improvements:
+# 1. Make more dynamic to deal with Panoptes API issues and once-per-day downloads
+# 2. Figure out how to delete/backup older data
+# 3. Decide on whether aLOG data should be integrated into this or distinct. 
+#####################################################################################################
