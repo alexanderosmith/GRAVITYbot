@@ -3,9 +3,9 @@
 # File Creator:         Alexander O. Smith, aosmith@syr.edu
 # Current Maintainer:   Alexander O. Smith, aosmith@syr.edu
 # Past Maintainers:     Alexander O. Smith (6/05/2024-present)
-# Last Update:          July 16, 2024
+# Last Update:          July 25, 2024
 # Program Goal:
-# This file is primarily designed to access "Talk" comments from through the Zooniverse API
+# This file is designed to access "Talk" comments from through the Zooniverse API, Panoptes
 #####################################################################################################
 # IMPORTANT REFERENCES/GUIDES: ######################################################################
 # Zooniverse/Panoptes API Guides:
@@ -23,7 +23,7 @@ import os, requests, json, tarfile, dotenv
 from io import BytesIO
 from panoptes_client import panoptes, Panoptes, Project, exportable
 from dotenv import find_dotenv, load_dotenv
-from datetime import date
+from datetime import date, datetime
 import urllib.request as urllib2
 import pandas as pd
 #####################################################################################################
@@ -56,13 +56,7 @@ def get_talk_dat(slug):
         tar.extractall(path="./_data")
     ###
 
-def talk_clean(date):
-    # TO-DO: this function should
-    # 0. Become more dynamic to handle convert CSVs from alt dates, just in case...
-    # 1. Remove/backup older JSONs CSVs (Ask team/look into files to make decisions)
-    #       a.  Based on if else statement based on some number of JSONs files in _datacurrent date?
-    #       b.  Based on if else statement based on current date?
-    #       c.  Tarfile/backup/remove data occasionally based on some parameter?      
+def talk_clean(date):  
     talk_dat = pd.read_json(f'./_data/project-1104-comments_{date}.json')
     talk_dat.to_csv(f'./_data/project-1104-comments_{date}.csv')
 
@@ -71,14 +65,27 @@ def main():
     # Create an if/else statement to decide if the download is necessary
     _ = load_dotenv(find_dotenv())
     slug = os.environ.get("PANOPTES_SLUG")
-    talk_dat = get_talk_dat(slug)
+    try:
+        talk_dat = get_talk_dat(slug)
+    # To-do: Update the exception to be a useful description
+    # Foreseen issue with this: It's not clear what all PantoptesAPIError output means
+    except:
+        print("""
+        Perhaps you have called talk data more than once in the last 24 hours.\n 
+        Attempting summary
+        """
+        )
+        pass
+        #talk_dat = get_talk_dat(slug)
+        #print("A Panoptes API Error occured")
     
-    current_date = date.today()
+    # Return Current Date in UTC (as the Panoptes Dates and Datetimes are UTC)
+    current_date = datetime.utcnow()
     panoptes_date = current_date.strftime('%Y-%m-%d')
     # Clean up and format talk data
     clean = talk_clean(date=panoptes_date)
 
-talk = main()
+#talk = main()
 #####################################################################################################
 # To Do/Possible Improvements:
 # 1. Make more dynamic to deal with Panoptes API issues and once-per-day downloads

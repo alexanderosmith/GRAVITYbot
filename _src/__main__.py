@@ -2,7 +2,7 @@
 # DOCUMENTATION NOTES : #############################################################################
 # File Creator: Alexander O. Smith (2024-present), aosmith@syr.edu
 # Current Maintainer: Alexander O. Smith, aosmith@syr.edu
-# Last Update: July 7, 2024
+# Last Update: July 25, 2024
 # Program Goal:
 # This file is the main executable Python file of "GRAVITYbot"
 #####################################################################################################
@@ -10,7 +10,7 @@
 # DEPENDENCIES ######################################################################################
 # Package Dependencies
 import os, sys, pytz, re, csv, openai
-from datetime import datetime
+from datetime import datetime, date, timedelta
 import pandas as pd
 # API Imports
 from openai import OpenAI
@@ -18,20 +18,18 @@ from panoptes_client import Panoptes
 # Local enviornment imports and path appends
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from dotenv import find_dotenv, load_dotenv
-#import _test_alog as alog # This file needs to be fixed before I use it.
-import prompts
+#import _alog as alog # This file needs to be fixed before I use it.
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../_data')))
+import prompts, talk_data
 # Example of how to import a prompt from prompts py file.
-#####################################################################################################
-# Load the Talk CSV file
-# !!! Eventually set this up so it runs dynamically within the same project
-talk_file = './_data/project-1104-comments_2024-07-07.csv'
 #####################################################################################################
 # Functions #########################################################################################
 # 1. load_text          :   loads talk data
 # 2. segment_by_time    :   limits talk data to those within particular dates
-# 3. chat_with_gpt3     :   calls chatGPT3 bot (less expensive, lower input rate limit)
-# 4. chat_with_gpt4     :   calls chatGPT4 bot (more expensive, higher input rate limit)
-# 5. main               :   initiates above functions, and loads prompt file info
+# 3. chat_with_gpt4     :   calls chatGPT4 bot (more expensive, higher input rate limit)
+# 4. main               :   initiates above functions, and loads prompt file info
+# POSSIBLE FUTURE FUNCTIONS
+# 1. Perhaps we could add an opensource LLM to make a "free" version of the summarizer
 #####################################################################################################
 # Function: loads data and gets comments which contain text
 def load_text(file_path):
@@ -138,23 +136,36 @@ def chat_with_gpt4(user_prompt, sys_prompt):
 
 # Main Function: Calls all previous functions for a user specified time frame
 def main():    
-    # Validate openAPI key stored in .env
-    # _ = load_dotenv(find_dotenv())
-    # client = OpenAI(api_key=os.environ.get("OPENAI_API_KEY"))   
 
-    # Call load_text function
+    # Retrieve most updated talk data (will only work once per 24 hours)
+    talkdata = talk_data.main()
+    # NOTICE: talk_data.main() function requires more clear comms with panoptes API warnings
+    # To-Do: Update the talk_data's main function to do this better for future warnings.
+
+    current_date = datetime.utcnow()
+    talk_dat1_start = current_date - timedelta(days=7)
+    talk_dat0_end = talk_dat1_start - timedelta(days=1)
+    talk_dat0_start = talk_dat0_end - timedelta(days=7)
+    
+    # Automated Start and End dates for segment by time function
+    talk_dat1_end = current_date.strftime('%Y-%m-%d')
+    talk_dat1_start = talk_dat1_start.strftime('%Y-%m-%d')
+    talk_dat0_end = talk_dat0_end.strftime('%Y-%m-%d')
+    talk_dat0_start = talk_dat0_start.strftime('%Y-%m-%d')
+
+    # Import most current talk_file with load_text() function
+    # To-DO: Use a try-except to check for other days? Poke around and see if you can make this more robust for the most recent file if it isn't "today"
+    talk_file = f'./_data/project-1104-comments_{talk_dat1_end}.csv'
     txt = load_text(talk_file)
 
-    # Call segment_by_time function
-    # To-Do: Find a way to automate these dates
-    talk_dat0 = segment_by_time(txt, '2024-06-24', '2024-06-29')
-    talk_dat1 = segment_by_time(txt, '2024-06-30', '2024-07-07') 
+    # Call segment_by_time function using the automated start-end days.
+    talk_dat0 = segment_by_time(txt, talk_dat0_start, talk_dat0_end)
+    talk_dat1 = segment_by_time(txt, talk_dat1_start, talk_dat1_end) 
 
     # Call ex_func_prompt_gen from prompts.py 
     prompt_func = prompts.ligo_prompt(talk_dat0, talk_dat1)
 
     # Call chatGPT function
-    #gsBot = chat_with_gpt3(prompt_func[0], prompt_func[1])
     gsBot = chat_with_gpt4(prompt_func[0], prompt_func[1])
     print(gsBot)
     
