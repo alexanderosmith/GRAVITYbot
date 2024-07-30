@@ -2,7 +2,7 @@
 # DOCUMENTATION NOTES : #############################################################################
 # File Creator: Alexander O. Smith (2024-present), aosmith@syr.edu
 # Current Maintainer: Alexander O. Smith, aosmith@syr.edu
-# Last Update: July 25, 2024
+# Last Update: July 29, 2024
 # Program Goal:
 # This file is the main executable Python file of "GRAVITYbot"
 #####################################################################################################
@@ -24,6 +24,8 @@ import prompts, talk_data
 # Example of how to import a prompt from prompts py file.
 #####################################################################################################
 # Functions #########################################################################################
+# 0. start_end_dates    :   produces dates that span two adjacent weeks dynamic to most recent talk 
+#                           data
 # 1. load_text          :   loads talk data
 # 2. segment_by_time    :   limits talk data to those within particular dates
 # 3. chat_with_gpt4     :   calls chatGPT4 bot (more expensive, higher input rate limit)
@@ -31,6 +33,64 @@ import prompts, talk_data
 # POSSIBLE FUTURE FUNCTIONS
 # 1. Perhaps we could add an opensource LLM to make a "free" version of the summarizer
 #####################################################################################################
+# Produces start and end dates for the most recent two weeks of Talk data.
+def start_end_dates():
+    print('Finding most recent Talk data file...\n')
+    # Today's date
+    current_date = datetime.utcnow()
+    # Set talk_file to a 0 length string for the while loop
+    talk_file = ''
+    count = 1
+    # While loop searches until length of talk_file >= 1 OR
+    # it will stop after 1000 iterations (= 10000 days prior current date)
+    while len(talk_file) < 1:
+        # Set all dates relative to "current_time"
+        talk_dat1_start = current_date - timedelta(days=7)
+        talk_dat0_end = talk_dat1_start - timedelta(days=1)
+        talk_dat0_start = talk_dat0_end - timedelta(days=7)
+        
+        # Convert all the dates to strings formatted as the Talk file name conventions.
+        talk_dat1_start = talk_dat1_start.strftime('%Y-%m-%d')
+        talk_dat0_end = talk_dat0_end.strftime('%Y-%m-%d')
+        talk_dat0_start = talk_dat0_start.strftime('%Y-%m-%d')
+        talk_dat1_end = current_date.strftime('%Y-%m-%d')
+        print(f'Checking for file date: {talk_dat1_end}')
+
+        # Search _data directory for the most recent file, based on "current_date"
+        file_search = os.listdir('_data/')
+        for f in file_search:
+            if re.match(f'project-1104-comments_{talk_dat1_end}.csv', f):
+                talk_file = f
+                print(
+                f"""
+NOTICE: Talk file "{talk_file}" found! 
+    Generating date range for summary...\n
+                """
+                )
+
+        # If the earliest date searched in Talk data is older than Zooniverse, stop.
+        if talk_dat0_start == '2009-12-12':
+            print("""
+DATA ISSUE: It appears current Talk Data needs to be imported to the _data directory.\n
+TROUBLESHOOTING SUGGESTIONS:
+    1. Make sure __main__.main() is running load_text(file_path) with the expected talk data file path.
+    2. Make sure the proper panoptes credentials are configured in the .env file.
+    3. Ask the Zooniverse project owner for proper panoptes credentials rights to download data.
+    4. Check whether the Zooniverse "slug" in dotenv is correct.
+    5. Troubleshoot talk_data.py.
+            """)
+            break
+
+        current_date -= timedelta(days=1)
+        #print(f'Attempting to find a file for date {current_date}')
+    return {
+        'talk_file'         :   talk_file, 
+        'talk_dat1_start'   :   talk_dat1_start, 
+        'talk_dat1_end'     :   talk_dat1_end, 
+        'talk_dat0_start'   :   talk_dat0_start, 
+        'talk_dat0_end'     :   talk_dat0_end 
+    }
+
 # Function: loads data and gets comments which contain text
 def load_text(file_path):
     talk_url = 'https://www.zooniverse.org/projects/zooniverse/gravity-spy/talk/'
@@ -103,7 +163,7 @@ def segment_by_time(text_dat, start_date, end_date):
     talk_dat = text_dat[(text_dat['timestamp'] >= start_dt) & (text_dat['timestamp'] <= end_dt)]
     
     gpt_talk_reduce = talk_dat[['comment', 'comment_url']]
-    # To-Do: Learn how to get chatGPT to read a dataframe object, and update the prompts accordingly
+
     gpt_talk_str = gpt_talk_reduce.to_string(header = False, index = False)
     gpt_talk_str = re.sub('\s+', ' ', gpt_talk_str)
     
@@ -142,25 +202,16 @@ def main():
     # NOTICE: talk_data.main() function requires more clear comms with panoptes API warnings
     # To-Do: Update the talk_data's main function to do this better for future warnings.
 
-    current_date = datetime.utcnow()
-    talk_dat1_start = current_date - timedelta(days=7)
-    talk_dat0_end = talk_dat1_start - timedelta(days=1)
-    talk_dat0_start = talk_dat0_end - timedelta(days=7)
-    
-    # Automated Start and End dates for segment by time function
-    talk_dat1_end = current_date.strftime('%Y-%m-%d')
-    talk_dat1_start = talk_dat1_start.strftime('%Y-%m-%d')
-    talk_dat0_end = talk_dat0_end.strftime('%Y-%m-%d')
-    talk_dat0_start = talk_dat0_start.strftime('%Y-%m-%d')
+    # Get the most recent csv name, and the start and end dates for the most recen two weeks.     
+    time_deltas = start_end_dates()
+    talk_dat = f"_data/{time_deltas['talk_file']}"
 
-    # Import most current talk_file with load_text() function
-    # To-DO: Use a try-except to check for other days? Poke around and see if you can make this more robust for the most recent file if it isn't "today"
-    talk_file = f'./_data/project-1104-comments_{talk_dat1_end}.csv'
-    txt = load_text(talk_file)
+    # Load talk data file
+    txt = load_text(talk_dat)
 
     # Call segment_by_time function using the automated start-end days.
-    talk_dat0 = segment_by_time(txt, talk_dat0_start, talk_dat0_end)
-    talk_dat1 = segment_by_time(txt, talk_dat1_start, talk_dat1_end) 
+    talk_dat0 = segment_by_time(txt, time_deltas['talk_dat0_start'], time_deltas['talk_dat0_end']) # Older week
+    talk_dat1 = segment_by_time(txt, time_deltas['talk_dat1_start'], time_deltas['talk_dat1_end']) # Newer week
 
     # Call ex_func_prompt_gen from prompts.py 
     prompt_func = prompts.ligo_prompt(talk_dat0, talk_dat1)
@@ -170,5 +221,6 @@ def main():
     print(gsBot)
     
     return gsBot
+     
 
 gsBotResponse = main()

@@ -43,47 +43,66 @@ def get_talk_dat(slug):
 
     ### RETRIEVES TALK DATA FROM ZOONIVERSE VIA PANOPTES API ###
     # Getting the EXPORT URL: generates talk export and retrieves it
-    talk_export = Project(proj_id).get_export(export_type='talk_comments', generate=True,  wait=False)
+    try:
+        talk_export = Project(proj_id).get_export(export_type='talk_comments', generate=True,  wait=False)
+        talk_describe = Project(proj_id).describe_export('talk_comments')
+
+    except:
+        talk_describe = Project(proj_id).describe_export('talk_comments')
+     
     # Description includes the URL of a tarfile containing talk data
-    talk_describe = Project(proj_id).describe_export('talk_comments')
+    #print(talk_describe)
     # Tarfile URL location in talk_describe dictionary object
     talk_url = talk_describe['data_requests'][0]['url']
+    print(talk_url)
+    if talk_url == None:
+        return print(
+            """
+!!! WARNING: Talk description URL is empty !!!\n
+    Panoptes' API's "get_export" did not generate a URL to download the data.
+    This is a possible bug with Panoptes' API.
+    Continuing with the talk summary using non-current data...
+            """)
     # Localizing the tarfile and extracting it to ./_data directory
-    talk_req = urllib2.urlopen(talk_url).read()
-    file = BytesIO(talk_req)
-    with tarfile.open(fileobj=file, mode='r:gz') as tar:
-        # Extracting talk data
-        tar.extractall(path="./_data")
-    ###
-
-def talk_clean(date):  
-    talk_dat = pd.read_json(f'./_data/project-1104-comments_{date}.json')
-    talk_dat.to_csv(f'./_data/project-1104-comments_{date}.csv')
+    else:
+        talk_req = urllib2.urlopen(talk_url).read()
+        file = BytesIO(talk_req)
+        with tarfile.open(fileobj=file, mode='r:gz') as tar:
+            # Extracting talk data
+            tar.extractall(path="./_data")
+        panoptes_date = current_date.strftime('%Y-%m-%d')
+        talk_dat = pd.read_json(f'./_data/project-1104-comments_{date}.json')
+        talk_dat.to_csv(f'./_data/project-1104-comments_{date}.csv')
+        ###  
+    
 
 def main():
-
-    # Create an if/else statement to decide if the download is necessary
     _ = load_dotenv(find_dotenv())
     slug = os.environ.get("PANOPTES_SLUG")
     try:
         talk_dat = get_talk_dat(slug)
     # To-do: Update the exception to be a useful description
     # Foreseen issue with this: It's not clear what all PantoptesAPIError output means
-    except:
-        print("""
-        Perhaps you have called talk data more than once in the last 24 hours.\n 
-        Attempting summary
-        """
-        )
-        pass
+    except panoptes.PanoptesAPIException as error:
         #talk_dat = get_talk_dat(slug)
-        #print("A Panoptes API Error occured")
+        exception = SystemExit(error)
+        warning = f"""
+!!! PANOPTES API EXCEPTION !!!
+Raw Exception Output: "{exception}"\n  
+    Perhaps you have called talk data more than once in the last 24 hours.\n
+    NOTICE: Panoptes API warnings are not particularly well documented.
+    See PANOPTES documentation: https://panoptes-python-client.readthedocs.io/en/latest/panoptes_client.html#panoptes_client.panoptes
+    It is not uncommon for data retrieval to fail. Perhaps try again later? \n
+    Stopping talk_data.py...\n
+    Attempting summary on older data... 
+        """
+        
+        return print(warning)
     
     # Return Current Date in UTC (as the Panoptes Dates and Datetimes are UTC)
     current_date = datetime.utcnow()
-    panoptes_date = current_date.strftime('%Y-%m-%d')
+    
     # Clean up and format talk data
-    clean = talk_clean(date=panoptes_date)
 
 #talk = main()
 #####################################################################################################
