@@ -20,7 +20,7 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from dotenv import find_dotenv, load_dotenv
 #import _alog as alog # This file needs to be fixed before I use it.
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../_data')))
-import prompts, talk_data
+import prompts, talk_data, alog
 # Example of how to import a prompt from prompts py file.
 #####################################################################################################
 # Functions #########################################################################################
