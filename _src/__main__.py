@@ -218,6 +218,10 @@ def main():
 
     # Call chatGPT function
     gsBot = chat_with_gpt4(prompt_func[0], prompt_func[1])
+    current_day = datetime.utcnow().strftime('%Y-%m-%d')
+    with open(f'./_output/ZooniverseTalkSummary_{current_day}.md', 'w') as gsBotResp:
+        gsBotResp.write(gsBot)
+        gsBotResp.close()
     print(gsBot)
     
     return gsBot
