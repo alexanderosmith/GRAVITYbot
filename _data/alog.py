@@ -2,13 +2,14 @@
 # DOCUMENTATION NOTES : #############################################################################
 # File Author: Alexander O. Smith, aosmith@syr.edu
 # Current Maintainer: Alexander O. Smith, aosmith@syr.edu
-# Last Update: May 1, 2024
+# Last Update: August 14, 2024
 # Program Goal:
 # This script automates gathering aLOG posts from LIGO to be analyzed for Citizen Scientists
 #####################################################################################################
 # DEPENDENCIES ######################################################################################
-#import feedparser as fp                     # Parsing LIGO's aLOG RSSs
+import feedparser as fp                     # Parsing LIGO's aLOG RSSs
 from bs4 import BeautifulSoup as bs         # Scraping static HTML urls
+import requests
 from datetime import datetime, timedelta    # Managing datetime objects
 import lxml.html as lh                      # Translating HTML/XML/LXML to readable format
 import pandas as pd                         # Dataframe stuff (Pandas and CSV)
@@ -19,11 +20,48 @@ VIRGO_url = "https://logbook.virgo-gw.eu/virgo/"
 KAGRA_url = "https://klog.icrr.u-tokyo.ac.jp/osl/"
 #####################################################################################################
 # FUNCTIONS #########################################################################################
+# 0. alog_scrap     : (incomplete) a function to scrape the entire alog
 # 1. rss_reduce     : reduces all RSS feeds to necessary data and outputs them into a dataframe
 # 2. csv_cleanup    : cleans up the saved data for use in __main__.py
 # 2. warnings       : simple text that states the limitation of this script for now
 # 3. main           : enables a call within __main__.py
 #####################################################################################################
+
+# A function to scrape the full alog.
+# (Incomplete)
+def alog_scrape():
+
+    # Empty dataframe for scrape to fill
+    df = pd.DataFrame(
+        # Try to match all the data from the RSS feed.
+        columns=[
+            'entry_title', 
+            'entry_url', 
+            'rss_url',
+            'entry_date', 
+            'text', 
+            'tags', 
+            'full_html'
+            ])
+    
+    # Each of the alog pages URLs
+    # Future To-Do: gather Kagra and Virgo?
+    alog_pages = [
+        'https://alog.ligo-wa.caltech.edu/aLOG/',
+        'https://alog.ligo-la.caltech.edu/aLOG/',
+    ]
+
+    # Loop to process URLs using bs4 and requests modules
+    for a in alog_pages:
+        alog_page = request.get(a)
+        soup = BeautifulSoup(alog_page.text, 'html.parser')
+
+
+
+
+
+
+
 def rss_reduce(weeks=2):
     # Initiate Dataframe with Column Names
     df = pd.DataFrame(
@@ -112,12 +150,16 @@ def warnings():
         )
 
 def main():
+
+    # A full scrape of LLO and LHO alog pages
+    #scrape_df = alog_scrape()
+
     # Get RSS data as far back as possible.
-    df = rss_reduce(3)
+    df = rss_reduce()
     # Append df to an existing CSV. Note set headers to True first run.
     df.to_csv('./_data/aLOG_RSS.csv', mode='a', header=False)
 
-    warn = warnings()
+    #warn = warnings()
 
     return df, warn
 
@@ -126,6 +168,5 @@ test = main()
 #####################################################################################################
 # BACKLOG: ##########################################################################################
 # 1. Build CSV Clean Function
-# 2. Decide on RSS and Scrape Function. Regardless, make their data mergeable
-# 3. Take a look at cleaned text data for prompt inspirations for prompts.py
+# 2. Take a look at cleaned text data for prompt inspirations for prompts.py
 #####################################################################################################
