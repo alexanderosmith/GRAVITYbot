@@ -2,4 +2,4 @@
 .env
 # Ignore project data, metadata, and output files
 #/_data/*.csv
-/_data/*.json
+*.json
