@@ -15,7 +15,7 @@
 # Zooniverse/Panoptes Contact Info:
 # Contact for API Questions: contact@zooniverse.org
 #   Notice, Laura Trouille claims emails to this contact cannot handle major debugging until at least
-#   September of 2024. However, this email will reach her and the whole team for responses.
+#   September of 2024. However, the contact email will reach her and the whole team for responses.
 #####################################################################################################
 #####################################################################################################
 # DEPENDENCIES ######################################################################################
@@ -39,7 +39,6 @@ def get_talk_dat(slug):
     # Get Project ID via the project slug: make sure slug is in .env file
     project = Project.find(slug=str(slug))
     proj_id = int(str(project).split(' ')[1].split('>')[0])
-    ###
 
     ### RETRIEVES TALK DATA FROM ZOONIVERSE VIA PANOPTES API ###
     # Getting the EXPORT URL: generates talk export and retrieves it
@@ -56,9 +55,7 @@ def get_talk_dat(slug):
         talk_describe = Project(proj_id).describe_export('talk_comments')
         talk_url = talk_describe['data_requests'][0]['url']
         print(f'Expected Data URL, talk_url: {talk_url}')
-     
-    # Description includes the URL of a tarfile containing talk data
-    print(talk_describe)
+
     # Tarfile URL location in talk_describe dictionary object
     talk_url = talk_describe['data_requests'][0]['url']
     if talk_url == None:
@@ -78,9 +75,12 @@ def get_talk_dat(slug):
             tar.extractall(path="./_data")
         current_date = datetime.utcnow()
         date = current_date.strftime('%Y-%m-%d')
-        talk_dat = pd.read_json(f'./_data/project-1104-comments_{date}.json')
-        talk_dat.to_csv(f'./_data/project-1104-comments_{date}.csv')
-        ###  
+        try:
+            talk_dat = pd.read_json(f'./_data/project-1104-comments_{date}.json')
+            talk_dat.to_csv(f'./_data/project-1104-comments_{date}.csv')
+        except:
+            print(f'File {str(file)} is not from the current date, {date}.')
+
     return print(talk_url)
     
 
@@ -104,7 +104,6 @@ Raw Exception Output: "{exception}"\n
         """
         
         return print(warning)
-
     
     # Clean up and format talk data
 
@@ -113,5 +112,5 @@ Raw Exception Output: "{exception}"\n
 # To Do/Possible Improvements:
 # 1. Make more dynamic to deal with Panoptes API issues and once-per-day downloads
 # 2. Figure out how to delete/backup older data
-# 3. Decide on whether aLOG data should be integrated into this or distinct. 
+# 3. Clean up output from this file. It's messy, and not all of it is helpful.
 #####################################################################################################

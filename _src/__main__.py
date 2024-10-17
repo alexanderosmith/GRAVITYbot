@@ -2,14 +2,14 @@
 # DOCUMENTATION NOTES : #############################################################################
 # File Creator: Alexander O. Smith (2024-present), aosmith@syr.edu
 # Current Maintainer: Alexander O. Smith, aosmith@syr.edu
-# Last Update: August 06, 2024
+# Last Update: Sept 18, 2024
 # Program Goal:
 # This file is the main executable Python file of "GRAVITYbot"
 #####################################################################################################
 #####################################################################################################
 # DEPENDENCIES ######################################################################################
 # Package Dependencies
-import os, sys, pytz, re, csv, openai
+import os, sys, re, csv, openai, pytz, smtplib, ssl
 from datetime import datetime, date, timedelta
 import pandas as pd
 # API Imports
@@ -18,15 +18,15 @@ from panoptes_client import Panoptes
 # Local enviornment imports and path appends
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from dotenv import find_dotenv, load_dotenv
-#import _alog as alog # This file needs to be fixed before I use it.
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../_data')))
 import prompts, talk_data, alog
+
 # Example of how to import a prompt from prompts py file.
 #####################################################################################################
 # Functions #########################################################################################
-# 0. start_end_dates    :   produces dates that span two adjacent weeks dynamic to most recent talk 
-#                           data
-# 1. load_text          :   loads talk data
+# 0. start_end_dates    :   produces two adjacent weeks spans
+# 1. load_talk          :   loads talk data
+# 2. load_alog          :   loads alog data
 # 2. segment_by_time    :   limits talk data to those within particular dates
 # 3. chat_with_gpt4     :   calls chatGPT4 bot (more expensive, higher input rate limit)
 # 4. main               :   initiates above functions, and loads prompt file info
@@ -91,8 +91,8 @@ TROUBLESHOOTING SUGGESTIONS:
         'talk_dat0_end'     :   talk_dat0_end 
     }
 
-# Function: loads data and gets comments which contain text
-def load_text(file_path):
+# Function: loads Talk data and gets comments which contain text
+def load_talk(file_path):
     talk_url = 'https://www.zooniverse.org/projects/zooniverse/gravity-spy/talk/'
 
     with open(file_path, encoding='utf-8') as file:
@@ -106,17 +106,24 @@ def load_text(file_path):
         comment_urls=   []
 
         for row in reader:
-            # Text cleaning (saves money and makes it easier to not rate limit)
+            # Text cleaning (saves monpathey and makes it easier to not rate limit)
             text = row['comment_body']  
-            text = re.sub('[^A-Za-z0-9\>\s\'\"\?\.\!]', ' ', text)
-            text = re.sub('\.+', ' ', text)
+            text = re.sub('This comment has been deleted', '', text)
+            text = re.sub(r'https.*\s', ' ', text)
+            text = re.sub(r'@\w+', ' ', text)
+            text = re.sub(r'Hi,\n|Hello,\n', '' , text, re.IGNORECASE)
+            text = re.sub(r'Thanks|Thank you', '', text, re.IGNORECASE)
+            text = re.sub(r'[^A-Za-z0-9\>\s\'\"\?\.\!]', ' ', text)
+            text = re.sub(r'\.+', ' ', text)
             text = re.sub('projects zooniverse gravity spy talk subjects', ' ', text)
             text = re.sub('zooniverse gravity spy talk comment page', ' ', text)
-            text = re.sub('\s[b-z][\.\s]', ' ', text)
-            text = re.sub('[\n]', ' ', text)
-            text = re.sub('[0-9]+\s', ' ', text)
-            text = re.sub('[a-z][0-9]+', ' ', text)
-            text = re.sub('\s+', ' ', text)
+            text = re.sub(r'\s[b-z][\.\s]', ' ', text)
+            text = re.sub(r'^v$', '' ,text)
+            text = re.sub(r'[\n]', ' ', text)
+            text = re.sub(r'[0-9]+\s', ' ', text)
+            text = re.sub(r'[a-z][0-9]+', ' ', text)
+            text = re.sub(r'\s+', ' ', text)
+            #print(text)
             txt.append(text)
             # Building Comment URLs to "cite" when GRAVITYbot needs to reference a comment
             board = str(row['board_id'])+'/'
@@ -150,6 +157,69 @@ def load_text(file_path):
 
     return text_dat
 
+# Function: loads alog data and gets comments which contain text
+def load_alog(file_path):
+    talk_url = 'https://www.zooniverse.org/projects/zooniverse/gravity-spy/talk/'
+    with open('_data/'+file_path, encoding='utf-8') as file:
+        reader = csv.DictReader(file)
+
+        # Define the Universal timezone
+        utc = pytz.UTC
+
+        # Set up lists for dataframe return
+        txt         =   []
+        times       =   []
+        comment_urls=   []
+
+        for row in reader:
+
+            # Define time formats with and without microseconds
+            date_fmt = "%a, %d %b %Y %H:%M:%S %z"
+
+            # Timestamp Data Clean
+            timestamp = row['entry_date']
+
+            try:
+            # Parse TimeoutError: [Errno 110] Connection timed outthe timestamp
+                time = datetime.strptime(timestamp, date_fmt).astimezone(utc)
+                times.append(time)
+                
+            except:
+                print(f'Datetime Conversion Warning')
+                continue
+
+            text = row['text']
+            # I need to clean up text
+            text = re.sub(r'https.*\s', ' ', text)
+            text = re.sub(r'@\w+', ' ', text)
+            text = re.sub(r'Hi,\n|Hello,\n', '' , text, re.IGNORECASE)
+            text = re.sub(r'Thanks|Thank you', '', text, re.IGNORECASE)
+            text = re.sub(r'[^A-Za-z0-9\>\s\'\"\?\.\!]', ' ', text)
+            text = re.sub(r'\.+', ' ', text)
+            text = re.sub(r'\s[b-z][\.\s]', ' ', text)
+            text = re.sub(r'^v$', '' ,text)
+            text = re.sub(r'[\n]', ' ', text)
+            text = re.sub(r'[0-9]+\s', ' ', text)
+            text = re.sub(r'[a-z][0-9]+', ' ', text)
+            text = re.sub(r'\s+', ' ', text)
+            txt.append(text)
+            #print(txt[0:10])
+
+            url = row['entry_url']
+            comment_urls.append(url)
+
+        # Generate DataFrame of data necessary for GRAVITYbot interpretation
+        text_dat = pd.DataFrame({
+            'timestamp'     : times,
+            'comment'       : txt,
+            'comment_url'   : comment_urls,
+        })
+    
+
+    return text_dat
+
+
+
 # Function: transforms dates to segment questions
 def segment_by_time(text_dat, start_date, end_date):
     # Parse and localize start_date and end_date to UTC
@@ -161,11 +231,9 @@ def segment_by_time(text_dat, start_date, end_date):
 
     # Get the comments and URLs between the date range start_date & end_date
     talk_dat = text_dat[(text_dat['timestamp'] >= start_dt) & (text_dat['timestamp'] <= end_dt)]
-    
     gpt_talk_reduce = talk_dat[['comment', 'comment_url']]
-
     gpt_talk_str = gpt_talk_reduce.to_string(header = False, index = False)
-    gpt_talk_str = re.sub('\s+', ' ', gpt_talk_str)
+    gpt_talk_str = re.sub(r'\s+', ' ', gpt_talk_str)
     
     return gpt_talk_str
 
@@ -194,30 +262,50 @@ def chat_with_gpt4(user_prompt, sys_prompt):
 
     return response.choices[0].message.content
 
+def emails(message):
+    _ = load_dotenv(find_dotenv())    
+    email_from = os.getenv("GOOGLE_APP_FROM")
+    password = os.getenv("GOOGLE_APP_PASS")
+    email_to = os.getenv("GOOGLE_APP_TO")
+    email_string = message
+    # Connect to the Gmail SMTP server and Send Email
+    # Create a secure default settings context
+    context = ssl.create_default_context()
+
+    with smtplib.SMTP_SSL("smtp.gmail.com", 465, context=context) as server:
+        # Provide Gmail's login information
+        server.login(email_from, password)
+        # Send mail with from_addr, to_addrs, msg, which were set up as variables above
+        server.sendmail(email_from, email_to, email_string)
+        smtp_connection.quit()
+
+
 # Main Function: Calls all previous functions for a user specified time frame
 def main():    
-
-    # Retrieve most updated talk data (will only work once per 24 hours)
-    talkdata = talk_data.main()
-    # NOTICE: talk_data.main() function requires more clear comms with panoptes API warnings
-    # To-Do: Update the talk_data's main function to do this better for future warnings.
-
-    # Get the most recent csv name, and the start and end dates for the most recen two weeks.     
+    # Retrieve most updated talk and alog data
+    #talkdata = talk_data.main()
+    #alogdata = alog.main()
+    # Get the most recent csv name, and the start and end dates for the most recent two weeks.     
     time_deltas = start_end_dates()
-    talk_dat = f"_data/{time_deltas['talk_file']}"
 
-    # Load talk data file
-    txt = load_text(talk_dat)
+    # Set up talkdata and alogdata file names in a list
+    talk_dat = [f"_data/{time_deltas['talk_file']}", "aLOG_RSS_deduplicated.csv"]
+
+    # Load Gravity Spy Talk and alog data files
+    talkload = load_talk(talk_dat[0])
+    alogload = load_alog(talk_dat[1])
 
     # Call segment_by_time function using the automated start-end days.
-    talk_dat0 = segment_by_time(txt, time_deltas['talk_dat0_start'], time_deltas['talk_dat0_end']) # Older week
-    talk_dat1 = segment_by_time(txt, time_deltas['talk_dat1_start'], time_deltas['talk_dat1_end']) # Newer week
+    talk_dat0 = segment_by_time(talkload, time_deltas['talk_dat0_start'], time_deltas['talk_dat0_end']) # Older week
+    talk_dat1 = segment_by_time(talkload, time_deltas['talk_dat1_start'], time_deltas['talk_dat1_end']) # Newer week
 
     # Call ex_func_prompt_gen from prompts.py 
     prompt_func = prompts.ligo_prompt(talk_dat0, talk_dat1)
 
     # Call chatGPT function
     gsBot = chat_with_gpt4(prompt_func[0], prompt_func[1])
+    emails("Hello World")
+
     current_day = datetime.utcnow().strftime('%Y-%m-%d')
     with open(f'./_output/ZooniverseTalkSummary_{current_day}.md', 'w') as gsBotResp:
         gsBotResp.write(gsBot)
@@ -226,5 +314,16 @@ def main():
     
     return gsBot
      
-
 gsBotResponse = main()
+
+#####################################################################################################
+# BACKLOG: ##########################################################################################
+# 1. Email the Talk markdown to the Syracuse GravitySpy. 
+#   a. Try to convert this to html. 
+#   b. Use MIME? 
+# 2. Add alog prompting (Due next week)
+# 3. Learn "Requirements" and _init__.py best practices for clean up. 
+# 4. Learn best practices for python virtual enviornments on a local computer.
+# 5. Write a little paragraph on how LLM might work with classification with a volunteer.
+#####################################################################################################
+# gwpy package
