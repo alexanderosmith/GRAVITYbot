@@ -2,7 +2,7 @@
 # DOCUMENTATION NOTES : #############################################################################
 # File Creator: Alexander O. Smith (2024-present), aosmith@syr.edu
 # Current Maintainer: Alexander O. Smith, aosmith@syr.edu
-# Last Update: Sept 18, 2024
+# Last Update: Oct 17, 2024
 # Program Goal:
 # This file is the main executable Python file of "GRAVITYbot"
 #####################################################################################################
@@ -19,7 +19,8 @@ from panoptes_client import Panoptes
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from dotenv import find_dotenv, load_dotenv
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../_data')))
-import prompts, talk_data, alog
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../_output')))
+import prompts, talk_data, alog, emails
 
 # Example of how to import a prompt from prompts py file.
 #####################################################################################################
@@ -262,24 +263,6 @@ def chat_with_gpt4(user_prompt, sys_prompt):
 
     return response.choices[0].message.content
 
-def emails(message):
-    _ = load_dotenv(find_dotenv())    
-    email_from = os.getenv("GOOGLE_APP_FROM")
-    password = os.getenv("GOOGLE_APP_PASS")
-    email_to = os.getenv("GOOGLE_APP_TO")
-    email_string = message
-    # Connect to the Gmail SMTP server and Send Email
-    # Create a secure default settings context
-    context = ssl.create_default_context()
-
-    with smtplib.SMTP_SSL("smtp.gmail.com", 465, context=context) as server:
-        # Provide Gmail's login information
-        server.login(email_from, password)
-        # Send mail with from_addr, to_addrs, msg, which were set up as variables above
-        server.sendmail(email_from, email_to, email_string)
-        smtp_connection.quit()
-
-
 # Main Function: Calls all previous functions for a user specified time frame
 def main():    
     # Retrieve most updated talk and alog data
@@ -304,13 +287,13 @@ def main():
 
     # Call chatGPT function
     gsBot = chat_with_gpt4(prompt_func[0], prompt_func[1])
-    emails("Hello World")
 
     current_day = datetime.utcnow().strftime('%Y-%m-%d')
     with open(f'./_output/ZooniverseTalkSummary_{current_day}.md', 'w') as gsBotResp:
         gsBotResp.write(gsBot)
         gsBotResp.close()
-    print(gsBot)
+    #print(gsBot)
+    email = emails.main(date = current_day, body = gsBot)
     
     return gsBot
      
