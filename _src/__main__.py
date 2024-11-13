@@ -10,7 +10,7 @@
 # DEPENDENCIES ######################################################################################
 # Package Dependencies
 import os, sys, re, csv, openai, pytz, smtplib, ssl
-from datetime import datetime, date, timedelta
+from datetime import datetime, timezone, date, timedelta
 import pandas as pd
 # API Imports
 from openai import OpenAI
@@ -36,9 +36,10 @@ import prompts, talk_data, alog, emails
 #####################################################################################################
 # Produces start and end dates for the most recent two weeks of Talk data.
 def start_end_dates():
-    print('Finding most recent Talk data file...\n')
+    print('Loading the most recent Talk forum data...')
     # Today's date
-    current_date = datetime.utcnow()
+    #current_date = datetime.utcnow()
+    current_date = datetime.now(timezone.utc)
     # Set talk_file to a 0 length string for the while loop
     talk_file = ''
     count = 1
@@ -266,8 +267,10 @@ def chat_with_gpt4(user_prompt, sys_prompt):
 # Main Function: Calls all previous functions for a user specified time frame
 def main():    
     # Retrieve most updated talk and alog data
-    #talkdata = talk_data.main()
     #alogdata = alog.main()
+    print("LIGO Alog Forum Data Request Complete")
+    #talkdata = talk_data.main()
+    print("GravitySpy Talk Forum Data Request Complete")
     # Get the most recent csv name, and the start and end dates for the most recent two weeks.     
     time_deltas = start_end_dates()
 
@@ -288,11 +291,14 @@ def main():
     # Call chatGPT function
     gsBot = chat_with_gpt4(prompt_func[0], prompt_func[1])
 
-    current_day = datetime.utcnow().strftime('%Y-%m-%d')
+    #current_day = datetime.utcnow().strftime('%Y-%m-%d')
+    current_day = datetime.now(timezone.utc).strftime('%Y-%m-%d')
     with open(f'./_output/ZooniverseTalkSummary_{current_day}.md', 'w') as gsBotResp:
+        print(r"Calling GRAVITYbot...")
         gsBotResp.write(gsBot)
         gsBotResp.close()
     #print(gsBot)
+    print(r"Sending Email")
     email = emails.main(date = current_day, body = gsBot)
     
     return gsBot

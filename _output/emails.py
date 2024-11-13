@@ -16,25 +16,33 @@
 from dotenv import find_dotenv, load_dotenv     # Loading env file
 import os, smtplib, ssl                         # OS and server/mail protocol libraries
 from email.mime.text import MIMEText            # Email Formatting
+import markdown
 
 def talk_email(date, body):
     # Email Subject/Body "Hello There" Email Test
-    subject = "GravitySpy Talk Summary" + date
-    body = body
+    subject = "GRAVITYbot Talk Summary: " + date
+    body = markdown.markdown(body)
     # TO-DO: Format email here
 
     return subject, body
 
 # A function that sends email
 def send_email(subject, body):
-        # Loading the necessary info for the email from env file
+    # Loading the necessary info for the email from env file
     _ = load_dotenv(find_dotenv())    
-    sender = os.getenv("GOOGLE_APP_FROM")
-    password = os.getenv("GOOGLE_APP_PASS")
+    user = os.getenv("SMTP_USER")
+    sender = user+'@syr.edu'
+    host = os.getenv("SMTP_HOST")
+    smtp_server = host
+    password = os.getenv("SMTP_PASS")
     recipients = os.getenv("GOOGLE_APP_TO")
+    
+    #sender = os.getenv("GOOGLE_APP_FROM")
+    #password = os.getenv("GOOGLE_APP_PASS")
+    #recipients = os.getenv("GOOGLE_APP_TO")
     # Google's SMTP server location
     # If you wish to use a different email, you'll have to change this.
-    smtp_server = 'smtp.gmail.com'
+    #smtp_server = 'smtp.gmail.com'
     # Building the message with MIME
     msg = MIMEText(body)
     msg['Subject'] = subject

@@ -118,11 +118,9 @@ def csv_cleanup():
     
     # Import CSV
     alog_dat = pd.read_csv(alog_path).reset_index()
-    print('Original dedup alog DF: ' + str(len(alog_dat['report_id'])))
-
     # Drop Duplicate Rows, Keep The Last of Duplicates    
     unique_df = alog_dat.drop_duplicates(subset = ['report_id'], keep = 'last')
-    print('Deduped alog DF: ' + str(len(unique_df['report_id'])))
+    print('Deduplicated alog rows: ' + str(len(unique_df['report_id'])))
 
     # Return the Deduplicated Dataframe
     return unique_df
@@ -144,7 +142,7 @@ def main():
     return csv
 
 #####################################################################################################
-test = main()
+#test = main()
 
 #####################################################################################################
 # BACKLOG: ##########################################################################################

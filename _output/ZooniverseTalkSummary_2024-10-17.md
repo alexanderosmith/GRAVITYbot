@@ -1,41 +1,31 @@
-### Novel Glitch Classes Proposed in Talk Dataset 2 Relative to Talk Dataset 1
+1. **New Glitch Classes Proposed in Talk Dataset 2:**
+   - A potential new class identified is the **"Marie Celeste"** glitch, mentioned in the context of a discussion about scattered light. This glitch appears to manifest uniquely, distinguished by its characteristics from established classes. The name implies a mysterious or abandoned quality, possibly reflecting its unexpected and sporadic appearance in data.
+     - URL: https://www.zooniverse.org/projects/zooniverse/gravity-spy/talk/328/3463362/
+   - The term **"Terracotta Warriors"** is introduced, perhaps indicative of glitches that show a distinct, orderly pattern resembling the famous statues. This label suggests a structured, repeating nature, possibly pointing to a mechanical or repetitive source behind these glitches.
+     - URL: https://www.zooniverse.org/projects/zooniverse/gravity-spy/talk/328/3463598/
 
-1. **Marie Celeste**: This new glitch class is mentioned in a context suggesting it appears abruptly and is somewhat mysterious, akin to the legend of the ghost ship Marie Celeste. The description points to a sudden appearance in the data, which makes it notable and classifiable under a new label due to its distinct pattern.
-   - URL: https://www.zooniverse.org/projects/zooniverse/gravity-spy/talk/328/3463362/
+2. **Concerns Regarding Existing Glitch Classes:**
+   - Concerns are expressed about the **"Whistle"** glitch classification. It was noted that many subjects wrongly identified under this name have been moved to other classes, indicating a misclassification issue potentially due to inaccurate or outdated machine learning models.
+     - URL: https://www.zooniverse.org/projects/zooniverse/gravity-spy/talk/328/3469427/
+   - The **"Power Line (60 Hz)"** glitch class is mentioned with confusion as many items resembling this class but not fitting it exactly are found in the data, revealing possible ambiguities in the current classification system or the need for subcategories.
+     - URL: https://www.zooniverse.org/projects/zooniverse/gravity-spy/talk/328/3469427/
 
-2. **Nessie**: This glitch class is described with a visual pattern resembling the mythical creature, suggesting a series of undulating humps. This descriptive approach indicates that the glitch has a repetitive, wave-like feature that stands out from other known classes.
-   - URL: https://www.zooniverse.org/projects/zooniverse/gravity-spy/talk/328/3464772/
+3. **Emerging Questions Related to Glitch Classes and Gravitational Wave Science (Talk Dataset 2):**
+   - Questions arise about the effectiveness and specificity of the **Glitch Classification** system, particularly with the shifting of some glitch classes to lower frequencies and the appearance of entirely new glitch types. This reflects an evolving understanding and adaptation in the community as the LIGO system itself is upgraded and modified.
+     - URL: https://www.zooniverse.org/projects/zooniverse/gravity-spy/talk/328/3470496/
+   - Queries about the **"Scattered Light"** class and its application to data from different runs or observatories (e.g., LIGO Hanford vs. Virgo) indicate a deeper dive into the nuances of glitch behaviors and their implications on gravitational wave detections.
+     - URL: https://www.zooniverse.org/projects/zooniverse/gravity-spy/talk/328/3470733/
+   - Discussions about whether certain patterns should be classified under existing classes like **"Tomte"** or new ones suggest a growing sophistication in interpreting the complex data provided by LIGO.
+     - URL: https://www.zooniverse.org/projects/zooniverse/gravity-spy/talk/328/3468496/
 
-### Concerns Regarding Existing Glitch Classes
+4. **Hypotheses About Glitch Origins in Talk Dataset 2:**
+   - A hypothesis is mentioned concerning the **Richland WA earthquake** influencing glitch characteristics, which is indicated by a specific pattern called "Nessie with slightly smaller humps." This suggests a direct environmental impact on the data, providing a connection between geological events and data anomalies.
+     - URL: https://www.zooniverse.org/projects/zooniverse/gravity-spy/talk/328/3464772/
+   - Another hypothesis put forth involves potential issues with the **actuation systems** in the sensors during certain tests, which might lead to specific glitch appearances. This reflects an advanced analytical approach to understanding the mechanical and operational context of glitches.
+     - URL: https://www.zooniverse.org/projects/zooniverse/gravity-spy/talk/328/3461469/
 
-1. **Mislabeling Issues**: There is a recurring concern in Talk Dataset 2 about the mislabeling of glitches due to flawed machine learning labels. This issue leads to glitches being placed in incorrect classes or levels, complicating the classification process and possibly affecting the accuracy of data analysis.
-   - URL: https://www.zooniverse.org/projects/zooniverse/gravity-spy/talk/328/3469427/
-
-2. **Classification Confusion**: Concerns are raised about the boundaries between existing glitch classes like Blip and Low-Frequency (LF) Blip. These concerns stem from ambiguities in defining the frequency limits and visual characteristics that distinguish one class from another.
-   - URL: https://www.zooniverse.org/projects/zooniverse/gravity-spy/talk/328/3459088/
-
-### Emerging Questions Related to Glitch Classes and Gravitational Wave Science
-
-1. **Workflow and Classification System Query**: In Talk Dataset 2, there are questions about which workflow to use for classifying certain types of glitches and whether the classification system itself might need revision to accommodate new types of observed data. This reflects a deeper engagement and a desire for clarity in the process.
-   - URL: https://www.zooniverse.org/projects/zooniverse/gravity-spy/talk/328/3469427/
-
-2. **Technical Understanding of Glitch Origins**: Questions arise about the specific origins of glitches, such as whether certain glitches are caused by environmental factors or specific operational modes of LIGO. This indicates a growing interest in understanding the technical details behind the observations.
-   - URL: https://www.zooniverse.org/projects/zooniverse/gravity-spy/talk/328/3455739/
-
-### Hypotheses About Glitch Origins
-
-1. **Environmental Impact Hypothesis**: There is a hypothesis that certain glitches, specifically a "Nessie" type, could be related to local environmental conditions such as earthquakes or other ground motions. This hypothesis is motivated by the need to correlate observed data patterns with external physical events that could affect the sensors.
-   - URL: https://www.zooniverse.org/projects/zooniverse/gravity-spy/talk/328/3464772/
-
-2. **Operational Mode Impact**: Another hypothesis suggests that different operational modes of the LIGO detectors, such as high power noisy mode during lock acquisition and low power quiet mode during observation, could influence the occurrence and types of glitches observed. This analytical approach is aimed at understanding how operational practices impact data quality.
-   - URL: https://www.zooniverse.org/projects/zooniverse/gravity-spy/talk/328/3455739/
-
-### Questions Concerning Sensors or Channels
-
-1. **Sensor-Specific Glitches**: In Talk Dataset 2, questions are raised about whether certain glitches are specific to particular sensors or channels at LIGO, suggesting a need to understand if technical issues or specific characteristics of certain equipment could be responsible for observed anomalies.
-   - URL: https://www.zooniverse.org/projects/zooniverse/gravity-spy/talk/328/3461469/
-
-2. **Channel Response to Environmental Factors**: Discussions also involve how different channels respond to environmental disturbances, such as ground motion, and whether this can be directly linked to the occurrence of specific glitch types, indicating an interest in the detailed response characteristics of sensor channels.
-   - URL: https://www.zooniverse.org/projects/zooniverse/gravity-spy/talk/328/3461469/
-
-These responses highlight the continuing evolution of the citizen scientists' engagement with and understanding of the technical and operational aspects of gravitational wave detectors like LIGO.
+5. **Questions Concerning Sensors or Channels (Talk Dataset 2):**
+   - There are nuanced discussions about whether certain glitches are due to specific **sensors or test mass actuations** at LIGO Hanford Observatory (LHO). This shows an increased scrutiny of the hardware and operational specifics of LIGO, indicating a matured level of technical inquiry among citizen scientists.
+     - URL: https://www.zooniverse.org/projects/zooniverse/gravity-spy/talk/328/3461469/
+   - Queries also extend to how changes in **LIGO's operational modes** (e.g., high power noisy mode during lock acquisition) influence the observed data, suggesting that the community is keenly observing the procedural aspects of gravitational wave detection.
+     - URL: https://www.zooniverse.org/projects/zooniverse/gravity-spy/talk/328/3461469/
