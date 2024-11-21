@@ -108,6 +108,20 @@ def load_talk(file_path):
         comment_urls=   []
 
         for row in reader:
+            # Define time formats with and without microseconds
+            fmt_dot_ms = '%Y-%m-%d %H:%M:%S.%f%z'
+            fmt_wo_ms = '%Y-%m-%d %H:%M:%S%z'
+            
+            # Timestamp Data Clean
+            timestamp = row['comment_created_at']
+            try:
+                # Parse the timestamp
+                time = datetime.strptime(timestamp, fmt_dot_ms).astimezone(utc)
+            except ValueError:
+                time = datetime.strptime(timestamp, fmt_wo_ms).astimezone(utc)
+            
+            times.append(time)            
+           
             # Text cleaning (saves monpathey and makes it easier to not rate limit)
             text = row['comment_body']  
             text = re.sub('This comment has been deleted', '', text)
@@ -132,24 +146,9 @@ def load_talk(file_path):
             disc_id = str(row['discussion_id'])+'/'
             comment_url = talk_url+board+disc_id
             comment_urls.append(comment_url)
-            # Define time formats with and without microseconds
-            fmt_dot_ms = '%Y-%m-%d %H:%M:%S.%f%z'
-            fmt_wo_ms = '%Y-%m-%d %H:%M:%S%z'
-            
-            # Timestamp Data Clean
-            timestamp = row['comment_created_at']
 
-            for fmt in (fmt_dot_ms, fmt_wo_ms):
-                try:
-                # Parse the timestamp
-                    time = datetime.strptime(timestamp, fmt).astimezone(utc)
-                    times.append(time)
-                    break
-                except: 
-                    if fmt == fmt_wo_ms:
-                        print(f'Datetime Conversion Warning')
-                        times.append('datetime_conversion_issue')
-                        break
+
+
         # Generate DataFrame of data necessary for GRAVITYbot interpretation
         text_dat = pd.DataFrame({
             'timestamp'     : times,
@@ -188,6 +187,7 @@ def load_alog(file_path):
                 
             except:
                 print(f'Datetime Conversion Warning')
+                print(timestamp)
                 continue
 
             text = row['text']
@@ -209,14 +209,13 @@ def load_alog(file_path):
 
             url = row['entry_url']
             comment_urls.append(url)
-
         # Generate DataFrame of data necessary for GRAVITYbot interpretation
         text_dat = pd.DataFrame({
             'timestamp'     : times,
             'comment'       : txt,
             'comment_url'   : comment_urls,
         })
-    
+        
 
     return text_dat
 
@@ -267,9 +266,9 @@ def chat_with_gpt4(user_prompt, sys_prompt):
 # Main Function: Calls all previous functions for a user specified time frame
 def main():    
     # Retrieve most updated talk and alog data
-    #alogdata = alog.main()
+    alogdata = alog.main()
     print("LIGO Alog Forum Data Request Complete")
-    #talkdata = talk_data.main()
+    talkdata = talk_data.main()
     print("GravitySpy Talk Forum Data Request Complete")
     # Get the most recent csv name, and the start and end dates for the most recent two weeks.     
     time_deltas = start_end_dates()
@@ -290,29 +289,26 @@ def main():
 
     # Call chatGPT function
     gsBot = chat_with_gpt4(prompt_func[0], prompt_func[1])
+    print("Sending Email...")
+    current_day = datetime.now(timezone.utc).strftime('%Y-%m-%d')
+    email = emails.main(date = current_day, body = gsBot)
 
     #current_day = datetime.utcnow().strftime('%Y-%m-%d')
-    current_day = datetime.now(timezone.utc).strftime('%Y-%m-%d')
     with open(f'./_output/ZooniverseTalkSummary_{current_day}.md', 'w') as gsBotResp:
         print(r"Calling GRAVITYbot...")
         gsBotResp.write(gsBot)
         gsBotResp.close()
     #print(gsBot)
-    print(r"Sending Email")
-    email = emails.main(date = current_day, body = gsBot)
-    
+
     return gsBot
      
 gsBotResponse = main()
 
 #####################################################################################################
 # BACKLOG: ##########################################################################################
-# 1. Email the Talk markdown to the Syracuse GravitySpy. 
-#   a. Try to convert this to html. 
-#   b. Use MIME? 
-# 2. Add alog prompting (Due next week)
-# 3. Learn "Requirements" and _init__.py best practices for clean up. 
-# 4. Learn best practices for python virtual enviornments on a local computer.
-# 5. Write a little paragraph on how LLM might work with classification with a volunteer.
+# 0. Clean up email markdown
+# 1. Add alog prompting
+# 2. Learn "Requirements" and _init__.py best practices for clean up. 
+# 3. Learn best practices for python virtual enviornments on a local computer.
+# 4. Write a little paragraph on how LLM might work with classification with a volunteer.
 #####################################################################################################
-# gwpy package

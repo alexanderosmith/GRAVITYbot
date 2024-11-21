@@ -29,38 +29,28 @@ def talk_email(date, body):
 # A function that sends email
 def send_email(subject, body):
     # Loading the necessary info for the email from env file
-    _ = load_dotenv(find_dotenv())    
-    user = os.getenv("SMTP_USER")
-    sender = user+'@syr.edu'
-    host = os.getenv("SMTP_HOST")
-    smtp_server = host
-    password = os.getenv("SMTP_PASS")
-    recipients = os.getenv("GOOGLE_APP_TO")
+    _ = load_dotenv(find_dotenv())
+    SMTP_PORT = 587
+    SMTP_HOST = os.environ.get("SMTP_HOST")
+    SMTP_USER = os.environ.get("SMTP_USER")
+    SMTP_PASSWORD =  os.environ.get("SMTP_PASS")
+    MSG_FROM = os.environ.get("SMTP_FROM")
+    MSG_TO = os.environ.get("SMTP_TO")
+    # Makeing Message Variables
+    MSG_BODY = body
+    MSG_SUBJECT = subject
+
+    msg = MIMEText(MSG_BODY,  'html')
+    msg['Subject'] = MSG_SUBJECT
+    msg['From'] = MSG_FROM
+    msg['To'] = MSG_TO
     
-    #sender = os.getenv("GOOGLE_APP_FROM")
-    #password = os.getenv("GOOGLE_APP_PASS")
-    #recipients = os.getenv("GOOGLE_APP_TO")
-    # Google's SMTP server location
-    # If you wish to use a different email, you'll have to change this.
-    #smtp_server = 'smtp.gmail.com'
-    # Building the message with MIME
-    msg = MIMEText(body)
-    msg['Subject'] = subject
-    msg['From'] = sender
-    msg['To'] = recipients
+    server = smtplib.SMTP(SMTP_HOST, SMTP_PORT)
+    server.starttls()
+    server.login(SMTP_USER, SMTP_PASSWORD)
+    server.sendmail(MSG_FROM, [MSG_TO], msg.as_string())
+    server.quit()
 
-    context = ssl.create_default_context()
-
-    with smtplib.SMTP(smtp_server, 587) as server:
-    # Sending through TLS mode
-        server.starttls(context=context)
-        server.login(sender, password)
-
-        server.sendmail(
-            sender,
-            recipients,
-            msg.as_string()
-        )
 
 def main(date, body):
     email = talk_email(date, body)
