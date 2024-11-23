@@ -2,7 +2,7 @@
 # DOCUMENTATION NOTES : #############################################################################
 # File Creator: Alexander O. Smith (2024-present), aosmith@syr.edu
 # Current Maintainer: Alexander O. Smith, aosmith@syr.edu
-# Last Update: Oct 17, 2024
+# Last Update: Nov 22, 2024
 # Program Goal:
 # This file is the main executable Python file of "GRAVITYbot"
 #####################################################################################################
@@ -281,26 +281,45 @@ def main():
     alogload = load_alog(talk_dat[1])
 
     # Call segment_by_time function using the automated start-end days.
-    talk_dat0 = segment_by_time(talkload, time_deltas['talk_dat0_start'], time_deltas['talk_dat0_end']) # Older week
-    talk_dat1 = segment_by_time(talkload, time_deltas['talk_dat1_start'], time_deltas['talk_dat1_end']) # Newer week
+    talk_dat0 = segment_by_time(talkload, time_deltas['talk_dat0_start'], time_deltas['talk_dat0_end']) # Talk Older week
+    talk_dat1 = segment_by_time(talkload, time_deltas['talk_dat1_start'], time_deltas['talk_dat1_end']) # Talk Newer week
+    alog_dat0 = segment_by_time(alogload, time_deltas['talk_dat0_start'], time_deltas['talk_dat0_end']) # Alog Older week
+    alog_dat1 = segment_by_time(alogload, time_deltas['talk_dat1_start'], time_deltas['talk_dat1_end']) # Alog Newer week
 
     # Call ex_func_prompt_gen from prompts.py 
-    prompt_func = prompts.ligo_prompt(talk_dat0, talk_dat1)
+    talk_prompt = prompts.ligo_prompt(talk_dat0, talk_dat1)
+    alog_prompt = prompts.alog_prompt(alog_dat0, alog_dat1)
 
-    # Call chatGPT function
-    gsBot = chat_with_gpt4(prompt_func[0], prompt_func[1])
+    # Call chatGPT function for Zooniverse Talk summary
+    #gsBot = chat_with_gpt4(talk_prompt[0], talk_prompt[1])
+
+    # Sending Email containing Zooniverse Talk summary
     print("Sending Email...")
     current_day = datetime.now(timezone.utc).strftime('%Y-%m-%d')
-    email = emails.main(date = current_day, body = gsBot)
+    try:
+        email = emails.main(date = current_day, body = gsBot)
+    except:
+        print("WARNING: Email failed to send.")
 
-    #current_day = datetime.utcnow().strftime('%Y-%m-%d')
-    with open(f'./_output/ZooniverseTalkSummary_{current_day}.md', 'w') as gsBotResp:
-        print(r"Calling GRAVITYbot...")
-        gsBotResp.write(gsBot)
-        gsBotResp.close()
-    #print(gsBot)
+    # Call chatGPT function for Alog Forum summary
+    #print("Summarizing Alogs")
+    alogBot = chat_with_gpt4(alog_prompt[0], alog_prompt[1])
+    print(alogBot)
 
-    return gsBot
+    try:
+        with open(f'./_output/ZooniverseTalkSummary_{current_day}.md', 'w') as gsBotResp:
+            print(r"Calling GRAVITYbot...")
+            gsBotResp.write(gsBot)
+            gsBotResp.close()
+    except:
+        print("WARNING: No Zooniverse Talk Summary file was saved.")
+    
+    try:
+        return gsBot
+    except:
+        return
+    finally:
+        return alogBot
      
 gsBotResponse = main()
 

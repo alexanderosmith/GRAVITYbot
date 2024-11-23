@@ -61,17 +61,11 @@ def ex_func_prompt_gen(talk_dat):
 def ligo_prompt(talk_dat0, talk_dat1):
     # Required: provide a user prompt variable which takes the text data
     user_prompt = f"""
-    The following data are from citizen scientists identifying and categorizing new types of glitches based on their unique characteristics. The data originally were in a pandas dataframe of two columns. The first column was the "comment" text and the second was the "URL" affiliated with that comment. After having converted this pandas dataframe to string, each comment is now followed by its URL. 
+    The following data are citizen scientist forum conversations. They identify and categorize glitches based on their unique characteristics. The data originally were in a dataframe of two columns. The first column was the "comment" text and the second was the "URL" affiliated with the comment. After each comment has been formatted such that it is followed by its URL. 
     
-    The citizen scientists investigate underlying causes of various types of glitches observed in the LIGO sensors. I am trying to capture the evolving nature of glitch classification, the needs for new classifications, and novel exploration of glitch origins and characteristics by citizen scientists and researchers. The Talk data emerges as a part of significant curiosity and engagement with the data, with the need for a clear summary.
+    Citizen scientists also attempt to identify underlying causes of each glitch. The forum data captures the evolving nature of glitch classification, the needs for new classifications, and novel exploration of glitch origins and characteristics by citizen scientists and researchers. The forum data emerges as a part of significant curiosity and engagement with the data, with the need for a clear summary.
 
-    Consider Talk Dataset 1:
-    {talk_dat0}
-
-    Now consider Talk Dataset 2:
-    {talk_dat1}
-
-    Also, importantly, we already know about several glitch classes. So if you see these, they are not new:
+These are the glitch classes we know about. These are not new, however there might be important conversations about their underlying causes:
     - 1080 Line 
     - 1400 Ripple 
     - 70 Hz Line 
@@ -94,20 +88,27 @@ def ligo_prompt(talk_dat0, talk_dat1):
     - Uncategorized_Glitches 
     - Violin Mode Harmonic 
     - Wandering Line 
-    - Whistle 
+    - Whistle
 
-    Below are a list of interests I would like an answer for. Please provide at least three bullet points, each with a couple of sentences responding to each interest. Also, importantly, if your answer uses a comment, after the end of each answer provide, provide a list of URL variables which played a part in your response.
+    Consider "last week's" forum data:
+    {talk_dat0}
+
+    Now consider "this week's" forum data:
+    {talk_dat1}
+
+    Using these two sets of data, please provide at least three bullet points to answer the following questions. Each bullet point requires a couple of sentences of response. Under each bullet point, please provide the relevant URLs that played a part in your response for that bullet.
     
-    I want a list of novel things which occur in Talk Dataset 2 realtive to Talk Dataset 1.
-    1. Citizen scientists are actively identifying and categorizing new types of glitches based on their unique characteristics. I want to know what new glitch classes are proposed. If Talk data set 2 proposes a new glitch class realtive to Talk data set 1, what is the glitch class? How do they describe this glitch class? Provide at least a bullet point for each proposed new glitch class with at least two sentences describing it.
+    I want a list of novel things which occur in "this week's" forum data realative to "last week's."
+    
+    1. Citizen scientists identify new glitch classifications based on their unique characteristics. What new glitch classes are proposed this week. If this week's forum data proposes a new glitch class realtive to last week, what is the glitch class? How is this glitch class described? Provide a bullet point for each new glitch class with two sentences describing the glitch. Provide the relevant URLs under each bullet point.
 
-    2. Citizen scientists sometimes question whether there are problems with existing glitch classes: i.e. those listed. I am interested in whether there are any concerns regarding the glitch classes according to the citizen scientists, and whether or not they persist in both sets of Talk Datasets, or if concerns occur only in Talk Dataset 2. If there are concerns, what problems are they claiming exist with the classifcations? Provide at least a couple of sentences describing each concern raised.
+    2. Citizen scientists sometimes suggest there are problems with existing glitch classes: those previously listed. Are there any concerns regarding the glitch classes according to the citizen scientists? Do these persist in this week, or across both week's of Talk data? Provide two sentences describing each concern raised. Provide the relevant URLs under each bullet point.
 
-    3. Additionally, citizen scientists wish to deepen their knowledge by exploring and learning classifications and technical aspects of glitches. I am interested in whether there are emerging questions related to the glitch classes, sensors, or gravitational wave science in Talk data set 2 relative to Talk data set 1. Describe each question and the reasoning for the question. Provide at least three sentences describing these emerging questions.
+    3. Citizen scientists learn by exploring classifications and technical aspects of glitches. Are there emerging questions related to the glitch classes, sensors, or gravitational wave science in this week's data? Describe each question and the reasoning for the question. Provide at two or three sentences describing these emerging questions. Provide the relevant URLs under each bullet point.
 
-    4. The origins of glitches are usually related to enviornemntal factors near the sensors or errors in measurements of sensors themselves. Citizen scientists often attempt to analytically correlate external conditions with glitch occurrences, providing specific hypothetical origins of glitches suggesting potentially gained knowledge in underlying mechanisms of glitch causes or their appearances in spectograms. If Talk data set 2 has more specific hypotheses about where glitch origins, what are these hypotheses? What is each hypothesis' analytical motivation? Provide at least three sentences describing each hypothesis.
+    4. Glitches are often related to ecological factors near the sensors or errors in the sensors themselves. Citizen scientists often attempt to analytically explain glitch occurrences with hypothetical origins of glitches, suggesting gained knowledge of the mechanisms of glitch occurances. If this week has more specific hypotheses about where glitch origins, what are these hypotheses and the reasons provided? Provide at two or three sentences describing each hypothesis. Provide the relevant URLs under each bullet point.
 
-    5. Often citizen scientists will question if issues are specifically related to particular sensors or channels. Are there any emerging questions or thoughts concerning the way particular glitches are connected to sensors or channels in Talk Dataset 2 relative to Talk Dataset 1? If these thoughts or questions exist, what specifically do they describe? Provide at least two sentences for these questions or thoughts.
+    5. Citizen scientists often question if issues are related to particular sensors or channels. Are there any emerging concerns about particular glitches' connections to sensors or channels this week relative to last week? If so, what specifically do they describe? Provide at least two sentences for these questions or thoughts. Provide the relevant URLs under each bullet point.
     """
 
     # Optional: provide a system prompt which tells the bot the context it is responding to.
@@ -121,31 +122,25 @@ def ligo_prompt(talk_dat0, talk_dat1):
 
 # THIS PROMPT IS STILL A BETA DESIGN, DO NOT RUN YET.
 
-def gs_prompt(talk_dat0, talk_dat1):
+def alog_prompt(alog_dat0, alog_dat1):
     # Required: provide a user prompt variable which takes the text data
     user_prompt = f"""
-    The following data are from citizen scientists identifying and categorizing new types of glitches based on their unique characteristics. The data originally were in a pandas dataframe of two columns. The first column was the comment text and the second was the URL affiliated with that comment. After having converted this pandas dataframe to string, each comment is now followed by its URL. 
-    
-    The citizen scientists investigate underlying causes of various types of glitches observed in the LIGO sensors. I am trying to capture the evolving nature of glitch classification, the needs for new classifications, and novel exploration of glitch origins and characteristics by citizen scientists and researchers. The Talk data emerges as a part of significant curiosity and engagement with the data, with the need for a clear summary.
+    The following forum data are from LIGO affiliated scientists and engineers. LIGO affiliates often use LIGO's LVC Abbreviations and Acronyms, and so you will need to use them to interpret the discussions. The data involve discussions surrounding LIGO laboratory equiptment. The data originally were in a dataframe of two columns. The first column was the "comment" text and the second was the "URL" affiliated with the comment. After each comment has been formatted such that it is followed by its URL.
 
-    Consider Talk Dataset 1:
-    {talk_dat0}
+    Many of the acronyms relate to channels in LIGO sensors or other processes surrounding LIGO.
 
-    Now consider Talk Dataset 2:
-    {talk_dat1}
+    Consider ALOG Dataset 1:
+    {alog_dat0}
 
-    2. Citizen scientists sometimes question whether there are problems with existing glitch classes: i.e. those listed. I am interested in whether there are any concerns regarding the glitch classes according to the citizen scientists, and whether or not they persist in both  sets of Talk Datasets, or if concerns occur only in Talk Dataset 2. If there are concerns, what problems are they claiming exist with the classifcations?
+    Now consider ALOG Dataset 2:
+    {alog_dat1}
 
-    3. Additionally, citizen scientists wish to deepen their knowledge by exploring and learning classifications and technical aspects of glitches. I am interested in whether there are emerging questions related to the glitch classes, sensors, or gravitational wave science in Talk data set 2 relative to Talk data set 1. Describe each question and the reasoning for the question. 
-
-    4. The origins of glitches are usually related to enviornemntal factors near the sensors or errors in measurements of sensors themselves. Citizen scientists often attempt to analytically correlate external conditions with glitch occurrences, providing specific hypothetical origins of glitches suggesting potentially gained knowledge in underlying mechanisms of glitch causes or their appearances in spectograms. If Talk data set 2 has more specific hypotheses about where glitch origins, what are these hypotheses? What is each hypothesis' analytical motivation?
-
-    5. Often citizen scientists will question if issues are specifically related to particular sensors or channels. Are there any emerging questions or thoughts concerning the way particular glitches are connected to sensors or channels in Talk Dataset 2 relative to Talk Dataset 1? If these thoughts or questions exist, what specifically do they describe?
+    Provide a summary of some of the specific kinds of activities that occurred surrounding the sensors that is different for ALOG Dataset 2 relative to Dataset 1.
     """
 
     # Optional: provide a system prompt which tells the bot the context it is responding to.
     sys_prompt = f"""
-    You are a design consultant and research collaborator who translates citizen science forum conversations for the designers of the forum and the Citizen Science project. You also suggest possible research topics related to learning occuring through forum activity.
+    You are a interpreting engineers and physicists conversations surrounding the LIGO laboratories. You are helping a group of citizen scientists understand what is happening at the laboratory such that they can interpret Gravity Spy Glitch issues as quickly as possible. You are providing a summary in plain language that a citizen scientist might understand.
     """
 
     # Required: return user_prompt and all other variables created as inputs for the bot.

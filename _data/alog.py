@@ -2,7 +2,7 @@
 # DOCUMENTATION NOTES : #############################################################################
 # File Author: Alexander O. Smith, aosmith@syr.edu
 # Current Maintainer: Alexander O. Smith, aosmith@syr.edu
-# Last Update: Sept 5, 2024
+# Last Update: Nov 22, 2024
 # Program Goal:
 # This script automates gathering aLOG posts from LIGO to be analyzed for Citizen Scientists
 #####################################################################################################
@@ -76,7 +76,7 @@ def rss_reduce(weeks=2):
                 # Cleaning Report ID
                 rep_id = att_html.find_all("p")[1].text
                 rep_id = re.sub('Report ID: ', '', rep_id)        
-                    
+                
                 # Cleaning Author Email
                 auth = att_html.p.text
                 auth = re.sub('Author: ', '', auth)
