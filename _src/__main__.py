@@ -171,6 +171,7 @@ def load_alog(file_path):
         txt         =   []
         times       =   []
         comment_urls=   []
+        rss_feed    =   []
 
         for row in reader:
 
@@ -209,11 +210,14 @@ def load_alog(file_path):
 
             url = row['entry_url']
             comment_urls.append(url)
+
+            rss_feed.append(row['rss_url'])
         # Generate DataFrame of data necessary for GRAVITYbot interpretation
         text_dat = pd.DataFrame({
             'timestamp'     : times,
             'comment'       : txt,
             'comment_url'   : comment_urls,
+            'rss'           : rss_feed,
         })
         
 
@@ -276,22 +280,30 @@ def main():
     # Set up talkdata and alogdata file names in a list
     talk_dat = [f"_data/{time_deltas['talk_file']}", "aLOG_RSS_deduplicated.csv"]
 
-    # Load Gravity Spy Talk and alog data files
+    # Load Gravity Spy Talk and alog data files and sort alog
     talkload = load_talk(talk_dat[0])
     alogload = load_alog(talk_dat[1])
+
+    #Filtering alog into two datasets
+    lho_alog = "https://alog.ligo-wa.caltech.edu/aLOG/rss-feed.php"
+    llo_alog = "https://alog.ligo-la.caltech.edu/aLOG/rss-feed.php"
+    lho_load = alogload[alogload['rss'] == lho_alog]
+    llo_load = alogload[alogload['rss'] == llo_alog]
 
     # Call segment_by_time function using the automated start-end days.
     talk_dat0 = segment_by_time(talkload, time_deltas['talk_dat0_start'], time_deltas['talk_dat0_end']) # Talk Older week
     talk_dat1 = segment_by_time(talkload, time_deltas['talk_dat1_start'], time_deltas['talk_dat1_end']) # Talk Newer week
-    alog_dat0 = segment_by_time(alogload, time_deltas['talk_dat0_start'], time_deltas['talk_dat0_end']) # Alog Older week
-    alog_dat1 = segment_by_time(alogload, time_deltas['talk_dat1_start'], time_deltas['talk_dat1_end']) # Alog Newer week
+    lho_dat0 = segment_by_time(lho_load, time_deltas['talk_dat0_start'], time_deltas['talk_dat0_end']) # Alog Older week
+    lho_dat1 = segment_by_time(lho_load, time_deltas['talk_dat1_start'], time_deltas['talk_dat1_end']) # Alog Newer week
+    llo_dat0 = segment_by_time(llo_load, time_deltas['talk_dat0_start'], time_deltas['talk_dat0_end']) # Alog Older week
+    llo_dat1 = segment_by_time(llo_load, time_deltas['talk_dat1_start'], time_deltas['talk_dat1_end']) # Alog Newer week
 
     # Call ex_func_prompt_gen from prompts.py 
     talk_prompt = prompts.ligo_prompt(talk_dat0, talk_dat1)
-    alog_prompt = prompts.alog_prompt(alog_dat0, alog_dat1)
+    llo_prompt = prompts.alog_prompt(llo_dat0, llo_dat1)
 
     # Call chatGPT function for Zooniverse Talk summary
-    #gsBot = chat_with_gpt4(talk_prompt[0], talk_prompt[1])
+    gsBot = chat_with_gpt4(talk_prompt[0], talk_prompt[1])
 
     # Sending Email containing Zooniverse Talk summary
     print("Sending Email...")
@@ -303,8 +315,8 @@ def main():
 
     # Call chatGPT function for Alog Forum summary
     #print("Summarizing Alogs")
-    alogBot = chat_with_gpt4(alog_prompt[0], alog_prompt[1])
-    print(alogBot)
+    lloBot = chat_with_gpt4(llo_prompt[0], llo_prompt[1])
+    print(lloBot)
 
     try:
         with open(f'./_output/ZooniverseTalkSummary_{current_day}.md', 'w') as gsBotResp:
@@ -319,7 +331,7 @@ def main():
     except:
         return
     finally:
-        return alogBot
+        return lloBot
      
 gsBotResponse = main()
 

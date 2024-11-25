@@ -135,7 +135,11 @@ def alog_prompt(alog_dat0, alog_dat1):
     Now consider ALOG Dataset 2:
     {alog_dat1}
 
-    Provide a summary of some of the specific kinds of activities that occurred surrounding the sensors that is different for ALOG Dataset 2 relative to Dataset 1.
+    Provide responses for some the specific kinds of activities that are different for ALOG Dataset 2 relative to Dataset 1.
+    
+    1. Are there unresolved issues related to particular sensors? What are they? For each unresolved issue, provide a bullet. Also provide a sentence or two explaining each issue in pedestrian language. Please provide the URL that references back to the relevant ALOG conversation.
+
+    2. Were there alterations to particular sensors? For each unresolved issue, provide a bullet and a sentence or two explaining each issue in pedestrian language. Provide the URLs that reference back ot the relevant ALOG conversation.
     """
 
     # Optional: provide a system prompt which tells the bot the context it is responding to.
