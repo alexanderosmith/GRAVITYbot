@@ -1,5 +1,4 @@
 # Ignore .env file
 .env
-# Ignore project data, metadata, and output files
 _tests
 *.json

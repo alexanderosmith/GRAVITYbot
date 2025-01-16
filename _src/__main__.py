@@ -2,7 +2,7 @@
 # DOCUMENTATION NOTES : #############################################################################
 # File Creator: Alexander O. Smith (2024-present), aosmith@syr.edu
 # Current Maintainer: Alexander O. Smith, aosmith@syr.edu
-# Last Update: Nov 22, 2024
+# Last Update: Nov 28, 2024
 # Program Goal:
 # This file is the main executable Python file of "GRAVITYbot"
 #####################################################################################################
@@ -171,7 +171,8 @@ def load_alog(file_path):
         txt         =   []
         times       =   []
         comment_urls=   []
-        rss_feed    =   []
+        rss_feed    =   []#nltk.download('punkt_tab') #May need to do this for a fresh nltk install
+
 
         for row in reader:
 
@@ -301,9 +302,16 @@ def main():
     # Call ex_func_prompt_gen from prompts.py 
     talk_prompt = prompts.ligo_prompt(talk_dat0, talk_dat1)
     llo_prompt = prompts.alog_prompt(llo_dat0, llo_dat1)
+    lho_prompt = prompts.alog_prompt(lho_dat0, lho_dat1)
 
     # Call chatGPT function for Zooniverse Talk summary
-    gsBot = chat_with_gpt4(talk_prompt[0], talk_prompt[1])
+    try:
+        gsBot = chat_with_gpt4(talk_prompt[0], talk_prompt[1])
+        with open(f'./_output/ZooniverseTalkSummary_{current_day}.md', 'w') as gsBotResp:
+            gsBotResp.write(gsBot)
+            gsBotResp.close()
+    except:
+        print("WARNING: No Zooniverse Talk Summary file saved.")
 
     # Sending Email containing Zooniverse Talk summary
     print("Sending Email...")
@@ -314,24 +322,23 @@ def main():
         print("WARNING: Email failed to send.")
 
     # Call chatGPT function for Alog Forum summary
-    #print("Summarizing Alogs")
-    lloBot = chat_with_gpt4(llo_prompt[0], llo_prompt[1])
-    print(lloBot)
-
+    print("Summarizing Alogs")
     try:
-        with open(f'./_output/ZooniverseTalkSummary_{current_day}.md', 'w') as gsBotResp:
-            print(r"Calling GRAVITYbot...")
-            gsBotResp.write(gsBot)
-            gsBotResp.close()
+        lloBot = chat_with_gpt4(llo_prompt[0], llo_prompt[1])
+        #print(lloBot)
+        with open(f'./_output/LLOaLogForumSummary_{current_day}.md', 'w') as lloBotResp:
+            lloBotResp.write(lloBot)
+            lloBotResp.close()
     except:
-        print("WARNING: No Zooniverse Talk Summary file was saved.")
-    
+        print("WARNING: No LLO aLOG Summary file saved.")
     try:
-        return gsBot
+        lhoBot = chat_with_gpt4(lho_prompt[0], lho_prompt[1])
+        #print(lhoBot)
+        with open(f'./_output/LHOaLogForumSummary_{current_day}.md', 'w') as lhoBotResp:
+            lhoBotResp.write(lhoBot)
+            lhoBotResp.close()
     except:
-        return
-    finally:
-        return lloBot
+        print("WARNING: No LHO aLOG Summary file saved.")
      
 gsBotResponse = main()
 

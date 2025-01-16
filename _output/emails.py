@@ -22,6 +22,7 @@ def talk_email(date, body):
     # Email Subject/Body "Hello There" Email Test
     subject = "GRAVITYbot Talk Summary: " + date
     body = markdown.markdown(body)
+    print(body)
     # TO-DO: Format email here
 
     return subject, body
