@@ -73,7 +73,7 @@ These are the glitch classes we know about. These are not new, however there mig
     - Blip 
     - Chirp 
     - Crown 
-    - Extremely Loud #nltk.download('punkt_tab') #May need to do this for a fresh nltk install
+    - Extremely Loud
     - Helix 
     - Koi Fish 
     - Low-Frequency Line 

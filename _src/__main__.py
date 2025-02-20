@@ -221,7 +221,6 @@ def load_alog(file_path):
             'rss'           : rss_feed,
         })
         
-
     return text_dat
 
 
@@ -269,7 +268,8 @@ def chat_with_gpt4(user_prompt, sys_prompt):
     return response.choices[0].message.content
 
 # Main Function: Calls all previous functions for a user specified time frame
-def main():    
+def main():
+
     # Retrieve most updated talk and alog data
     alogdata = alog.main()
     print("LIGO Alog Forum Data Request Complete")
