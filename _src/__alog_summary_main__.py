@@ -191,18 +191,23 @@ def main():
     # Call segment_by_time function using the automated start-end days.
     lho_dat0 = segment_by_time(lho_load, time_deltas['talk_dat0_start'], time_deltas['talk_dat0_end']) # Alog Older week
     lho_dat1 = segment_by_time(lho_load, time_deltas['talk_dat1_start'], time_deltas['talk_dat1_end']) # Alog Newer week
+    print(f'LHO: first dataset is {str(len(lho_dat0))} strings long and the second is {str(len(lho_dat1))}.')
+
     llo_dat0 = segment_by_time(llo_load, time_deltas['talk_dat0_start'], time_deltas['talk_dat0_end']) # Alog Older week
     llo_dat1 = segment_by_time(llo_load, time_deltas['talk_dat1_start'], time_deltas['talk_dat1_end']) # Alog Newer week
+    print(f'LLO: first dataset is {str(len(llo_dat0))} strings long and the second is {str(len(llo_dat1))}.')
 
     # Call ex_func_prompt_gen from prompts.py 
     llo_prompt = prompts.alog_prompt(llo_dat0, llo_dat1)
     lho_prompt = prompts.alog_prompt(lho_dat0, lho_dat1)
 
+    current_day = datetime.now(timezone.utc).strftime('%Y-%m-%d')
+
     # Call chatGPT function for Alog Forum summary
     print("Summarizing Alogs")
+
     try:
         lloBot = chat_with_gpt4(llo_prompt[0], llo_prompt[1])
-        #print(lloBot)
         with open(f'./_output/LLOaLogForumSummary_{current_day}.md', 'w') as lloBotResp:
             lloBotResp.write(lloBot)
             lloBotResp.close()
@@ -210,7 +215,6 @@ def main():
         print("WARNING: No LLO aLOG Summary file saved.")
     try:
         lhoBot = chat_with_gpt4(lho_prompt[0], lho_prompt[1])
-        #print(lhoBot)
         with open(f'./_output/LHOaLogForumSummary_{current_day}.md', 'w') as lhoBotResp:
             lhoBotResp.write(lhoBot)
             lhoBotResp.close()
