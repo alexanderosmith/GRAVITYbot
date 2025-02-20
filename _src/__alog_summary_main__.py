@@ -38,53 +38,19 @@ def start_end_dates():
     
     # Today's date
     current_date = datetime.now(timezone.utc)
-    # Set talk_file to a 0 length string for the while loop
-    talk_file = ''
-    count = 1
-    # While loop searches until length of talk_file >= 1 OR
-    # it will stop after 1000 iterations (= 10000 days prior current date)
-    while len(talk_file) < 1:
-        # Set all dates relative to "current_time"
-        talk_dat1_start = current_date - timedelta(days=7)
-        talk_dat0_end = talk_dat1_start - timedelta(days=1)
-        talk_dat0_start = talk_dat0_end - timedelta(days=7)
-        
-        # Convert all the dates to strings formatted as the Talk file name conventions.
-        talk_dat1_start = talk_dat1_start.strftime('%Y-%m-%d')
-        talk_dat0_end = talk_dat0_end.strftime('%Y-%m-%d')
-        talk_dat0_start = talk_dat0_start.strftime('%Y-%m-%d')
-        talk_dat1_end = current_date.strftime('%Y-%m-%d')
-        print(f'Checking for file date: {talk_dat1_end}')
 
-        # Search _data directory for the most recent file, based on "current_date"
-        file_search = os.listdir('_data/')
-        for f in file_search:
-            if re.match(f'project-1104-comments_{talk_dat1_end}.csv', f):
-                talk_file = f
-                print(
-                f"""
-NOTICE: Talk file "{talk_file}" found! 
-    Generating date range for summary...\n
-                """
-                )
+    talk_dat1_start = current_date - timedelta(days=3)
+    talk_dat0_end = talk_dat1_start - timedelta(days=1)
+    talk_dat0_start = talk_dat0_end - timedelta(days=3)
 
-        # If the earliest date searched in Talk data is older than Zooniverse, stop.
-        if talk_dat0_start == '2009-12-12':
-            print("""
-DATA ISSUE: It appears current Talk Data needs to be imported to the _data directory.\n
-TROUBLESHOOTING SUGGESTIONS:
-    1. Make sure __main__.main() is running load_text(file_path) with the expected talk data file path.
-    2. Make sure the proper panoptes credentials are configured in the .env file.
-    3. Ask the Zooniverse project owner for proper panoptes credentials rights to download data.
-    4. Check whether the Zooniverse "slug" in dotenv is correct.
-    5. Troubleshoot talk_data.py.
-            """)
-            break
+    # Convert all the dates to strings formatted as the Talk file name conventions.
+    talk_dat1_start = talk_dat1_start.strftime('%Y-%m-%d')
+    talk_dat0_end = talk_dat0_end.strftime('%Y-%m-%d')
+    talk_dat0_start = talk_dat0_start.strftime('%Y-%m-%d')
+    talk_dat1_end = current_date.strftime('%Y-%m-%d')
+    print(f'Checking for file date: {talk_dat1_end}')
 
-        current_date -= timedelta(days=1)
-        #print(f'Attempting to find a file for date {current_date}')
     return {
-        'talk_file'         :   talk_file, 
         'talk_dat1_start'   :   talk_dat1_start, 
         'talk_dat1_end'     :   talk_dat1_end, 
         'talk_dat0_start'   :   talk_dat0_start, 
@@ -104,7 +70,7 @@ def load_alog(file_path):
         txt         =   []
         times       =   []
         comment_urls=   []
-        rss_feed    =   []#nltk.download('punkt_tab') #May need to do this for a fresh nltk install
+        rss_feed    =   []
 
 
         for row in reader:

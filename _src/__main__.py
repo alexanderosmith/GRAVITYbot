@@ -37,9 +37,10 @@ import prompts, talk_data, alog, emails
 # Produces start and end dates for the most recent two weeks of Talk data.
 def start_end_dates():
     print('Loading the most recent Talk forum data...')
+    
     # Today's date
-    #current_date = datetime.utcnow()
     current_date = datetime.now(timezone.utc)
+    
     # Set talk_file to a 0 length string for the while loop
     talk_file = ''
     count = 1
@@ -171,8 +172,7 @@ def load_alog(file_path):
         txt         =   []
         times       =   []
         comment_urls=   []
-        rss_feed    =   []#nltk.download('punkt_tab') #May need to do this for a fresh nltk install
-
+        rss_feed    =   []
 
         for row in reader:
 
