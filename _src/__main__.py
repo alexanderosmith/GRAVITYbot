@@ -293,7 +293,7 @@ def main():
 
     # Call segment_by_time function using the automated start-end days.
     talk_dat0 = segment_by_time(talkload, time_deltas['talk_dat0_start'], time_deltas['talk_dat0_end']) # Talk Older week
-    talk_dat1 = segment_by_time(talkload, time_deltas['talk_dat1_start'], time_deltas['talk_dat1_end']) # Talk Newer week
+    talk_dat1 = segme/home/aosmith/Documents/teaching/Spring2025_736_TextMining/ExampleCode/Old_Examples/Fall2023-chatGPT-api-single-prompt.ipynbnt_by_time(talkload, time_deltas['talk_dat1_start'], time_deltas['talk_dat1_end']) # Talk Newer week
     lho_dat0 = segment_by_time(lho_load, time_deltas['talk_dat0_start'], time_deltas['talk_dat0_end']) # Alog Older week
     lho_dat1 = segment_by_time(lho_load, time_deltas['talk_dat1_start'], time_deltas['talk_dat1_end']) # Alog Newer week
     llo_dat0 = segment_by_time(llo_load, time_deltas['talk_dat0_start'], time_deltas['talk_dat0_end']) # Alog Older week

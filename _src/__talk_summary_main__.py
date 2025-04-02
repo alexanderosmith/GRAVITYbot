@@ -30,7 +30,6 @@ import prompts, talk_data, emails
 # 2. segment_by_time    :   limits talk data to those within particular dates
 
 
-
 # Produces start and end dates for the most recent two weeks of Talk data.
 def start_end_dates():
     print('Loading the most recent Talk forum data...')
@@ -80,7 +79,7 @@ TROUBLESHOOTING SUGGESTIONS:
             break
 
         current_date -= timedelta(days=1)
-        #print(f'Attempting to find a file for date {current_date}')
+
     return {
         'talk_file'         :   talk_file, 
         'talk_dat1_start'   :   talk_dat1_start, 
@@ -135,7 +134,6 @@ def load_talk(file_path):
             text = re.sub(r'[0-9]+\s', ' ', text)
             text = re.sub(r'[a-z][0-9]+', ' ', text)
             text = re.sub(r'\s+', ' ', text)
-            #print(text)
             txt.append(text)
             # Building Comment URLs to "cite" when GRAVITYbot needs to reference a comment
             board = str(row['board_id'])+'/'
@@ -170,7 +168,6 @@ def segment_by_time(text_dat, start_date, end_date):
     gpt_talk_str = re.sub(r'\s+', ' ', gpt_talk_str)
     
     return gpt_talk_str
-
 
 def chat_with_gpt4(user_prompt, sys_prompt):
     _ = load_dotenv(find_dotenv())
@@ -213,6 +210,8 @@ def main():
     talk_dat0 = segment_by_time(talkload, time_deltas['talk_dat0_start'], time_deltas['talk_dat0_end']) # Talk Older week
     talk_dat1 = segment_by_time(talkload, time_deltas['talk_dat1_start'], time_deltas['talk_dat1_end']) # Talk Newer week
     
+    current_day = datetime.now(timezone.utc).strftime('%Y-%m-%d')
+
     # Call ex_func_prompt_gen from prompts.py 
     talk_prompt = prompts.ligo_prompt(talk_dat0, talk_dat1)
 
@@ -227,11 +226,9 @@ def main():
 
     # Sending Email containing Zooniverse Talk summary
     print("Sending Email...")
-    current_day = datetime.now(timezone.utc).strftime('%Y-%m-%d')
     try:
         email = emails.main(date = current_day, body = gsBot)
     except:
         print("WARNING: Email failed to send.")
-
      
 gsBotResponse = main()

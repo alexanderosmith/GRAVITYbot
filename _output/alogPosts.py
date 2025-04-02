@@ -1,47 +1,64 @@
+#####################################################################################################
+# DOCUMENTATION NOTES : #############################################################################
+# File Creator: Alexander O. Smith (2025-present), aosmith@syr.edu
+# Current Maintainer: Alexander O. Smith, aosmith@syr.edu
+# Last Update: April 2, 2025
+# Program Goal:
+# This file posts the aLOG summary "GRAVITYbot"
+#####################################################################################################
+#####################################################################################################
+# DEPENDENCIES ######################################################################################
+# Package Dependencies
 import os, sys, requests
-from datetime import datetime
-from panoptes_client import Panoptes
 from dotenv import find_dotenv, load_dotenv
-
-# Once Panoptes is connected, load the Bearer Token
+from panoptes_client.panoptes import Talk, Panoptes
+#####################################################################################################
+# Getting dotenv credentials necessary to send the message.
 _ = load_dotenv(find_dotenv())
-user = os.environ.get("PANOPTES_USER")
-pswd = os.environ.get("PANOPTES_PASS")
-Panoptes.connect(username=user, password=pswd)
-token = os.environ.get("PANOPTES_BEARER_TOKEN")
+username = os.environ.get("PANOPTES_USER")
+password = os.environ.get("PANOPTES_PASS")
+Panoptes.connect(username=username, password=password)
+user_id = os.environ.get("PANOPTES_ID") #os.environ.get("PANOPTES_USER")
+#####################################################################################################
+# Build the message 
+talk = Talk()
+# This needs to be generated and updated to whatever the discussion ID is, 
+# It is at the end of the URL of the discussion post
+discussion_id = 3633195
 
-# If you’ve set up OAuth credentials or have them stored, you can also manually set a token. The above approach works for a straightforward login scenario.
+# Message to post
+body = "This is an aLOG hello world"
 
-#Post a Comment to Talk Using requests:
+payload = { 'comments': {
+                         'user_id': user_id, 'discussion_id': discussion_id, 'body': body
+               }}
 
-# Once you have a valid token from the above steps, you can make a POST request to the Talk API. In this example, we’ll assume you know the discussion_id and want to post a new comment.
+# Posting the message
+talk.http_post('comments', json=payload)
 
-# Base URL for the Talk API
-TALK_API_BASE = "https://www.zooniverse.org/projects/zooniverse/gravity-spy/talk/"
 
-# Example discussion_id you want to post to (ask Kevin to create the discussion id?)
-discussion_id = 329
-current_time = f"{datetime.now()}"
-# JSON payload for your new comment
-payload = {
-    "comment": {
-        "discussion_id": discussion_id,
-        "body": f"test post: {current_time}"
-    }
-}
-
-headers = {
-    "Content-Type": "application/json",
-    "Authorization": f"Bearer {token}"
-}
-
-# Send the POST request
-response = requests.post(f"{TALK_API_BASE}/comments", json=payload, headers=headers)
-
-if response.status_code == 201:
-    data = response.json()
-    print("Comment posted successfully!")
-    print("Response data:", data)
-else:
-    print("Failed to post comment. Status code:", response.status_code)
-    print("Response:", response.text)
+#####################################################################################################
+# From Laura and Cliff:
+#
+# from panoptes_client.panoptes import Talk
+# talk = Talk()
+# user_id = USER_ID_TO_POST_COMMENT
+# discussion_id = ID_OF_DISCUSSION_THREAD
+# body = POST CONTENT
+# payload = { 'comments': {
+#                        'user_id': user_id, 'discussion_id': discussion_id, 'body': body
+#                }}
+# 
+# talk.http_post('comments', json=payload)
+# 
+# Notice your user_id =/= your username. 
+# You can map a login to a user_id using the User.where() function:
+# from panoptes_client import User
+# user = next(User.where(login='your-user-name'))
+# print(user.id)
+#
+# You need to login so that the Client can pass along the appropriate API token as part of the request. Following the Client documentation (see https://panoptes-python-client.readthedocs.io/en/latest/user_guide.html#usage-examples), add the following login command at the beginning of the script:
+#
+# Note: to keep credentials out of script and logs, you could use the following alternatives:
+#a) Panoptes.connect(login='interactive') # command will prompt for username and/or password
+#b) Set PANOPTES_USERNAME and PANOPTES_PASSWORD environment variables that would be accessible via os.environ.get() call.

@@ -3,7 +3,7 @@
 # File Creator:         Alexander O. Smith, aosmith@syr.edu
 # Current Maintainer:   Alexander O. Smith, aosmith@syr.edu
 # Past Maintainers:     Alexander O. Smith (6/05/2024-present)
-# Last Update:          July 25, 2024
+# Last Update:          April 01, 2025
 # Program Goal:
 # This file is designed to access "Talk" comments from through the Zooniverse API, Panoptes
 #####################################################################################################
@@ -44,20 +44,22 @@ def get_talk_dat(slug):
     # Getting the EXPORT URL: generates talk export and retrieves it
     try:
         #talk_gen = Project(proj_id).generate_export('talk_comments')
-        talk_export = Project(proj_id).get_export(export_type='talk_comments', generate=True, wait=False)
+        #talk_export = Project(proj_id).get_export(export_type='talk_comments', generate=True, wait=False)
+        talk_gen = Project(proj_id).get_export(export_type='talk_comments', generate=True, wait=False)
         talk_describe = Project(proj_id).describe_export('talk_comments')
         talk_url = talk_describe['data_requests'][0]['url']
         print(f'Expected Data URL, talk_url: {talk_url}')
 
     except:
-        #talk_gen = Project(proj_id).generate_export('talk_comments')
-        #talk_export = Project(proj_id).get_export(export_type='talk_comments', generate=True)
+        talk_gen = Project(proj_id).generate_export('talk_comments')
+        talk_export = Project(proj_id).get_export(export_type='talk_comments')#, generate=True)
         talk_describe = Project(proj_id).describe_export('talk_comments')
+        #print(talk_describe)
         talk_url = talk_describe['data_requests'][0]['url']
-        print(f'Expected Data URL, talk_url: {talk_url}')
+        print(f'Talk_url: {talk_url}')
 
     # Tarfile URL location in talk_describe dictionary object
-    talk_url = talk_describe['data_requests'][0]['url']
+    #talk_url = talk_describe['data_requests'][0]['url']
     if talk_url == None:
         return print(
             f"""
@@ -81,7 +83,7 @@ def get_talk_dat(slug):
         except:
             print(f'File {str(file)} is not from the current date, {date}.')
 
-    return print(talk_url)
+    return talk_url
     
 
 def main():

@@ -4,13 +4,18 @@ A LLM bot which summarizes the forum pages for the citizen science project [Grav
 
 ## Description:
 
-GRAVITYbot summarizes the ["Talk" pages](https://www.zooniverse.org/projects/zooniverse/gravity-spy/talk) of Gravity Spy, a citizen science project which classifies glitches occuring through The Laser Interferometer Gravitational-Wave Observatory (LIGO) laser interferometer sensor data. As such, it is a science communication bot with multiple uses.
+GRAVITYbot 
+
+1. Summarizes ["Talk" forum pages](https://www.zooniverse.org/projects/zooniverse/gravity-spy/talk) of Gravity Spy
+2. Summarizes [aLOGs forum posts](https://alog.ligo-la.caltech.edu/aLOG/) of LIGO's LLO and LHO lab locations
+
+Gravity Spy is a citizen science project which classifies glitches occuring through The Laser Interferometer Gravitational-Wave Observatory (LIGO) laser interferometer sensor data. As such this project aims to summarize citizen science communication and day-to-day science and engineering updates on a lab site. The objective of this is for more streamlined communication between distributed citizen scientists and the LIGO scientists about classification issues surrounding gravitational wave data.
 
 The primary tasks it aims to accomplish are:
 
 1. Summarizing Talk pages for LIGO scientists.
 2. Summarizing Talk pages for citizen science.
-3. Logging dynamics of citizen science learning through weekly updates.
+3. Logging dynamics of citizen science learning through automated weekly or subweekly updates.
 
 Possible future tasks it might be applied to are:
 
@@ -53,3 +58,8 @@ This project is licensed under an MIT "Expat" License. See the LICENSE.md file f
 We begin by acknowledging with respect the Onondaga Nation, Central Fire of the Haudenosaunee Confederacy, on whose ancestral lands Syracuse now inhabits. We are mindful that the technology that makes this project possible comes from the mineral extraction by multinational corporations, which decimate and displace Indigenous people and their land all over the world.
 
 Additionally, Alexander would like to thank Gabriel Davila - Campos and Una Joh for advice and initial guidance in development. 
+
+## Possible Backlog Tasks:
+
+- Better logging for debugging
+- Automating posts to Zooniverse Project Talk forums or the wiki.

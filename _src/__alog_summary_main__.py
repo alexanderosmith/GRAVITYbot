@@ -201,11 +201,9 @@ def main():
     llo_prompt = prompts.alog_prompt(llo_dat0, llo_dat1)
     lho_prompt = prompts.alog_prompt(lho_dat0, lho_dat1)
 
-    current_day = datetime.now(timezone.utc).strftime('%Y-%m-%d')
-
-    # Call chatGPT function for Alog Forum summary
     print("Summarizing Alogs")
-
+    # Call chatGPT function for ALOG Forum summaries and save them to MD files
+    current_day = datetime.now(timezone.utc).strftime('%Y-%m-%d')
     try:
         lloBot = chat_with_gpt4(llo_prompt[0], llo_prompt[1])
         with open(f'./_output/LLOaLogForumSummary_{current_day}.md', 'w') as lloBotResp:
