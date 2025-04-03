@@ -226,9 +226,9 @@ def main():
 
     # Sending Email containing Zooniverse Talk summary
     print("Sending Email...")
-    try:
-        email = emails.main(date = current_day, body = gsBot)
-    except:
-        print("WARNING: Email failed to send.")
+    #try:
+    email = emails.main(date = current_day, body = gsBot)
+    #except:
+    #    print("WARNING: Email failed to send.")
      
 gsBotResponse = main()

@@ -16,16 +16,16 @@
 from dotenv import find_dotenv, load_dotenv     # Loading env file
 import os, smtplib, ssl                         # OS and server/mail protocol libraries
 from email.mime.text import MIMEText            # Email Formatting
-import markdown
 
 def talk_email(date, body):
     # Email Subject/Body "Hello There" Email Test
     subject = "GRAVITYbot Talk Summary: " + date
-    body = markdown.markdown(body)
+    md_body = body
+    
     #print(body)
     # TO-DO: Format email here
 
-    return subject, body
+    return subject, md_body
 
 # A function that sends email
 def send_email(subject, body):
@@ -41,7 +41,7 @@ def send_email(subject, body):
     MSG_BODY = body
     MSG_SUBJECT = subject
 
-    msg = MIMEText(MSG_BODY,  'html')
+    msg = MIMEText(MSG_BODY,  'plain')
     msg['Subject'] = MSG_SUBJECT
     msg['From'] = MSG_FROM
     msg['To'] = MSG_TO

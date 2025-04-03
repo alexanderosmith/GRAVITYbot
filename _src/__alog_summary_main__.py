@@ -20,7 +20,7 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from dotenv import find_dotenv, load_dotenv
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../_data')))
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../_output')))
-import prompts, alog, emails
+import prompts, alog, emails, alogPosts
 
 # Example of how to import a prompt from prompts py file.
 #####################################################################################################
@@ -218,5 +218,6 @@ def main():
             lhoBotResp.close()
     except:
         print("WARNING: No LHO aLOG Summary file saved.")
+    alogPosts.alog_discussion_post(current_day)
      
 gsBotResponse = main()
