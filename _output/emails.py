@@ -2,7 +2,7 @@
 # DOCUMENTATION NOTES : #############################################################################
 # File Creator: Alexander O. Smith (2024-present), aosmith@syr.edu
 # Current Maintainer: Alexander O. Smith, aosmith@syr.edu
-# Last Update: April 01, 2025
+# Last Update: April 02, 2025
 # Program Goal:
 # This file sends emails and automates posts to forums that are returned from GRAVITYbot summaries.
 #####################################################################################################
@@ -58,4 +58,3 @@ def main(date, body):
     send = send_email(email[0], email[1])
 
 # To Do: #############################################################################################
-# 1. Clean up emails so that they indent properly or find another way to format the emails. 
