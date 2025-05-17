@@ -1,0 +1,9 @@
+1. **Unresolved Issues Related to Particular Sensors in ALOG Dataset 2:**
+   - **ITMY UIM UR High Frequency Noise:** There have been ongoing efforts to understand the source of high frequency noise detected in the ITMY Upper Intermediate Mass (UIM) Upper Right (UR) sensor. Debugging includes checking connections, swapping components, and analyzing noise patterns, but the issue seems intermittent and ongoing monitoring is required. This issue may affect the quality and reliability of data collected by this sensor. 
+     [76301](https://alog.ligo-la.caltech.edu/aLOG/index.php?callRep=76301)
+
+2. **Alterations to Particular Sensors in ALOG Dataset 2:**
+   - **Swapping and Debugging of ITMX BS and ITMY Suspensions ISI:** During debugging efforts, field cables between the Ultra High Vacuum (UHV) stage and Mirror stage were swapped and various components like Satellite Amplifiers (SatAmp) and Anti-Aliasing (AA) chassis were replaced or reconnected. Although the noise issue was initially followed by electronics, it disappeared after reconnection, suggesting a possible loose connection or similar minor issue that was rectified during the process. This sequence of actions was critical in ensuring the precision alignment and functioning of these sensors, directly impacting the sensitivity and accuracy of LIGO's measurements.
+     [76301](https://alog.ligo-la.caltech.edu/aLOG/index.php?callRep=76301) 
+
+Both of these cases in ALOG Dataset 2 highlight the meticulous and continuous efforts of the LIGO team to maintain and enhance the sensor systems vital for the detection of gravitational waves. The ongoing debugging and alterations are crucial for ensuring that the data collected is as accurate and reliable as possible.
