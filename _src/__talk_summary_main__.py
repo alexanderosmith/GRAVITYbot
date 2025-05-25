@@ -111,10 +111,7 @@ def clean_comments(text):
 def load_talk(file_path):
     talk_url = 'https://www.zooniverse.org/projects/zooniverse/gravity-spy/talk/'
 
-    # Probably rewrite with pandas to be a little more straightforward...
-    #with open(file_path, encoding='utf-8') as file:
-    #    reader = csv.DictReader(file)
-    #    reader
+    # Import CSV of Talk as Pandas DataFrame
     reader = pd.read_csv(file_path, encoding='utf8')
     
     # Drop rows with board_ids associated with GRAVITYbot: 6872, 6946, 6945
