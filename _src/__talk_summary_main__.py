@@ -94,6 +94,12 @@ def load_talk(file_path):
 
     with open(file_path, encoding='utf-8') as file:
         reader = csv.DictReader(file)
+        
+        
+        drop = [6872, 6946, 6945] # This will reduce the risk of circular summaries
+        reader = reader[reader.board_id != drop ]
+        
+        
         # Define the Universal timezone
         utc = pytz.UTC
 
