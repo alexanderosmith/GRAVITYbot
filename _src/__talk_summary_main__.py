@@ -2,7 +2,7 @@
 # DOCUMENTATION NOTES : #############################################################################
 # File Creator: Alexander O. Smith (2024-present), aosmith@syr.edu
 # Current Maintainer: Alexander O. Smith, aosmith@syr.edu
-# Last Update: April 2, 2025
+# Last Update: May 25, 2025
 # Program Goal:
 # This file is the main talk summary executable Python file of "GRAVITYbot"
 #####################################################################################################
@@ -26,8 +26,9 @@ import prompts, talk_data, emails
 #####################################################################################################
 # Functions #########################################################################################
 # 0. start_end_dates    :   produces two adjacent weeks spans
-# 1. load_talk          :   loads talk data
-# 2. segment_by_time    :   limits talk data to those within particular dates
+# 1. clean_comments     :   adds all regex cleaning for talk data into one function
+# 2. load_talk          :   loads talk data and cleans it
+# 3. segment_by_time    :   limits talk data to those within particular dates
 
 
 # Produces start and end dates for the most recent two weeks of Talk data.
@@ -88,8 +89,8 @@ TROUBLESHOOTING SUGGESTIONS:
         'talk_dat0_end'     :   talk_dat0_end 
     }
 
+# Function: All regex cleaning for Talk Comments added to one function
 def clean_comments(text):
-    # If text is missing or not a string, return empty string (or handle as you like)
     text = re.sub('This comment has been deleted', '', text)
     text = re.sub(r'https.*\s', ' ', text)
     text = re.sub(r'@\w+', ' ', text)
@@ -122,7 +123,6 @@ def load_talk(file_path):
         
     # Define the Universal timezone
     utc = pytz.UTC
-
 
     timestamp = reader['comment_created_at']
     times = pd.to_datetime(timestamp, utc=True, format='mixed', errors='raise')
@@ -182,7 +182,6 @@ def chat_with_gpt4(user_prompt, sys_prompt):
     return response.choices[0].message.content
 
 def main():
-
     # Get Talk Data from Panoptes API
     #talkdata = talk_data.main()
     print("GravitySpy Talk Forum Data Request Complete")
