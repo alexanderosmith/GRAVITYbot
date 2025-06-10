@@ -121,7 +121,7 @@ def load_talk(file_path):
     gb_id = os.environ.get("PANOPTES_ID")
 
     # NOTICE: these could be added to the dotenv file to automate them rather than hardcode them
-    # Drop rows with board_ids associated with GRAVITYbot: 6872, 6946, 6945
+    # If there are any Boards that shouldn't be summarized, add them to the list
     drop_board = [6872] # This will reduce the risk of circular summaries
     # drop all rows with these board_ids
     reader = reader[reader.board_id.isin(drop_board) == False]
@@ -210,18 +210,18 @@ def main():
     talk_prompt = prompts.ligo_prompt(talk_dat0, talk_dat1)
 
     # Call chatGPT function for Zooniverse Talk summary
-    try:
-        gsBot = chat_with_gpt4(talk_prompt[0], talk_prompt[1])
-        with open(f'./_output/ZooniverseTalkSummary_{current_day}.md', 'w') as gsBotResp:
-            gsBotResp.write(gsBot)
-            gsBotResp.close()
-    except:
-        print("WARNING: No Zooniverse Talk Summary file saved.")
+    #try:
+    gsBot = chat_with_gpt4(talk_prompt[0], talk_prompt[1])
+    with open(f'./_output/ZooniverseTalkSummary_{current_day}.md', 'w') as gsBotResp:
+        gsBotResp.write(gsBot)
+        gsBotResp.close()
+    #except:
+    #    print("WARNING: No Zooniverse Talk Summary file saved.")
 
     # Sending Email containing Zooniverse Talk summary
     print("Sending Email...")
     #try:
-    email = emails.main(date = current_day, body = gsBot)
+    email = emails.main(date = current_day, body = gsBotResp)
     #except:
     #    print("WARNING: Email failed to send.")
      
