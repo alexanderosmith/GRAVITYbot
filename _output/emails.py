@@ -2,7 +2,7 @@
 # DOCUMENTATION NOTES : #############################################################################
 # File Creator: Alexander O. Smith (2024-present), aosmith@syr.edu
 # Current Maintainer: Alexander O. Smith, aosmith@syr.edu
-# Last Update: May 22, 2025
+# Last Update: June 10, 2025
 # Program Goal:
 # This file sends emails and automates posts to forums that are returned from GRAVITYbot summaries.
 #####################################################################################################
@@ -15,15 +15,12 @@
 # Package Dependencies
 from dotenv import find_dotenv, load_dotenv     # Loading env file
 from panoptes_client.panoptes import Talk, Panoptes
-import os, smtplib, ssl                         # OS and server/mail protocol libraries
+import os, smtplib, ssl, markdown               # OS and server/mail protocol libraries
 from email.mime.text import MIMEText            # Email Formatting
 from email.mime.multipart import MIMEMultipart
 from email.message import EmailMessage
 
-
-import markdown
 # Getting dotenv credentials necessary to send the message.
-
 _ = load_dotenv(find_dotenv())
 username = os.environ.get("PANOPTES_USER")
 password = os.environ.get("PANOPTES_PASS")
@@ -34,12 +31,11 @@ def talk_email(date):
     subject = "GRAVITYbot Talk Summary: " + date
     with open(f"./_output/ZooniverseTalkSummary_{date}.md", "r") as md:
         text = md.read()
-        html = markdown.markdown(text, extensions=['fenced_code', 'codehilite', 'extra', 'sane_lists', 'nl2br'])
-    #print(md_body)
-    #html_body = markdown.markdown(text)
-
+        html = markdown.markdown(
+            text, 
+            extensions=['fenced_code', 'codehilite', 'extra', 'sane_lists', 'nl2br']
+            )
     # TO-DO: Format email here
-
     return subject, html, text
 
 # A function that sends email
@@ -62,8 +58,6 @@ def send_email(subject, html, text):
     msg['To'] = MSG_TO
     msg.set_content(text)  # plain text fallback
     msg.add_alternative(html, subtype='html')
-
-
     
     server = smtplib.SMTP(SMTP_HOST, SMTP_PORT)
     server.starttls()
@@ -81,9 +75,7 @@ def talk_board_post(current_day, username=username, password=password):
     # It is at the end of the URL of the discussion post
     board_id = 6872
 
-
     # Read the Markdown file
-    #try: #ZooniverseTalkSummary_2025-05-22
     with open(f'_output/ZooniverseTalkSummary_{current_day}.md', 'r', encoding='utf-8') as file:
         talk_sum = file.readlines()
     
@@ -107,11 +99,6 @@ def talk_board_post(current_day, username=username, password=password):
     # Posting the message
     talk.http_post('discussions', json=payload)
     
-    #except:
-    #    print(f'There is no Talk file affiliated with {current_day}.')
-
-
-
 def main(date, body):
     email = talk_email(date)
     send = send_email(email[0], email[1], email[2])

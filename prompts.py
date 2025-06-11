@@ -73,7 +73,7 @@ def ligo_prompt(talk_dat0, talk_dat1):
     Now consider "this week's" forum data:
     {talk_dat1}
 
-    Using these two sets of data, please provide at least three bullet points to answer the following questions. Each bullet point requires a couple of sentences of response. For each major question please provide all relevant URLs in the final bullet for that major question following this format: [3685209](https://www.zooniverse.org/projects/zooniverse/gravity-spy/talk/6872/3685209) and format such that they open in a new tab.
+    Using these two sets of data, please provide at least three bullet points to answer the following questions. Each bullet point requires a couple of sentences of response. For each major question please provide all relevant URLs in the final bullet for that major question following this format: [Reference Information](https://www.zooniverse.org/projects/zooniverse/gravity-spy/talk/6872/3685209) where "Reference Information" should be a description of 3 words or less.
     
     I want a structured outline of of what occurred in "this week's" forum data relative to "last week's" focusing on the following concerns:
     
@@ -103,7 +103,7 @@ def ligo_prompt(talk_dat0, talk_dat1):
 
     # Optional: provide a system prompt which tells the bot the context it is responding to.
     sys_prompt = f"""
-    You are a technical interpreter who translates citizen science forum conversations for physicists and engineers who have very little time. As such, you are to provide your responses in as concise a way as possible with all relevant technical or descriptive detail. Format all relevant hyperlinks without hashtags following this format:  [3685209](https://www.zooniverse.org/projects/zooniverse/gravity-spy/talk/6872/3685209) and formatted such that they open in a new tab.
+    You are a technical interpreter who translates citizen science forum conversations for physicists and engineers who have very little time. As such, you are to provide your responses in as concise a way as possible with all relevant technical or descriptive detail. Format all relevant hyperlinks without hashtags following this format:  [Reference Information](https://www.zooniverse.org/projects/zooniverse/gravity-spy/talk/6872/3685209) where "Reference Information" should be a description of 3 words or less.
     """
 
     # Required: return user_prompt and all other variables created as inputs for the bot.
@@ -113,7 +113,7 @@ def ligo_prompt(talk_dat0, talk_dat1):
 def alog_prompt(alog_dat0, alog_dat1):
     # Required: provide a user prompt variable which takes the text data
     user_prompt = f"""
-    The data involve discussions surrounding LIGO laboratory equipment. The data originally were in a dataframe of two columns. The first column was the "comment" text and the second was the "URL" affiliated with the comment. After each comment has been formatted such that it is followed by its URL. Format all URLs without hashtags following this format: [75875](https://alog.ligo-la.caltech.edu/aLOG/index.php?callRep=75875), and format them such that they open in a new tab.
+    The data involve discussions surrounding LIGO laboratory equipment. The data originally were in a dataframe of two columns. The first column was the "comment" text and the second was the "URL" affiliated with the comment. After each comment has been formatted such that it is followed by its URL. Format all URLs without hashtags following this format: [Reference Information](https://alog.ligo-la.caltech.edu/aLOG/index.php?callRep=75875), where "Reference Information" should be a description of 3 words or less.
 
     Many of the acronyms relate to channels in LIGO sensors or other processes surrounding LIGO. Translate these acronyms to full words from the LIGO Abbreviations and Acronyms list.
 
@@ -134,7 +134,7 @@ def alog_prompt(alog_dat0, alog_dat1):
 
     # Optional: provide a system prompt which tells the bot the context it is responding to.
     sys_prompt = f"""
-    You are a LIGO scientist tasked with summarizing aLOG conversations for citizen scientists. The important conversations are about relevant engineering changes or events which may create glitches in gravitational wave data. Your goal is to help citizen scientists understand laboratory issues that will enable them to interpret Gravity Spy Glitch issues quickly. Use clear, simple language and avoid technical jargon to ensure accessibility. Translate acronyms to full words based upon LIGO Abbreviations and Acronyms whenever possible.  Structure the summary logically, highlighting common or recent issues, and maintain a neutral, informative tone.  Format all relevant hyperlinks without hashtags following this format:  [75875](https://alog.ligo-la.caltech.edu/aLOG/index.php?callRep=75875) and format them such that they open in a new tab.
+    You are a LIGO scientist tasked with summarizing aLOG conversations for citizen scientists. The important conversations are about relevant engineering changes or events which may create glitches in gravitational wave data. Your goal is to help citizen scientists understand laboratory issues that will enable them to interpret Gravity Spy Glitch issues quickly. Use clear, simple language and avoid technical jargon to ensure accessibility. Translate acronyms to full words based upon LIGO Abbreviations and Acronyms whenever possible.  Structure the summary logically, highlighting common or recent issues, and maintain a neutral, informative tone.  Format all relevant hyperlinks without hashtags following this format:  [Reference Information](https://alog.ligo-la.caltech.edu/aLOG/index.php?callRep=75875).
     """
 
     # Required: return user_prompt and all other variables created as inputs for the bot.
