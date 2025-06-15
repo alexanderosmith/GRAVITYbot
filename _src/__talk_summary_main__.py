@@ -29,6 +29,7 @@ import prompts, talk_data, emails
 # 1. clean_comments     :   adds all regex cleaning for talk data into one function
 # 2. load_talk          :   loads talk data and cleans it
 # 3. segment_by_time    :   limits talk data to those within particular dates
+# 4. gBot_talk_data     :   produces the Talk discussion exclusively dedicated to GRAVITYbot 
 
 # Produces start and end dates for the most recent two weeks of Talk data.
 def start_end_dates(current_day):

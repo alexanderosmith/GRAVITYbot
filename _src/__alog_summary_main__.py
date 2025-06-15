@@ -205,14 +205,14 @@ def main():
     # Call chatGPT function for aLOG Forum summaries and save them to MD files
     current_day = datetime.now(timezone.utc).strftime('%Y-%m-%d')
     try:
-        lloBot = chat_with_gpt4(llo_prompt[0], llo_prompt[1])
+        lloBot = chat_with_gpt4(llo_prompt[0], llo_prompt[1], 'LLO:')
         with open(f'./_output/LLOaLogForumSummary_{current_day}.md', 'w') as lloBotResp:
             lloBotResp.write(lloBot)
             lloBotResp.close()
     except:
         print("WARNING: No LLO aLOG Summary file saved.")
     try:
-        lhoBot = chat_with_gpt4(lho_prompt[0], lho_prompt[1])
+        lhoBot = chat_with_gpt4(lho_prompt[0], lho_prompt[1], 'LHO:')
         with open(f'./_output/LHOaLogForumSummary_{current_day}.md', 'w') as lhoBotResp:
             lhoBotResp.write(lhoBot)
             lhoBotResp.close()
