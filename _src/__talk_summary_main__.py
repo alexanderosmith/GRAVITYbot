@@ -30,12 +30,10 @@ import prompts, talk_data, emails
 # 2. load_talk          :   loads talk data and cleans it
 # 3. segment_by_time    :   limits talk data to those within particular dates
 
-
 # Produces start and end dates for the most recent two weeks of Talk data.
-def start_end_dates():
+def start_end_dates(current_day):
     print('Loading the most recent Talk forum data...')
     # Today's date
-    current_date = datetime.now(timezone.utc)
     # Set talk_file to a 0 length string for the while loop
     talk_file = ''
     count = 1
@@ -43,15 +41,15 @@ def start_end_dates():
     # it will stop after 1000 iterations (= 10000 days prior current date)
     while len(talk_file) < 1:
         # Set all dates relative to "current_time"
-        talk_dat1_start = current_date - timedelta(days=7)
+        talk_dat1_start = current_day - timedelta(days=7)
         talk_dat0_end = talk_dat1_start - timedelta(days=1)
         talk_dat0_start = talk_dat0_end - timedelta(days=7)
-        
         # Convert all the dates to strings formatted as the Talk file name conventions.
         talk_dat1_start = talk_dat1_start.strftime('%Y-%m-%d')
         talk_dat0_end = talk_dat0_end.strftime('%Y-%m-%d')
         talk_dat0_start = talk_dat0_start.strftime('%Y-%m-%d')
-        talk_dat1_end = current_date.strftime('%Y-%m-%d')
+        talk_dat1_end = current_day.strftime('%Y-%m-%d')
+
         print(f'Checking for file date: {talk_dat1_end}')
 
         # Search _data directory for the most recent file, based on "current_date"
@@ -79,7 +77,7 @@ TROUBLESHOOTING SUGGESTIONS:
             """)
             break
 
-        current_date -= timedelta(days=1)
+        current_day -= timedelta(days=1)
 
     return {
         'talk_file'         :   talk_file, 
@@ -126,7 +124,7 @@ def load_talk(file_path):
     # drop all rows with these board_ids
     reader = reader[reader.board_id.isin(drop_board) == False]
     # Drop GRAVITYbot User_id
-    drop_gb = [gb_id]
+    drop_gb = [2630456, 2877652]
     reader = reader[reader.comment_user_id.isin(drop_gb) == False]
 
     # Define the Universal timezone
@@ -164,6 +162,28 @@ def segment_by_time(text_dat, start_date, end_date):
     
     return gpt_talk_str
 
+def gBot_talk_data(file_date):
+    print('!!!!! Reading In Full Data as CSV')
+    talk_data = pd.read_csv(f'./_data/project-1104-comments_{file_date}.csv')
+    
+    print('!!!!! Reducing to GRAVITYbot Talk Boards')
+    boards = [6872, 6945, 6946] # This will reduce the risk of circular summaries
+    # drop all rows with these board_ids
+    talk_data = talk_data[talk_data.board_id.isin(boards)]
+    # Drop GRAVITYbot User_id
+    
+    print('!!!!! Dropping Irrelevant User Ids')
+    drop_ids = [2630456, 2877652]
+    talk_data = talk_data[talk_data.comment_user_id.isin(drop_ids) == False]
+    
+    print('!!!!! Writing CSV')
+    output_datafile = 'GRAVITYbot_talk_discussion.csv'
+    write_header = not os.path.exists(output_datafile)
+    talk_data.to_csv('./_data/'+output_datafile, mode='a', header=write_header, index=False)
+
+    existing = pd.read_csv(output_datafile).drop_duplicates()
+    existing.to_csv('./_data/'+output_datafile, index=False)
+
 def chat_with_gpt4(user_prompt, sys_prompt):
     _ = load_dotenv(find_dotenv())
     client = OpenAI(api_key=os.environ.get("OPENAI_API_KEY")) 
@@ -191,11 +211,12 @@ def chat_with_gpt4(user_prompt, sys_prompt):
 
 def main():
     # Get Talk Data from Panoptes API
-    #talkdata = talk_data.main()
+    talkdata = talk_data.main()
     print("GravitySpy Talk Forum Data Request Complete")
-    
+    current_day = datetime.now(timezone.utc)
+
     # Get the most recent csv name, and the start and end dates for the most recent two weeks.     
-    time_deltas = start_end_dates()
+    time_deltas = start_end_dates(current_day)
 
     # Load Gravity Spy Talk data file
     talkload = load_talk(f"_data/{time_deltas['talk_file']}")
@@ -204,15 +225,17 @@ def main():
     talk_dat0 = segment_by_time(talkload, time_deltas['talk_dat0_start'], time_deltas['talk_dat0_end']) # Talk Older week
     talk_dat1 = segment_by_time(talkload, time_deltas['talk_dat1_start'], time_deltas['talk_dat1_end']) # Talk Newer week
     
-    current_day = datetime.now(timezone.utc).strftime('%Y-%m-%d')
 
     # Call ex_func_prompt_gen from prompts.py 
     talk_prompt = prompts.ligo_prompt(talk_dat0, talk_dat1)
 
+    gBot_talk_dat = gBot_talk_data(current_day.strftime('%Y-%m-%d'))
+
+
     # Call chatGPT function for Zooniverse Talk summary
     #try:
     gsBot = chat_with_gpt4(talk_prompt[0], talk_prompt[1])
-    with open(f'./_output/ZooniverseTalkSummary_{current_day}.md', 'w') as gsBotResp:
+    with open(f'./_output/ZooniverseTalkSummary_{current_day.strftime('%Y-%m-%d')}.md', 'w') as gsBotResp:
         gsBotResp.write(gsBot)
         gsBotResp.close()
     #except:
@@ -221,7 +244,7 @@ def main():
     # Sending Email containing Zooniverse Talk summary
     print("Sending Email...")
     #try:
-    email = emails.main(date = current_day, body = gsBotResp)
+    email = emails.main(date = current_day.strftime('%Y-%m-%d'), body = gsBotResp)
     #except:
     #    print("WARNING: Email failed to send.")
      

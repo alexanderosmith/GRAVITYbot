@@ -1,0 +1,683 @@
+Unnamed: 0,board_id,board_title,board_description,discussion_id,discussion_title,comment_id,comment_body,comment_focus_id,comment_focus_type,comment_user_id,comment_user_login,comment_created_at
+154087,6872,aLOG & Talk Summaries - TESTING/ARCHIVE (Do Not Delete),This board is dedicated to automated summaries and conversations around those summaries for aLOG for LLO and LHO locations. (Currently under construction),3634371,Welcome!,5960895,"Welcome to Gravity Spy Talk, @aos11409 jelly_0wen!
+
+Glad to see the summarizer emerging, with capabilities already comparable to a Zooniverse volunteer who has been active for a couple of years and has started to read the logbooks like the daily morning newspapers. (I can confirm from first-hand experience that this is a great way to learn more about the GW observatories.)
+
+Now here's a little challenge: I'd love to see this evolve to the point where it saves me more time than it adds to my workload. :)
+
+I'll post some concrete recommendations / suggestions for improvements / general comments / food for thought in separate threads.
+
+This arrives at an interesting time, with O4c interrupted for maintenance and for some upgrades that have been pulled forward from post-O4: The logbook entries of the next several weeks will talk about rather more drastic changes than tweaking a few sensors, feedback loops, and actuators. For example, whole bunches of new channels will appear when the new active HAM1 ISIs at both LIGO sites are installed and wired up...",,,956549,ZngabitanT,2025-04-03 11:17:18.134000+00:00
+154088,6872,aLOG & Talk Summaries - TESTING/ARCHIVE (Do Not Delete),This board is dedicated to automated summaries and conversations around those summaries for aLOG for LLO and LHO locations. (Currently under construction),3634377,How best to reference the aLOG entries,5960907,"(1) Be consistent: A LIGO logbook entry is an aLOG, as in the present Talk board title. Not ""alog"", not ""ALOG"" - by analogy with aLIGO. Use aLOG wherever it appears. (At Virgo, it would be called an *elog*, at KAGRA, a *klog*.)
+
+(2) Make the observatory explicit, and make the number explicit: The hyperlink text should be of the form (e.g.) LLO:75874 .
+
+This ensures that the Search function of Zooniverse Talk will be able to find the occurrence. A number hidden *only* inside the hyperlink URL (as in [the first post I've seen](+tab+/projects/zooniverse/gravity-spy/talk/6872/3633195?comment=5960434)) would remain invisible to the Search function.
+
+(3) Gravity Spy volunteers have [expressed a preference](+tab+/projects/zooniverse/gravity-spy/talk/730/3493090?comment=5785070&page=2) for having these links open in a new tab, achieved by using markdown like
+`[LLO:75874](+tab+https://alog.ligo-la.caltech.edu/aLOG/index.php?callRep=75874)`
+There has been [some debate elsewhere on Zooniverse](+tab+/talk/17/3531984?comment=5814522) whether or not this is a good idea generally - there are web design guidelines advising against it because it can clutter a novice's browser window with extra tabs, requiring manual action to close them when they're no longer needed. The main advantage in the present scenario is that the viewer doesn't lose the current reading position in the middle of a potentially very long thread.
+
+(It would help if Zoonivese Talk markdown could express the notion of re-using a single additional tab, which it currently can't, or if it had a configurable per-user preference for enabling/disabling this `+tab+` idiom...)
+
+(4) A possible advanced feature: When linking to a comment (like [LLO:75875](+tab+https://alog.ligo-la.caltech.edu/aLOG/index.php?callRep=75875)), would it be possible to make this fact explicit, e.g. in the form
+`comment [75875](+tab+https://alog.ligo-la.caltech.edu/aLOG/index.php?callRep=75875) on LLO:75874`
+(the logbook software would always display the whole thread with the linked comment highlighted; the point would be to pre-advise the viewer to scroll down and find the relevant comment)?
+
+(5) Hash signs in hyperlink texts (as in [this summary](+tab+/projects/zooniverse/gravity-spy/talk/6872/3633195?comment=5960478)) do not work in Zooniverse Talk. Markdown notation like
+`[ALOG Entry #75873](https://alog.ligo-la.caltech.edu/aLOG/index.php?callRep=75873)`
+will not be recognized as a hyperlink title-cum-URL; the hash sign takes precedence and turns `#75873` into a hashtag search link (which won't work either since the post containing this tag isn't tagging a Zooniverse subject; hashtag searches only look for *subjects*, not for general Talk posts).",,,956549,ZngabitanT,2025-04-03 11:22:46.377000+00:00
+154089,6872,aLOG & Talk Summaries - TESTING/ARCHIVE (Do Not Delete),This board is dedicated to automated summaries and conversations around those summaries for aLOG for LLO and LHO locations. (Currently under construction),3634380,The summarizer needs a dictionary.,5960913,"One way or another, the underlying LLM will need to learn some LIGO-specific terminology and how it is correctly used.
+
+The [Abbreviations and acronyms](+tab+https://dcc.ligo.org/LIGO-M080375/public) document would be a starting point (although it isn't complete, and contains a few mistakes of its own, and the latest version misses a few entries that had been present in earlier versions).
+
+- It makes no sense to refer to ""[the LIGO observatory](+tab+/projects/zooniverse/gravity-spy/talk/6872/3633195?comment=5960479)"", singular. Either the plural will be appropriate, or a specific reference to ""LIGO Hanford Observatory"" or ""LIGO Livingston Observatory"".
+
+- ITMY is the Input Test Mass of the Y arm (not ""[Input Test Mass Yaw](+tab+/projects/zooniverse/gravity-spy/talk/6872/3633195?comment=5960478)"").
+
+- HEPI is Hydraulic External Pre-Isolation (not ""Horizontal Earthquake Protection Isolator"", *loc.cit.*).
+
+- ALS Y is the Y arm (not ""Yaw"", *loc.cit.*, nor ""[Y-axis](+tab+/projects/zooniverse/gravity-spy/talk/6872/3633195?comment=5960434)"") part of the [Arm-Length Stabilization](+tab+https://dcc.ligo.org/LIGO-G0900215/public) subsystem. (Just to muddy the waters further, at Virgo ALS is the Auxiliary Laser System, although it provides functionality somewhat similar to LIGO's ALS.)
+
+Unfortunately, there are abbreviations which can mean more than one thing depending on context - ""Y"" isn't the only such. (E.g., ""L1"" can mean the Livingston interferometer, or the longitudinal degree of freedom in stage 1 of a quad test mass suspension.) Conversely, there are entities to which people refer with a multitude of different abbreviations. (""X end"", ""X-end"", ""EX"", ""ETMX"" as a metonymy for the end of the X arm, ""EX"" as a metonymy for the ETMX suspension...) Add to this minor spelling variations (""LGV11"" vs. ""LGV-11"",...).
+
+(To be continued as the need arises :))",,,956549,ZngabitanT,2025-04-03 11:27:30.187000+00:00
+154090,6872,aLOG & Talk Summaries - TESTING/ARCHIVE (Do Not Delete),This board is dedicated to automated summaries and conversations around those summaries for aLOG for LLO and LHO locations. (Currently under construction),3634382,Cross-referencing,5960915,"Food for thought:
+
+As per the present Talk board description,
+
+> This board is dedicated to automated summaries and conversations around those summaries for aLOG for LLO and LHO locations
+
+we anticipate discussions arising from particular entries in the summarizer thread.
+
+It is straightforward to link back from such a discussion to the entry that had given rise to it.
+
+But - given how Zooniverse Talk currently works - it is not so easy to create forward links from a summary entry to a subsequent discussion of this entry. Such forward links could be added manually, but only by the account owner who is hosting and ""authoring"" the summary postings.",,,956549,ZngabitanT,2025-04-03 11:28:15.709000+00:00
+154091,6872,aLOG & Talk Summaries - TESTING/ARCHIVE (Do Not Delete),This board is dedicated to automated summaries and conversations around those summaries for aLOG for LLO and LHO locations. (Currently under construction),3634383,"Relevance to glitches and Gravity Spy, and selection bias",5960916,"Food for thought:
+
+While most everything in the aLOGs may be interesting to at least some members of the intended audience, not everything is *directly* relevant to the Gravity Spy project.
+
+Our focus is on glitches - specifically, on glitches that happen while a LIGO interferometer is locked in nominal low noise state and Observing. Only glitches that happen whilst Observing are eligible for creating Gravity Spy subjects (a few exceptions from the early years notwithstanding).
+
+The Arm Length Stabilization subsystem, for example, is used in a nowadays essential way during lock acquisition... but is switched off before reaching the Observing state. It *won't* ever produce glitch subjects for Gravity Spy.
+
+---
+On the other hand, glitch rates may be affected by innocuous actions that may have earned a mention in the logbooks but may have escaped the summarizer's attention. *How do we know what we don't know?* How can we know what we're missing? (Well, I'm picking up a lot by simply browsing the logbooks myself, day in day out...)",,,956549,ZngabitanT,2025-04-03 11:29:34.113000+00:00
+154092,6872,aLOG & Talk Summaries - TESTING/ARCHIVE (Do Not Delete),This board is dedicated to automated summaries and conversations around those summaries for aLOG for LLO and LHO locations. (Currently under construction),3634384,Parsing the input texts,5960919,"The summarizer's early posts have sometimes mis-read a detail:
+
+- ""[M PR Osem gains](+tab+/projects/zooniverse/gravity-spy/talk/6872/3633195?comment=5960479)"" - M1, not M (and OSEM, not Osem): The Optical Sensors and Electric Motors acting on the top mass (M1) stage of the HAM Small Triple Suspension holding the Power Recycling Mirror.
+
+- ""[...for 6Hz Noise in SEI](+tab+/projects/zooniverse/gravity-spy/talk/6872/3633195?comment=5960478)"" - that was about 1.6 Hz noise, not six Hz.
+
+---
+And these are easy cases where the logbook entries actually do say what their authors meant to say. By their nature, many entries are written by tired people at the end of a long, exhausting work day - for an audience who can be assumed to figure out the meaning from context and a vast amount of background knowledge. Typos happen. Factual errors can happen, too. Sometimes I need to read between the lines to figure out what was intended.
+
+We have a responsibility to avoid spreading mis-information...
+
+---
+On a related note, we have some duplication among the summaries posted so far. The logbook software is itself somewhat confusing - repeating entire threads on multiple pages depending on when comments were added to them (or when existing entries were edited). Would the summarizer be able to recognize it when it sees one and the same logbook entry a second time? Would it be able to recognize whether the entry has been edited in the meantime? Could it be taught to omit repetitions, and to link back to earlier summaries of posts in the same logbook thread?",,,956549,ZngabitanT,2025-04-03 11:31:12.420000+00:00
+154349,6872,aLOG & Talk Summaries - TESTING/ARCHIVE (Do Not Delete),This board is dedicated to automated summaries and conversations around those summaries for aLOG for LLO and LHO locations. (Currently under construction),3653690,Talk Summaries,5991993,"Thank you! Tuning in and staying tuned. :eyes: :)
+
+(Kevin Crowston had mentioned in passing some months ago that Talk-to-LIGO summarizing was in the works. So I've already been curious what's going to come across...)",,,956549,ZngabitanT,2025-04-24 07:14:38.289000+00:00
+154350,6872,aLOG & Talk Summaries - TESTING/ARCHIVE (Do Not Delete),This board is dedicated to automated summaries and conversations around those summaries for aLOG for LLO and LHO locations. (Currently under construction),3634382,Cross-referencing,5992052,"Having slept over the matter:
+
+jelly_0wen @aos11409 How about starting a fresh Zooniverse Talk thread in the board with each summarizer post, instead of appending successive posts to a single thread? The headings, as already used within the posts, could also serve as the discussion thread titles. Any follow-up comments and discussions could then be posted as replies, keeping inter-related material together in one place.
+
+It would mean (many) more threads in the long term, but the board can't get any more crowded than our Notes board already is... :)",,,956549,ZngabitanT,2025-04-24 08:48:08.479000+00:00
+154672,6872,aLOG & Talk Summaries - TESTING/ARCHIVE (Do Not Delete),This board is dedicated to automated summaries and conversations around those summaries for aLOG for LLO and LHO locations. (Currently under construction),3633195,aLOG Summaries,6012437,"So is anything going to break if volunteers add comments in the middle of this thread...?  Let's try. :)
+
+Re LHO 2025-04-24:
+
+> ...The pins on the photodiode of the in-air cable connecting to RM and RM...
+
+This referred to RM1 and RM2. These are mirrors in tip-tilt suspensions, each with several OSEM actuators-cum-feedback-sensors; the photodiodes are those in the OSEMs - they aren't ""photodiodes of cables""; the original sentence was talking about the pins of the connectors of the in-air cables which will carry the current passing through those (in-vacuum) photodiodes.
+
+Annotated photo from a comment on [LHO:84128](+tab+https://alog.ligo-wa.caltech.edu/aLOG/index.php?callRep=84128):
+[![LHO:84128, 2025-04-25, RM1 and RM2 in HAM1](https://alog.ligo-wa.caltech.edu/aLOG/uploads/84131_20250425144949_chamber_labels.png =600x)](+tab+https://alog.ligo-wa.caltech.edu/aLOG/uploads/84131_20250425144949_chamber_labels.png)
+
+###### Image from the LIGO logbooks [courtesy Caltech/MIT/LIGO Laboratory](+tab+https://www.ligo.caltech.edu/page/image-use-policy).
+
+> The controls for Precision Stabilization Lasers (PSL) picomotors ...
+
+Pre-Stabilized Laser. Should be in the dictionary. :)
+
+> All remaining black glass shaped beam dumps ...
+
+No, far from all of them. The logbook entry was only talking about the handful of beam dumps that had been removed from HAM1. There are hundreds more elsewhere.
+
+> Environmental Scattering Sites at LHO: ...
+
+There's no such thing as Environmental Scattering. What this is about are corners of the vacuum envelope that (unlike the main optics) aren't seismically isolated and thus move relative to the optics in the presence of environmental noise (ground motion), and which are capable of back-reflecting scattered light. Hanford has more of these than Livingston owing to its history of having hosted a second interferometer (H2, with 2 km arms).
+
+> ... including corner retroreflectors ...
+
+Including capped-off nozzles on the extra vacuum chambers (BSC8 is one of those; once upon a time it contained the 45° folding mirror and input test mass of the Y arm of H2) that could *inadvertently* act as corner retroreflectors.",,,956549,ZngabitanT,2025-05-07 08:32:35.047000+00:00
+154675,6872,aLOG & Talk Summaries - TESTING/ARCHIVE (Do Not Delete),This board is dedicated to automated summaries and conversations around those summaries for aLOG for LLO and LHO locations. (Currently under construction),3633195,aLOG Summaries,6012463,"Re LLO 2025-05-06:
+
+> TMSY (Test Mass Suspension System for Y arm) 
+
+Transmission Monitoring Suspension at the Y end. The cause and fix of the watchdog trips were reported in [LLO:76567](+tab+https://alog.ligo-la.caltech.edu/aLOG/index.php?callRep=76567); after the incursion into and subsequent close-out and re-evacuation of BSC4 at the Y end the coil driver acting on the intermediate mass (M1) of this TMS had inadvertently been left in a wrong state.
+
+> ... Prism Reflector Mirror (PRM) and Prism Reflector (PR) ...
+
+Power Recycling Mirror (PRM) and PR3, the larger of the two folding mirrors of the Z-shaped Power Recycling Cavity in the input arm.
+
+(The LLM seems prone to dropping the numbers in letter-number combinations such as ""PR3""...?)
+
+> Proper alignment is crucial for ensuring that the laser beams travel correctly through the interferometer's arms,...
+
+While that is true, it has little to do with the side issue at hand that Anamaria was dealing with. The Interferometer Sensing (and Control) light paths (POP, REFL, ALS X and Y) in HAM1 are being reconstructed from scratch after the [ISI upgrade](+tab+/projects/zooniverse/gravity-spy/talk/329/3642584); some of the auxiliary optics are also being upgraded and the light paths have changed a bit; the issue at hand was routing the POP beam (picked off behind PR2 in HAM3 before being sent back along the input arm into HAM1) to where it's going to be needed.
+
+> Realignment of the Periscope: ...
+
+One of several periscopes in the vicinity - the one which catches the POP and ALS beams at the height at which they arrive in HAM1 and brings them down to the level of the small optics on the ISI optical table. It's ""the"" periscope only insofar as those were the beams that people happened to be working on at this point.
+
+Comment 76576 has a picture attached where part of this periscope structure is visible at right; the green beam comes from the Y Arm Length Stabilization (ALS) subsystem:
+
+[![LLO:76565, 2025-05-05, ALS Y beam routing in HAM1](https://alog.ligo-la.caltech.edu/aLOG/uploads/76576_20250505230929_PXL_20250505_165554789.jpg =600x)](+tab+https://alog.ligo-la.caltech.edu/aLOG/uploads/76576_20250505230929_PXL_20250505_165554789.jpg)
+
+###### Image from the LIGO logbooks [courtesy Caltech/MIT/LIGO Laboratory](+tab+https://www.ligo.caltech.edu/page/image-use-policy).",,,956549,ZngabitanT,2025-05-07 08:58:48.069000+00:00
+154676,6872,aLOG & Talk Summaries - TESTING/ARCHIVE (Do Not Delete),This board is dedicated to automated summaries and conversations around those summaries for aLOG for LLO and LHO locations. (Currently under construction),3633195,aLOG Summaries,6012468,"Re LHO 2025-05-06:
+
+> Issues with ASC WFS A and ASC WFC B cable connections: ...
+> RF connectors on ASC REFL A and ASC REFL B:...
+> Reinstallation of new helicoil and screw on WFS A and B:
+> Connector adjustments on ASC REFL A and ASC REFL B:
+
+These all refer to *the same two* Wave Front Sensors (WFS) on the REFL beam.
+
+The issues with their connectors are all resolved (per [LHO:84265](+tab+https://alog.ligo-wa.caltech.edu/aLOG/index.php?callRep=84265)).",,,956549,ZngabitanT,2025-05-07 09:05:55.782000+00:00
+154754,6872,aLOG & Talk Summaries - TESTING/ARCHIVE (Do Not Delete),This board is dedicated to automated summaries and conversations around those summaries for aLOG for LLO and LHO locations. (Currently under construction),3634380,The summarizer needs a dictionary.,6016207,"Here's a fun little real-world case study: I needed to chase down one acronym myself this week. How would the summarizer have fared? It's a *relatively* recently minted one, although the concept must go back a few years; the first machined and polished examples of the thing would have reached LHO and LLO by mid 2021. To wit:
+
+[LLO:76430](+tab+https://alog.ligo-la.caltech.edu/aLOG/index.php?callRep=76430) mentions ""TMDs"", without any further details. One of them is visible in an attached [photo](+tab+https://alog.ligo-la.caltech.edu/aLOG/uploads/76430_20250429165622_IMG_0332.jpeg) (and it is *not* the one at the center...).
+
+""TMD"" is not in the [Abbreviations and Acronyms List](+tab+https://dcc.ligo.org/LIGO-M080375/public) - neither in the latest version (v26) nor in older versions.
+
+Trawling for ""TMD"" in the logbooks will find a few mentions... swamped by numerous mentions of ""TMDS"", which is something else entirely (Test Mass Discharge System), totally unrelated to the plural ""TMDs"" of ""TMD"", and not in the Abbreviations and Acronyms either, but I had encountered it earlier.
+
+None of the logbook entries so far that mention the TMDs (plural) have spelled it out yet.
+
+It took me a trawl through the public part of [LIGO DCC](+tab+https://dcc.ligo.org/cgi-bin/DocDB/ListTopics) to find the answer, and even there I found it in a rather obscure place - inside a table summarizing a (separate, non-public) Bill Of Materials listing accompanying a few pages' worth of CAD drawings, embedded in the [PDF](+tab+https://dcc.ligo.org/public/0173/D2100066/001/D2100066-v1_HAM_ISI_Table-A%2B%20-%20.pdf) incarnation of [D2100066 *A+, SEI HAM ISI Table Assembly*](+tab+https://dcc.ligo.org/LIGO-D2100066/public). Note that neither the acronym nor its expansion can be found by a text search through the PDF. The acronym doesn't occur, only the expansion does, and the lettering is *drawn* in there by the CAD software, so it would need OCR to make it machine-accessible again when there's no human around to simply re-type it.
+
+As of last Wednesday evening, the acronym expansion is now [out](+tab+/projects/zooniverse/gravity-spy/talk/329/3642584?comment=6013347) on Gravity Spy talk, so I cannot rule out that the LLM may by now have picked it up from there... :)
+
+(And it's the little assembly at 10 o'clock in the photo attached to LLO:76430. The larger one in the center is a Spring Tip Damper. Those had been installed earlier on the HAM ISI in question and had already been shown in a [photo](+tab+https://alog.ligo-la.caltech.edu/aLOG/uploads/75831_20250327202530_IMG_9504.jpeg) attached to [LLO:75831](+tab+https://alog.ligo-la.caltech.edu/aLOG/index.php?callRep=75831).)",,,956549,ZngabitanT,2025-05-09 15:34:27.849000+00:00
+154964,6872,aLOG & Talk Summaries - TESTING/ARCHIVE (Do Not Delete),This board is dedicated to automated summaries and conversations around those summaries for aLOG for LLO and LHO locations. (Currently under construction),3634380,The summarizer needs a dictionary.,6029161,"Let's see how this will pan out, then! :)
+
+LIGO staff sometimes isn't exactly helping. Recent example: a *SLED* is a Superluminous Light-Emitting Diode, used in Hartmann-Shack wavefront sensing. A *sled*, on the other hand, is not an acronym - it's a small breadboard for mounting optical components rigidly with respect to each other before bolting the whole onto a larger optical table, at which time the sled's position along with that of its entire payload can be adjusted with respect to the table. It doesn't ease the summarizer's job when people who do know better [use SLED in logbook comments](+tab+https://alog.ligo-wa.caltech.edu/aLOG/index.php?callRep=84155) to refer to a [sled](+tab+https://alog.ligo-wa.caltech.edu/aLOG/uploads/84155_20250428162504_minusY.jpg)... Sigh.)
+
+Another potential snag is the sort of mistakes people (including yours truly) tend to make when they're tired. (Like [writing ""+T access""](+tab+https://alog.ligo-wa.caltech.edu/aLOG/index.php?callRep=84289) when they mean ""+T *axis*"".) Maybe one day we'll have AI that's capable of itself being tired, and capable of *recognizing* when it is itself tired, and thence capable of catching that sort of thing... :)",,,956549,ZngabitanT,2025-05-18 11:20:56.879000+00:00
+154983,6872,aLOG & Talk Summaries - TESTING/ARCHIVE (Do Not Delete),This board is dedicated to automated summaries and conversations around those summaries for aLOG for LLO and LHO locations. (Currently under construction),3633195,aLOG Summaries,6030679,"One more thought: Would it be possible to end each machine-generated post with a byline, something like ""Created by aLOG summarizer version 2.1.17"", in order to make it obvious to future novice readers what they're looking at?
+
+Maybe this could be handled by the wrapper software around the LLM which handles the actual Talk submissions (rather than by prompt-training the LLM itself).
+
+(On the other hand, the concluding editorial paragraphs à la ""These entries highlight..."" have been getting a bit repetitive. They seem to be a hallmark of ChatGPT phrasing, but in my humble opinion they don't add much value - especially since the LLM isn't currently able to differentiate between routine observatory activities, sudden insights about sources of noise, innovative improvements like ""let's try X and see whether it helps with Y"", emergency repairs, upgrades that had been planned and prepared long in advance, and troubleshooting some detail in the middle of implementing such an upgrade. The LLM doesn't even ""know"" whether the observatories are operating/observing or undergoing maintenance...)",,,956549,ZngabitanT,2025-05-19 15:05:50.054000+00:00
+154997,6872,aLOG & Talk Summaries - TESTING/ARCHIVE (Do Not Delete),This board is dedicated to automated summaries and conversations around those summaries for aLOG for LLO and LHO locations. (Currently under construction),3633195,aLOG Summaries,6033572,"Regarding *Issue with PMC Locking and ISS Stability*, comment 84461 on [LHO:84446](https://alog.ligo-wa.caltech.edu/aLOG/index.php?callRep=84446) is one I had missed in my own logbook trawl this morning, so good job catching that. :)
+
+(I missed it while I was trying to catch up with dozens of logbook entries after a day away from screen and keyboard since although it was posted around noon Monday May 19 local time, it was hiding near the bottom of the third-most-recent page of entries in the LHO aLOGs, well below a number of older non-comment entries from Saturday May 17 onwards that I knew I had already seen before. That's partly a quirk of the LIGO logbook software - it redisplays old threads to which comments have recently been added *on the same page* as newer contemporary logbook entries, but not *at the point* where the comment would chronologically belong. The Virgo and KAGRA logbook software does this differently, displaying just the comment - without the thread that had led up to it - at the correct chronological position. In another part it's due to how individual LIGO authors use the logbook software when they're faced with a choice between commenting on an older entry or posting a new one with a back reference.)
+
+FSS and ISS, by the way, are the Frequency and Intensity Stabilization Servos respectively - ""meta"" feedback control loops that adjust the set points of lower-level feedback control loops.",,,956549,ZngabitanT,2025-05-21 13:49:19.818000+00:00
+155007,6872,aLOG & Talk Summaries - TESTING/ARCHIVE (Do Not Delete),This board is dedicated to automated summaries and conversations around those summaries for aLOG for LLO and LHO locations. (Currently under construction),3633195,aLOG Summaries,6036305,"OK, let's see how this is going to fly :)
+
+Three more things:
+- Speaking from nearly three decades of experience in the IT industry, I would recommend to keep this present restricted-access board around for future testing purposes. (Whether you want to preserve its current content is up to you; I've saved offline what I might need again.)
+- In the description of the new public [aLOG Summaries...](+tab+/projects/zooniverse/gravity-spy/talk/6945) board, is ""ecological"" a typo for ""environmental"" (twice), or intentional?
+- I have reverted the board ordering to ""Order by activity"". *Please do not depart from this.* As long as I'm the only active moderator, I *must* have a chance to see *each and every* new post - abuse is rare on Zooniverse but when something goes off the rails, I *must* be able to spot it swiftly. In other projects where the board order is fixed I keep missing things when they happen somewhere down the list. (Ideally this should be a per-user viewing preference, configurable by everyone separately according to their own tastes and needs, but as things currently work on Zooniverse, it's unfortunately a one-setting-affects-everyone thing.) Thank you!
+
+(Added: Huh, the two new still-empty boards are sticky at the top of the list even with ""Order by activity"" in effect. Let's see whether they'll play by the rules once they have content...)",,,956549,ZngabitanT,2025-05-23 07:43:38.299000+00:00
+155008,6872,aLOG & Talk Summaries - TESTING/ARCHIVE (Do Not Delete),This board is dedicated to automated summaries and conversations around those summaries for aLOG for LLO and LHO locations. (Currently under construction),3681937,"Gravity Spy Talk Summary: 2025-05-22
+",6036315,"Ooops @aos11409 (jelly_0wen), we have a feedback loop - the Talk summarizer is picking up material posted by the aLOG summarizer :-D",,,956549,ZngabitanT,2025-05-23 07:49:50.003000+00:00
+155009,6872,aLOG & Talk Summaries - TESTING/ARCHIVE (Do Not Delete),This board is dedicated to automated summaries and conversations around those summaries for aLOG for LLO and LHO locations. (Currently under construction),3681945,"Gravity Spy Talk Summary: 2025-05-22
+",6036329,"The byline is fine. :+1: One minor tweak would be welcomed - use `[...](+tab+...)` in the GitHub link so it will open in a new tab when clicked.
+
+By the way, [Pirate Ships (beam jitter)](+tab+/projects/zooniverse/gravity-spy/talk/762/3438785) and [Chessboard (MF ripple/comb)](+tab+/projects/zooniverse/gravity-spy/talk/762/3126239) glitches aren't exactly new :).",,,956549,ZngabitanT,2025-05-23 08:01:24.100000+00:00
+155030,6872,aLOG & Talk Summaries - TESTING/ARCHIVE (Do Not Delete),This board is dedicated to automated summaries and conversations around those summaries for aLOG for LLO and LHO locations. (Currently under construction),3683981,"Gravity Spy Talk Summary: 2025-05-25
+",6039308,"Yes, having GRAVITYbot (like Russell's barber) collect and summarize material posted by any account other than GRAVITYbot's own may be a good approach.
+
+Whether it'll be useful in the long term to summarize followup discussions reacting to posts initiated by the bot, or to exclude them also, remains to be seen - would they be of interest to the intendend audience of the Talk summaries?
+
+---
+A few other remarks (numbers will match up with the above post):
+
+1. Not every moniker tossed up in Gravity Spy Talk constitutes a ""New Glitch Classes Proposed This Week"". Most don't! People keep rediscovering things and giving them new names. People even keep forgetting their own earlier proposed nicknames, and come up with new ones for one and the same phenomenon. People can be more eager to talk about one-of-a-kind rarities than about stuff that's been coming up time and again.
+
+For good reasons, the DetChar team has established guidelines for what constitutes a glitch *class*. Glitch populations with fewer than 75 known individuals need not apply. And formal proposals need to adhere to a specific format and are limited to the New Glitch Classes boards, and these are writable only by moderators and other team members. It takes at least six to eight solid weeks to write up even one proposal, more if other stuff needs attention in the meantime. And (fortunately) new glitch classes don't arise every week.
+
+If we really want to draw attention to something new that's been spotted among freshly uploaded subjects (once uploads resume after the current maintenance break - we're still missing three weeks' worth from *before* the break and I haven't heard back from Mike Zevin in a while), we would explicitly tag the \@researchers, and I would use [a dedicated thread](+tab+https://www.zooniverse.org/projects/zooniverse/gravity-spy/talk/762/2961842) in the *New Glitch Classes - LIGO* board for the purpose.
+
+The ""[rain clouds](+tab+/projects/zooniverse/gravity-spy/talk/328/3677083)"" do stand out as a population of eminently recognizable glitches. As things look at the moment, however, they won't make the ""75 examples"" cut before O4 ends. They may end up being summarized as an also-ran in a thread in the Collections board (once someone or myself gets round to doing the legwork).
+
+2. Many day-to-day discussions or Q&A in comments on individual subjects aren't ""Concerns Regarding Existing Glitch Classes"" - they are just what they are, discussions (of something that a novice volunteer is just noticing, or of possible outliers or borderline cases), or questions and answers about where a particular subject might belong.
+
+The comment https://www.zooniverse.org/projects/zooniverse/gravity-spy/talk/328/3681387 in no way represents a ""[concern] about the ""Fuzzy"" glitch classification"", nor a ""discussions on whether new observations fit this class"", nor an ""ongoing ambiguity in defining the boundaries of the ""Fuzzy"" class."" It's just one experienced volunteer highlighting one more definite member of the proposed class, for the benefit of others (like me) who are curating our own lists/collections, and who can use a *succession* of such comments (not any single one!) to extrapolate how many more subjects exist in the population that haven't been seen yet.
+
+3. There haven't been any emerging
+> questions about the ""needle eye sunglasses"" glitch classification
+
+...only one comment by one veteran volunteer tagging one subject as ""\#needle_eye"", followed by a sunglasses emoji ""B-)"" to convey that it's a cool find!
+
+4. There have been no ""[d]iscussions around glitches observed during beam alignment and profiling activities provide insights into how specific maintenance and calibration tasks at LIGO can influence data quality, leading to transient glitches.""
+
+Not everything posted to Gravity Spy Talk is a ""discussion around glitches""!
+
+Rather, the linked [thread](+tab+/projects/zooniverse/gravity-spy/talk/329/3642584) is an early part of an effort of my own to summarize ongoing *upgrades* towards the future O5 configuration and capabilities, in this case about work pulled forward into the mid-O4c maintenance break since sufficient time and all required ingredients were already available.
+
+During the months leading up to O4 in early 2023, while we were all eagerly waiting for the first new subjects to arrive, I had already posted a [series](+tab+/projects/zooniverse/gravity-spy/talk/330/2800503?comment=4627671) of similar education-and-public-outreach threads. People enjoy the occasional look behind the scenes, they relish [inside views](+tab+https://alog.ligo-la.caltech.edu/aLOG/uploads/61276_20220830105529_IMG_20220829_152213.jpg) of the hardware from angles they'd never be allowed to enter themselves even during a guided site visit, and they love the occasional human angle - or [little furry angle](+tab+/projects/zooniverse/gravity-spy/talk/329/2832683)!
+
+This doesn't have much to do with glitches. It's about taking pride in what humans have been able to achieve, and about the joy of being a small part of it.
+
+5. It is a well-known fact (and not an ""emerging concern"") that not all glitch populations are common to Hanford and Livingston. There are some differences in the hardware setups. There are differences in the software running the sensing and control loops. There are procedural differences, and cultural differences in logbook-writing habits. There are signficiant environmental differences - Hanford gets lots more wind especially during the colder season, while Livingston has to contend with microseism from wind-driven ocean activity in the Caribbean and with anthropogenic noise from seasonal timber logging and occasional freight trains on the Baton Rouge - Hammond line. And small things will, from time to time, act up on their own, individually at each site - one loose signal cable connection at Livingston is not going to produce glitches at Hanford.
+
+For a novice Gravity Spy volunteer, these may be emerging *insights* after a few weeks or months. But - once again - I wouldn't use the word ""concern"" in such contexts. If I am concerned, it's about other things - the future of research funding, the future of the people engaged in research, and on more modest scales, the flow of our subjects hopefully resuming soon, some long-standing bugs in the Gravity Spy tools hopefully being addressed at some point, our community on Zooniverse hopefully continuing to thrive. May the GS Machine Learning and the DetChar team keep benefitting from our contributions!",,,956549,ZngabitanT,2025-05-25 13:20:46.597000+00:00
+155082,6872,aLOG & Talk Summaries - TESTING/ARCHIVE (Do Not Delete),This board is dedicated to automated summaries and conversations around those summaries for aLOG for LLO and LHO locations. (Currently under construction),3683981,"Gravity Spy Talk Summary: 2025-05-25
+",6041570,"Yup, training today's LLMs in general is as tricky as herding cats, and you've taken on a particularly challenging use case. :) Keeping fingers crossed for further good progress.
+
+> that the summarizer really struggles with understanding when two things are the same context if the language surrounding them appears significantly different.
+
+I'm inclined to summarize this as: LLMs struggle with understanding, period. B-)
+
+They emulate a part of what Daniel Kahneman calls ""system I"", the part of cognition that works fast with a minimum effort, involved in rapidly dealing with familiar everyday situations, small talk, prejudices, jumping to conclusions, and all that. LLMs do not at the present time emulate ""system II"" cognition - thinking slow, carefully, conceptually, consciously taking one's own preconceptions into account and keeping track of what I know, what I think I know but lack evidence for, what I don't know and need to find out in order to figure something out, and so on (in other words, everything I need, day in day out on my day job for many years, whilst troubleshooting complex non-AI software platforms).
+
+It has long been known (from studying patients with partial brain injuries), and it is more recently being borne out by functional magnetic resonance imaging (fMRI), that many cognitive capabilities are handled by parts of the brain *other than* those handling language processing and language production, spoken or written.
+
+If you have access to a library that still stocks the dead-tree sort of material on things called ""shelves"" :), I'll recommend a look at
+*Brouwer vindicated by neuroscience* by Victor Pambuccian, published as the *Viewpoint* column in The Mathematical Intelligencer, vol.47 no.1, spring 2025, p.2-5,
+itself a concise summary of a longer article. (A background in mathematical logic is *not* required.)
+
+One source it draws on and quotes from is
+*Language is primarily a tool for communication rather than thought.* by E. Fedorenko, S.T. Piantadosi, and E.A.F. Gibson, Nature 630 (2024), 575-586.
+
+> ...fMRI evidence suggsts that engaging in diverse forms of thinking and
+reasoning does not recruit the language network - a set of brain areas
+that represent and process word meanings and syntactic structure during
+language comprehension and production. (p.582)
+> Instead of providing the key substrate for thinking and reasoning,
+language likely transformed our species by enabling cross-generational
+transmission of acquired knowledge. (p.583.)
+
+In the hope that some of this will come in useful as discussion material when the time comes to write up the summarizer project!",,,956549,ZngabitanT,2025-05-27 08:56:18.938000+00:00
+155105,6945,aLOG Summaries: Hanford (LHO) and Livingston (LLO),"This is a board dedicated to aLOG GRAVITYbot summaries of LIGO activity at two different laboratories: (1) Hanford, Washington (LHO) and (2) Livingston (LLO) near Baton Rouge, Louisiana. The observatories' electronic logbooks provide highly granular accounts of activities and environmental issues surrounding LIGO's interferometers. The summaries below are open for discussion around how these activities and environmental issues influence their operation and sensitivity and may contribute to glitches - or mitigate them.",3686103,"LHO aLOG Summary: 2025-05-27
+",6043055,"I was about to welcome the GRAVITYbot to Gravity Spy Talk, but the bot is still a bit shy and has asked its trainer to step forward and face the audience for the first couple of public postings. :)
+
+Dear Gravity Spy lovers, esteemed co-volunteers: The research team is presenting us with a new machine learning baby, of a new type, not like the glitch-image-classifying ML we're familiar with, but one that's powered by a trendy Large Language Model (LLM).
+
+All of you who have occasionally or frequently consulted the LIGO logbooks and tried to make sense of the sometimes arcane utterances of the engineers and operators will know that they can be hard to fathom at first, and the LLM isn't finding it much easier. Just like the old Gravity Spy ML, which will continue to chug along and label glitches as it sees fit according to its past training, the new GRAVITYbot ML will need our help.
+
+So for now, just a few remarks concerning the summary I'm replying to:
+
+- RM *can* mean ""reaction mass"", but in the context of [LHO:84569](+tab+https://alog.ligo-wa.caltech.edu/aLOG/index.php?callRep=84569) it refers to the two steerable suspended mirrors (M) in the REFL (R) light path, RM1 and RM2, that have recently been reinstalled on the input end of the interferometer after the [ISI upgrade in that vacuum chamber](+tab+/projects/zooniverse/gravity-spy/talk/329/3642584).
+- MICH refers to the ""Michelson parameter"" - the precise location of the central Beam Splitter relative to the input test masses of the two arms. ""MICH gain"" is the amplification factor of the feedback control loop which serves to maintain this precise location so as to have destructive interference towards the output side (and constructive interference on the input side, towards the Power Recycling Mirror). When the gain is too low, control won't be sufficiently accurate; when it is too high, the feedback loop may start to oscillate.
+- ""Flow"" in the context of the Thermal Compensation System refers to the fluid chiller circuits for the TCS's CO~2~ lasers and their controller electronics.
+The troubleshooting report in [LHO:84563](+tab+https://alog.ligo-wa.caltech.edu/aLOG/index.php?callRep=84563) ended with ""*For now, sorry Crab Nebula.*"" - an oblique reference to [another logbook discussion thread from a few months ago](+tab+https://alog.ligo-wa.caltech.edu/aLOG/index.php?callRep=81246) when the chiller flow had been reduced in order to reduce noise near 59.7 Hz where astrophysicists have been looking for continuous, very weak, gravitational waves from the [Crab pulsar](+tab+https://en.wikipedia.org/wiki/Crab_Pulsar).",,,956549,ZngabitanT,2025-05-28 07:55:43.106000+00:00
+155123,6945,aLOG Summaries: Hanford (LHO) and Livingston (LLO),"This is a board dedicated to aLOG GRAVITYbot summaries of LIGO activity at two different laboratories: (1) Hanford, Washington (LHO) and (2) Livingston (LLO) near Baton Rouge, Louisiana. The observatories' electronic logbooks provide highly granular accounts of activities and environmental issues surrounding LIGO's interferometers. The summaries below are open for discussion around how these activities and environmental issues influence their operation and sensitivity and may contribute to glitches - or mitigate them.",3686103,"LHO aLOG Summary: 2025-05-27
+",6044961,"Hi,
+
+It is exciting news and I was about to enquire about how the GRAVITYbot threads work in practice, community-wise. However, I opted to wait for the first post to get a more concrete idea on the output.
+
+Thank you @ZngabitanT for this preliminary introduction. 
+
+Looking forward to learning more about this interesting new chapter.
+",,,1426093,Coralbell,2025-05-29 18:50:46.241000+00:00
+155138,6945,aLOG Summaries: Hanford (LHO) and Livingston (LLO),"This is a board dedicated to aLOG GRAVITYbot summaries of LIGO activity at two different laboratories: (1) Hanford, Washington (LHO) and (2) Livingston (LLO) near Baton Rouge, Louisiana. The observatories' electronic logbooks provide highly granular accounts of activities and environmental issues surrounding LIGO's interferometers. The summaries below are open for discussion around how these activities and environmental issues influence their operation and sensitivity and may contribute to glitches - or mitigate them.",3686102,"LLO aLOG Summary: 2025-05-27
+",6047725,Thank you for this summary report,,,2679059,Deleteduser1536599,2025-06-01 10:21:42.280000+00:00
+155139,6945,aLOG Summaries: Hanford (LHO) and Livingston (LLO),"This is a board dedicated to aLOG GRAVITYbot summaries of LIGO activity at two different laboratories: (1) Hanford, Washington (LHO) and (2) Livingston (LLO) near Baton Rouge, Louisiana. The observatories' electronic logbooks provide highly granular accounts of activities and environmental issues surrounding LIGO's interferometers. The summaries below are open for discussion around how these activities and environmental issues influence their operation and sensitivity and may contribute to glitches - or mitigate them.",3686103,"LHO aLOG Summary: 2025-05-27
+",6047726,"Another report can be found here:
+https://www.zooniverse.org/projects/zooniverse/gravity-spy/talk/6945/3686102?comment=6042543&page=1",,,2679059,Deleteduser1536599,2025-06-01 10:23:48.279000+00:00
+155140,6945,aLOG Summaries: Hanford (LHO) and Livingston (LLO),"This is a board dedicated to aLOG GRAVITYbot summaries of LIGO activity at two different laboratories: (1) Hanford, Washington (LHO) and (2) Livingston (LLO) near Baton Rouge, Louisiana. The observatories' electronic logbooks provide highly granular accounts of activities and environmental issues surrounding LIGO's interferometers. The summaries below are open for discussion around how these activities and environmental issues influence their operation and sensitivity and may contribute to glitches - or mitigate them.",3686103,"LHO aLOG Summary: 2025-05-27
+",6047779,"These summaries will be coming more or less regularly in the future, and there'll still be a lot of tweaking going on from day to day and from week to week. I don't intend to personally follow up to each and every one with comments / clarifications / corrections, but anyone who's interested will be welcome to double-check the summaries against the sources. :)
+
+There are several areas where the Large Language Model has been struggling during earlier testing:
+- The logbooks make heavy use of acronyms, and not always does the LLM get their expansions straight. (It doesn't help that one and the same sequence of letters might also occur as an ordinary word - e.g. *sled* vs SLED (superluminous light-emitting diode) - nor that some acronyms end in an S while others might take a plural s, e.g. a TMDS is one thing while TMDs, coming in threes, are very different things - nor that one and the same acronym can have different expansions in different contexts, e.g. IP can mean any of *ion pump*, *inverted pendulum*, *internet protocol*, or *intellectual property*).
+- Lots of things have names consisting of an acronym and a number, like PR2, the second mirror in the Power Recycling cavity. During testing the LLM has often been dropping the numbers in such cases, keeping only the letters.
+- Likewise, measurements and other quantities appear in the logbook entries in number-and-unit combinations like ""1600.1 Hz"", and the LLM is more interested in the letters than the numbers - it may keep only the ""Hz"".
+- Authors of logbook entries aren't always fully explicit, referring obliquely to things they assume readers would already know. (For example, the word *Rattlesnake* in [LHO:84685](+tab+https://alog.ligo-wa.caltech.edu/aLOG/index.php?callRep=84685) refers to a *mountain* on Hanford's horizon, *not* to a reptile.)
+- Logbook entries are often written by tired people at the end of a long shift... and tired people sometimes make typos or other mistakes. Reading between the lines to figure out what was intended is still something we humans are better at. :)",,,956549,ZngabitanT,2025-06-01 11:50:18.548000+00:00
+155207,6945,aLOG Summaries: Hanford (LHO) and Livingston (LLO),"This is a board dedicated to aLOG GRAVITYbot summaries of LIGO activity at two different laboratories: (1) Hanford, Washington (LHO) and (2) Livingston (LLO) near Baton Rouge, Louisiana. The observatories' electronic logbooks provide highly granular accounts of activities and environmental issues surrounding LIGO's interferometers. The summaries below are open for discussion around how these activities and environmental issues influence their operation and sensitivity and may contribute to glitches - or mitigate them.",3686103,"LHO aLOG Summary: 2025-05-27
+",6052657,"Tisztelt ZngabitanT és jelly_0wen!
+
+Először is szeretnék gratulálni ehhez a fantasztikus fejlesztéshez! A GRAVITYbot projekt valóban innovatív megközelítés, és látható, hogy komoly munkát fektettek bele. Köszönöm a nyílt kommunikációt és azt, hogy bevonják a közösséget a fejlesztési folyamatba.
+
+Rengeteg kérdésem lett volna ezért elsőnek próbáltam utána járni, hogy ne terheljem önöket felesleges kérdésekkel. 
+
+Több mint 5+ éves tapasztalattal rendelkező Gravity Spy önkéntes, szeretnék néhány kérdést feltenni, amelyek segíthetnének jobban megérteni az új lehetőségeket:
+
+Gyakorlati munkavégzés és felhasználói élmény
+
+ZngabitanT, mivel Ön már teszteli a rendszert, szeretném megkérdezni:
+
+Hogyan változott meg a napi munkavégzése? Milyen új interface elemekkel találkozott?
+
+Mennyivel több időt vesz igénybe egy feladat a hagyományos spektrogram osztályozáshoz képest?
+
+Vannak-e olyan funkciók, amelyeket különösen hasznosnak talál?
+
+jelly_0wen, mint a projekt vezetője:
+
+Terveznek-e részletes felhasználói útmutatót vagy képzési anyagokat a LIGO terminológiához? Ez véleményem szerint rendkívül hasznos lenne,de ha jól értem mi fogjuk a kezdetekben tanitani a GRAVITYbot. 
+
+Hogyan biztosítják, hogy a tapasztalt önkéntesek zökkenőmentesen át tudjanak állni az új rendszerre?
+
+Hozzáférés és közösségi integráció
+
+Tisztelt Kutatók, szeretném tudni:
+
+Mikor várható, hogy a tapasztalt önkéntesek hozzáférést kapnak a beta verzióhoz? Vagy ez egyidejűleg mindenkinek rendelkezésére fog állni? 
+
+Hogyan alakul át a jelenlegi háromszintű (beginner/intermediate/advanced) rendszer?
+
+Milyen szerepet szánnának nekünk, veterán önkénteseknek az új tagok mentorálásában?
+
+Technikai megbízhatóság és visszajelzés
+
+jelly_0wen, értékelnénk, ha elmondaná:
+
+Milyen mechanizmusok vannak az AI hibák jelentésére és javítására?
+
+Hogyan használják fel a GitHub repository-n keresztül érkező közösségi visszajelzéseket?
+
+Van-e tervezett timeline a stabil verzió eléréséhez?
+
+Jövőbeli vízió és fejlesztési irányok
+
+ZngabitanT tapasztalatai alapján és jelly_0wen fejlesztési stratégiája szerint:
+
+Ez az automatizált összefoglaló szolgáltatás előkészítője egy interaktív AI partnernek?
+
+Hogyan illeszkedik ez a hosszú távú Gravity Spy 2.0 víziójába?
+
+Milyen további integrációkat terveznek más LIGO eszközökkel?
+
+Elismerés és motiváció
+
+Végül, szeretnénk tudni:
+
+Hogyan biztosítják, hogy a közösség motivált maradjon az új kihívások mellett?
+
+Változik-e valami a publikációkban való elismerés terén?
+
+Láthatjuk-e majd konkrétan, hogy munkánk hogyan járul hozzá a tudományos eredményekhez?
+
+Ismét köszönöm mindkettőjüknek ezt a lenyűgöző projektet és a közösség bevonását. Izgatottan várjuk a további fejleményeket!
+
+Tisztelettel,
+Egy lelkes Gravity Spy önkéntes
+
+P.S.: A nyílt forráskódú megközelítés különösen értékes - ez valóban példaértékű a citizen science projektekben!
+
+",,,1964524,Soltere11,2025-06-05 06:27:27.867000+00:00
+155208,6945,aLOG Summaries: Hanford (LHO) and Livingston (LLO),"This is a board dedicated to aLOG GRAVITYbot summaries of LIGO activity at two different laboratories: (1) Hanford, Washington (LHO) and (2) Livingston (LLO) near Baton Rouge, Louisiana. The observatories' electronic logbooks provide highly granular accounts of activities and environmental issues surrounding LIGO's interferometers. The summaries below are open for discussion around how these activities and environmental issues influence their operation and sensitivity and may contribute to glitches - or mitigate them.",3686103,"LHO aLOG Summary: 2025-05-27
+",6052749,"Hi,
+
+Thank you  jelly_0wen @aos11409 for providing more information about this project. It is an interesting development to help better comprehend log entries and activities, difficult to grasp outside the lab environment.
+
+I have compared the bot summary in this thread with the corresponding log entries. I do not know how general or detailed the summaries are expected to be. Hence, I cannot asses the relevance of the bot’s omittance of certain log entry content. I presume, though, that a broad overview of events is the target.
+
+## **Feedback**
+
+It is good to have sections for different topics or areas. Overall, it looks coherent and uses clear language. While I did not find important errors, I am adding a couple of observations and notes below.
+
+### **Acronym and Initialism Full Text**
+
+Regarding:
+
+ 1. WFS Centering Saturating Reaction Masses (RMs): There was a problem with the Wavefront Sensor (WFS) centering that caused saturation in the reaction masses. This issue was discovered when the input matrix values were found to be flipped, misaligning the responses and causing abnormal behavior. The flipping was corrected, but careful monitoring is advised to ensure stability.
+
+    - [See the conversation here for more details.](https://alog.ligo-wa.caltech.edu/aLOG/index.php?callRep=84569)
+
+The initialism “WFS” needs to be written in full text before the colon. Expand once introducing the term, then use just the acronym or initialism.
+
+### **Acronyms and Initialisms as Verbs**
+
+In the first [log entry](+tab+https://alog.ligo-wa.caltech.edu/aLOG/index.php?callRep=84569) referenced in this bot summary, acronyms (or initialisms in this case) are seemingly used as verbs in the following sentence (not included in the summary):
+
+> However, it appears this was never SDFed, and got reverted.
+
+To digest the lab lingo into summaries easier to understand, a verb would be helpful if such instances are to be described (provided the model has been trained enough to find such relevance). I presume that the missing verb here relates to the SDF software.
+
+### **Wording**
+
+In the second paragraph in this bot summary, nested  bullet:
+
+- [See the detailed lock acquisition process here.](https://alog.ligo-wa.caltech.edu/aLOG/index.php?callRep=84570)
+
+Though subtle, for term accuracy following the log descriptions, it would be either “relock acquisition” or “lock reacquisition”.
+
+### **Manual of Style**
+
+Does the bot follow any particular manual of style?. The paragraph formatting looks odd. For instance, a single paragraph as a numbered list and numbered lists for non-sequential paragraphs.
+
+If it does follow a manual of style, it would be useful to know which one.
+
+### **Possible Future Chatbots**
+
+In my opinion, depending on the feasibility of the chatbots mentioned in the referenced GitHub page, it would be desirable if a chatbot would help to narrow down the retrieval of information across the forum, which can be time-consuming with the limited Zooniverse search capabilities (I have not found a workaround with search operators).
+
+For example, a query about specific terms mentioned by a particular user in a given time range or about a glitch class mentioned in a certain time range while omitting tags, could return a list of relevant post links. 
+
+Thank you.
+
+Carmen
+
+[2025-07-08: expanded the text to include initialisms along acronyms]",,,1426093,Coralbell,2025-06-05 08:09:24.955000+00:00
+155214,6945,aLOG Summaries: Hanford (LHO) and Livingston (LLO),"This is a board dedicated to aLOG GRAVITYbot summaries of LIGO activity at two different laboratories: (1) Hanford, Washington (LHO) and (2) Livingston (LLO) near Baton Rouge, Louisiana. The observatories' electronic logbooks provide highly granular accounts of activities and environmental issues surrounding LIGO's interferometers. The summaries below are open for discussion around how these activities and environmental issues influence their operation and sensitivity and may contribute to glitches - or mitigate them.",3686103,"LHO aLOG Summary: 2025-05-27
+",6053213,"Hi I'm back Nicm, and it's been a while. I've been waiting a bit, because I might overwhelm other users if I'm the first to point it out to us.
+well, except for the first [symbolic message](https://www.zooniverse.org/projects/zooniverse/gravity-spy/talk/328/2750032?comment=4501907&page=1) that could be mentions by bot, he seems to be working well for me.
+as a general knowledge, [LLM](https://en.wikipedia.org/wiki/Large_language_model) (bot) in a nutshell is a [fuzzy computer](https://en.wikipedia.org/wiki/Fuzzy_logic) that understands only sentences.
+as far as what we are doing, that have not yet been able to ascertain if there is a model that is actively learning and confirming about this project.
+therefore, I believe that we need to constantly indicate to him (bot) the relationship between the text source and glitch that we need to show him.
+and if the text is not as we want it to be, I recommend that have a manual procedure on how the template text should be summarized for him.
+and about what I can find out from his technical structural origin.
+[ZngabitanT's comment](https://www.zooniverse.org/projects/zooniverse/gravity-spy/talk/6945/3686103?comment=6047779) :
+> Likewise, measurements and other quantities appear in the logbook entries in number-and-unit combinations like ""1600.1 Hz"", and the LLM is more interested in the letters than the numbers - it may keep only the ""Hz"".
+
+This is a common phenomenon when for a [Attention](https://en.wikipedia.org/wiki/Attention_(machine_learning)) reasons a string pattern not normally seen is ignored as noise, a behavior that is often ignored due to stabilization ([regularization](https://en.wikipedia.org/wiki/Regularization_(mathematics))) during LLM's training. Want to draw attention to this? How the training set should be or how the text data is given as context determines character of his bot.
+for those who deal with LLM's, it may be good to consider it a great success just to have the text output, because if a human needs prerequisite knowledge to decipher it, it may often miss the mark if expected, we can believe that it is important to gradually make the task more difficult through every incremental step. :)",,,2395765,Nicm25,2025-06-05 14:09:00.638000+00:00
+155225,6945,aLOG Summaries: Hanford (LHO) and Livingston (LLO),"This is a board dedicated to aLOG GRAVITYbot summaries of LIGO activity at two different laboratories: (1) Hanford, Washington (LHO) and (2) Livingston (LLO) near Baton Rouge, Louisiana. The observatories' electronic logbooks provide highly granular accounts of activities and environmental issues surrounding LIGO's interferometers. The summaries below are open for discussion around how these activities and environmental issues influence their operation and sensitivity and may contribute to glitches - or mitigate them.",3686103,"LHO aLOG Summary: 2025-05-27
+",6053721,can you run your text through google translate and add this under your written mother tongue word. I do not understand Hungarian you are very lucky to be bilingual bit sadly I am not. Thank you in advance,,,2679059,Deleteduser1536599,2025-06-05 22:09:11.973000+00:00
+155226,6945,aLOG Summaries: Hanford (LHO) and Livingston (LLO),"This is a board dedicated to aLOG GRAVITYbot summaries of LIGO activity at two different laboratories: (1) Hanford, Washington (LHO) and (2) Livingston (LLO) near Baton Rouge, Louisiana. The observatories' electronic logbooks provide highly granular accounts of activities and environmental issues surrounding LIGO's interferometers. The summaries below are open for discussion around how these activities and environmental issues influence their operation and sensitivity and may contribute to glitches - or mitigate them.",3686103,"LHO aLOG Summary: 2025-05-27
+",6053723,If it can follow all my mumblings and musing it will work OK,,,2679059,Deleteduser1536599,2025-06-05 22:10:46.252000+00:00
+155229,6945,aLOG Summaries: Hanford (LHO) and Livingston (LLO),"This is a board dedicated to aLOG GRAVITYbot summaries of LIGO activity at two different laboratories: (1) Hanford, Washington (LHO) and (2) Livingston (LLO) near Baton Rouge, Louisiana. The observatories' electronic logbooks provide highly granular accounts of activities and environmental issues surrounding LIGO's interferometers. The summaries below are open for discussion around how these activities and environmental issues influence their operation and sensitivity and may contribute to glitches - or mitigate them.",3686103,"LHO aLOG Summary: 2025-05-27
+",6053940,"Dear ZngabitanT and jelly_0wen!
+
+First of all, I would like to congratulate you on this fantastic development! The GRAVITYbot project is truly an innovative approach, and it's evident that you've put serious work into it. Thank you for the open communication and for involving the community in the development process.
+
+I had numerous questions, so I first tried to research them myself to avoid burdening you with unnecessary inquiries.
+
+As a Gravity Spy volunteer with more than 5 years of experience, I would like to ask a few questions to help me better understand the new opportunities:
+
+Practical Workflow and User Experience
+ZngabitanT, since you are already testing the system, I would like to ask:
+
+How has your daily workflow changed? What new interface elements have you encountered?
+
+How much more time does a task take compared to traditional spectrogram classification?
+
+Are there any features that you find particularly useful?
+
+jelly_0wen, as the project leader:
+
+Are you planning detailed user guides or training materials for LIGO terminology? This would be extremely useful in my opinion, but if I understand correctly, we will be teaching GRAVITYbot in the beginning stages.
+
+How do you ensure that experienced volunteers can seamlessly transition to the new system?
+
+Access and Community Integration
+Dear Researchers, I would like to know:
+
+When can experienced volunteers expect to gain access to the beta version? Or will this be available to everyone simultaneously?
+
+How will the current three-tier system (beginner/intermediate/advanced) be transformed?
+
+What role do we, veteran volunteers, play in mentoring new members?
+
+Technical Reliability and Feedback
+jelly_0wen, we would appreciate if you could tell us:
+
+What mechanisms are in place for reporting and correcting AI errors?
+
+How do we use community feedback through the GitHub repository?
+
+Is there a planned timeline for reaching a stable version?
+
+Future Vision and Development Directions
+Based on ZngabitanT's experience and jelly_0wen's development strategy:
+
+Is this automated summary feature a precursor to an interactive AI partner?
+
+How does this fit into the long-planned Gravity Spy 2.0 vision?
+
+What additional integrations are planned with other LIGO tools?
+
+Recognition and Motivation
+Finally, we need to know:
+
+How do you ensure that the community remains motivated alongside the new challenges?
+
+Will anything change regarding recognition in publications?
+
+Will we be able to see concretely how our work contributes to scientific results?
+
+Again, thank you both for this excellent project and for involving the community. We are excitedly awaiting further developments!
+
+Respectfully,
+An enthusiastic Gravity Spy volunteer
+
+PS: The open-source approach is particularly valuable - this is truly exemplary in citizen science projects!",,,1964524,Soltere11,2025-06-06 05:30:55.553000+00:00
+155230,6945,aLOG Summaries: Hanford (LHO) and Livingston (LLO),"This is a board dedicated to aLOG GRAVITYbot summaries of LIGO activity at two different laboratories: (1) Hanford, Washington (LHO) and (2) Livingston (LLO) near Baton Rouge, Louisiana. The observatories' electronic logbooks provide highly granular accounts of activities and environmental issues surrounding LIGO's interferometers. The summaries below are open for discussion around how these activities and environmental issues influence their operation and sensitivity and may contribute to glitches - or mitigate them.",3686102,"LLO aLOG Summary: 2025-05-27
+",6054064,@ZngabitanT @Nicm25 ,,,2679059,Deleteduser1536599,2025-06-06 08:41:47.972000+00:00
+155291,6945,aLOG Summaries: Hanford (LHO) and Livingston (LLO),"This is a board dedicated to aLOG GRAVITYbot summaries of LIGO activity at two different laboratories: (1) Hanford, Washington (LHO) and (2) Livingston (LLO) near Baton Rouge, Louisiana. The observatories' electronic logbooks provide highly granular accounts of activities and environmental issues surrounding LIGO's interferometers. The summaries below are open for discussion around how these activities and environmental issues influence their operation and sensitivity and may contribute to glitches - or mitigate them.",3686103,"LHO aLOG Summary: 2025-05-27
+",6059182,"Dear Soltere11 thank you very much for this translation it is very much appreciated.
+nagyon köszönöm",,,2679059,Deleteduser1536599,2025-06-09 22:37:04.120000+00:00
+155302,6872,aLOG & Talk Summaries - TESTING/ARCHIVE (Do Not Delete),This board is dedicated to automated summaries and conversations around those summaries for aLOG for LLO and LHO locations. (Currently under construction),3697079,"Gravity Spy Talk Summary: 2025-06-09
+",6059556,"Please don't use Talk thread numbers like ""3690127"" as clickable hyperlink texts. They look too much like subject numbers.
+
+The thread titles would work better - in this case
+`[Subject 103507059](/projects/zooniverse/gravity-spy/talk/328/3690127)`
+or to open the link in a new tab,
+`[Subject 103507059](+tab+/projects/zooniverse/gravity-spy/talk/328/3690127)`
+
+(But *not* `[...](...){:target=""_blank""}` - that doesn't work in Zooniverse Talk's markdown dialect.)
+
+Thank you @aos11409 !",,,956549,ZngabitanT,2025-06-10 07:45:37.488000+00:00
+155303,6946,Gravity Spy Talk Forum Summaries,This board is for discussion surrounding weekly GRAVITYbot Talk Summaries.,3696809,"Gravity Spy Talk Summary: 2025-06-09
+",6059780,"Hi,
+
+My feedback on this summary:
+
+- The bot expressed correctly measurements such as ""50Hz"", which were a concern on its understanding in previous discussions.
+- Some links do not seem to target a relevant thread. For example, [3686022](+tab+https://www.zooniverse.org/projects/zooniverse/gravity-spy/talk/328/3686022) links to a thread with a single post mentioning  ""scattered light, bogus repeating low frequency blips"" and no reference to the subject matter of ""Chirplike Glitch with Blip Overlap"".
+- {:target=""_blank""} appears appended to all hyperlinks
+-  Single paragraphs are not to be bulleted because it is not a list (this is related to my [former question](+tab+https://www.zooniverse.org/projects/zooniverse/gravity-spy/talk/6945/3686103?comment=6052749) on whether the bot follows any particular manual of style). 
+
+My feedback report on **LHO aLOG Summary: 2025-05-27** can be read [here](+tab+https://www.zooniverse.org/projects/zooniverse/gravity-spy/talk/6945/3686103?comment=6052749) (opens in a new tab).
+
+
+@aos11409  
+
+Thank you.",,,1426093,Coralbell,2025-06-10 11:41:28.065000+00:00
+155309,6946,Gravity Spy Talk Forum Summaries,This board is for discussion surrounding weekly GRAVITYbot Talk Summaries.,3696809,"Gravity Spy Talk Summary: 2025-06-09
+",6060024,"Welcome to Gravity Spy Talk, GRAVITYbot!
+
+Thank you @Coralbell for your observations!
+
+1. While it's nice to see a number followed by a unit, the ""fuzzy range"" noise at Hanford is *not* ""characterized by noise mostly at 50Hz and its multiples"" (nor any other specific frequencies) - in contrast to Livingston's similar-looking glitches from mid July 2024 which *did* have much noise at *62* Hz and multiples thereof. Also, there have been *three* (so far) ""fuzzy range"" episodes at Hanford, and they're hardly ""novel"". (The moniker had been coined back in November 2023 by one LHO operator in [LHO:74383](+tab+https://alog.ligo-wa.caltech.edu/aLOG/index.php?callRep=74383), and had caught on quickly there, cf. [LHO:74387](+tab+https://alog.ligo-wa.caltech.edu/aLOG/index.php?callRep=74383) and the data quality shift report 2023-11-20 to 2023-11-26 [LHO:74437](+tab+https://alog.ligo-wa.caltech.edu/aLOG/index.php?callRep=74437).)
+
+2. This is indeed a mix-up of thread references. Blends of blips with curving features somewhat reminiscent of chirps *had* been mentioned elsewhere a couple of weeks ago, apropos of [Subject 98584876](+tab+/projects/zooniverse/gravity-spy/talk/328/3686024) and of [Subject 107350522](+tab+/projects/zooniverse/gravity-spy/talk/328/3686027).
+
+3. [Beam Jitter](+tab+/projects/zooniverse/gravity-spy/talk/762/3438785) has been *known* since the early weeks of O4a to be one cause of glitches  - there's nothing ""emerging"" or ""hypothesized"" about it.
+
+Re 4. and 5., GRAVITYbot has been instructed not to summarize *its own* postings to Gravity Spy Talk on Zooniverse, but here it got misled by two posts that had been forwarded by its trainer. :)
+
+(And a Sat Amp is a *Satellite* Amplifier. In the sense of ""peripheral"", not ""earth-orbiting"".)",,,956549,ZngabitanT,2025-06-10 14:44:19.223000+00:00
+155310,6946,Gravity Spy Talk Forum Summaries,This board is for discussion surrounding weekly GRAVITYbot Talk Summaries.,3696809,"Gravity Spy Talk Summary: 2025-06-09
+",6060116,"Thank you for your feedback @ZngabitanT!
+
+Indeed, I have noticed that the summary section titles not always reflect exactly the content. 
+
+I had wondered if the bot would summarize its own postings, so glad to hear it will not ☺️
+
+Thanks!
+
+",,,1426093,Coralbell,2025-06-10 15:41:43.256000+00:00
+155329,6945,aLOG Summaries: Hanford (LHO) and Livingston (LLO),"This is a board dedicated to aLOG GRAVITYbot summaries of LIGO activity at two different laboratories: (1) Hanford, Washington (LHO) and (2) Livingston (LLO) near Baton Rouge, Louisiana. The observatories' electronic logbooks provide highly granular accounts of activities and environmental issues surrounding LIGO's interferometers. The summaries below are open for discussion around how these activities and environmental issues influence their operation and sensitivity and may contribute to glitches - or mitigate them.",3697844,"LLO aLOG Summary: 2025-06-10
+",6061758,"Hi,
+
+For the aLOG summaries posted by the GRAVITYbot, unlike its first Talk [summary](+tab+https://www.zooniverse.org/projects/zooniverse/gravity-spy/talk/6946/3696809?comment=6058852), the bot is not appending the clarification:
+
+> NOTICE: Summary created by GRAVITYbot, an LLM powered summarizer maintained by Gravity Spy researchers. Full documentation and development can be found at the Syracuse CCDS GitHub. Any concerns, questions, or recommended updates can be directed to the Syracuse Gravity Spy research team.
+
+Thank you.
+",,,1426093,Coralbell,2025-06-11 15:49:40.205000+00:00
+155330,6945,aLOG Summaries: Hanford (LHO) and Livingston (LLO),"This is a board dedicated to aLOG GRAVITYbot summaries of LIGO activity at two different laboratories: (1) Hanford, Washington (LHO) and (2) Livingston (LLO) near Baton Rouge, Louisiana. The observatories' electronic logbooks provide highly granular accounts of activities and environmental issues surrounding LIGO's interferometers. The summaries below are open for discussion around how these activities and environmental issues influence their operation and sensitivity and may contribute to glitches - or mitigate them.",3697845,"LHO aLOG Summary: 2025-06-10
+",6061760,"Hi,
+
+For the aLOG summaries posted by the GRAVITYbot, unlike its first Talk [summary](+tab+https://www.zooniverse.org/projects/zooniverse/gravity-spy/talk/6946/3696809?comment=6058852), the bot is not appending the clarification:
+
+> NOTICE: Summary created by GRAVITYbot, an LLM powered summarizer maintained by Gravity Spy researchers. Full documentation and development can be found at the Syracuse CCDS GitHub. Any concerns, questions, or recommended updates can be directed to the Syracuse Gravity Spy research team.
+
+Thank you.
+",,,1426093,Coralbell,2025-06-11 15:50:59.086000+00:00
+155331,6945,aLOG Summaries: Hanford (LHO) and Livingston (LLO),"This is a board dedicated to aLOG GRAVITYbot summaries of LIGO activity at two different laboratories: (1) Hanford, Washington (LHO) and (2) Livingston (LLO) near Baton Rouge, Louisiana. The observatories' electronic logbooks provide highly granular accounts of activities and environmental issues surrounding LIGO's interferometers. The summaries below are open for discussion around how these activities and environmental issues influence their operation and sensitivity and may contribute to glitches - or mitigate them.",3697844,"LLO aLOG Summary: 2025-06-10
+",6061769,"Also, attentive readers will note that 811 Hz aren't 500 Hz.",,,956549,ZngabitanT,2025-06-11 15:56:20.294000+00:00
+155332,6945,aLOG Summaries: Hanford (LHO) and Livingston (LLO),"This is a board dedicated to aLOG GRAVITYbot summaries of LIGO activity at two different laboratories: (1) Hanford, Washington (LHO) and (2) Livingston (LLO) near Baton Rouge, Louisiana. The observatories' electronic logbooks provide highly granular accounts of activities and environmental issues surrounding LIGO's interferometers. The summaries below are open for discussion around how these activities and environmental issues influence their operation and sensitivity and may contribute to glitches - or mitigate them.",3697844,"LLO aLOG Summary: 2025-06-10
+",6061785,Thank you for the input. I still have not had the time to check out content.,,,1426093,Coralbell,2025-06-11 16:02:18.389000+00:00
+155333,6945,aLOG Summaries: Hanford (LHO) and Livingston (LLO),"This is a board dedicated to aLOG GRAVITYbot summaries of LIGO activity at two different laboratories: (1) Hanford, Washington (LHO) and (2) Livingston (LLO) near Baton Rouge, Louisiana. The observatories' electronic logbooks provide highly granular accounts of activities and environmental issues surrounding LIGO's interferometers. The summaries below are open for discussion around how these activities and environmental issues influence their operation and sensitivity and may contribute to glitches - or mitigate them.",3697845,"LHO aLOG Summary: 2025-06-10
+",6061796,"HWSX = the (Shack-)Hartmann Wavefront Sensor watching ITMX
+QSDM has nothing to do with ""quarternary"" or ""storage""; it's part of a vendor's (QPhotonics) part number / ordering code for a superluminous LED.
+
+ISCT1 = Interferometer Sensing and Control Table 1 (the one which receives sensing beams from the viewports on the +Y side of [HAM1](+tab+/projects/zooniverse/gravity-spy/talk/329/3642584), and hosts in-air photodiodes watching POP and REFL and ALS beams when the corresponding in-vacuum beam diverters are open). The summarizer likes to drop the numerical suffix...
+
+From [LHO:84866](+tab+https://alog.ligo-wa.caltech.edu/aLOG/index.php?callRep=84866), here's a view of the interior of the ISCT1 enclosure looking towards HAM1. Along the rear wall, we can see the periscopes which collect the beams from the viewports and bring them down to the optical table.
+
+[![LHO:84866, 2025-06-06, ISCT1 interior seen from +Y](https://alog.ligo-wa.caltech.edu/aLOG/uploads/84866_20250606124016_IMG_2685.jpg =600x)](+tab+https://alog.ligo-wa.caltech.edu/aLOG/uploads/84866_20250606124016_IMG_2685.jpg)
+
+I spot at least two GigE cameras here, including the one near the bottom left corner.
+
+###### Image from the LIGO logbooks [courtesy Caltech/MIT/LIGO Laboratory](+tab+https://www.ligo.caltech.edu/page/image-use-policy).",,,956549,ZngabitanT,2025-06-11 16:09:48.279000+00:00
+155347,6945,aLOG Summaries: Hanford (LHO) and Livingston (LLO),"This is a board dedicated to aLOG GRAVITYbot summaries of LIGO activity at two different laboratories: (1) Hanford, Washington (LHO) and (2) Livingston (LLO) near Baton Rouge, Louisiana. The observatories' electronic logbooks provide highly granular accounts of activities and environmental issues surrounding LIGO's interferometers. The summaries below are open for discussion around how these activities and environmental issues influence their operation and sensitivity and may contribute to glitches - or mitigate them.",3686103,"LHO aLOG Summary: 2025-05-27
+",6062621,"Thank you for the big picture!
+
+> [...] - If you wish to comment directly on the GitHub about specific issues, if you have a GitHub account, you can open an issues report there.
+
+The GitHub Issues feature is not yet enabled on [the Syracuse-CCDS fork](+tab+https://github.com/Syracuse-CCDS/GRAVITYbot) of [your own GRAVITYbot repo](+tab+https://github.com/alexanderosmith/GRAVITYbot) - maybe it should be? Since the byline (where present) links to the fork, it may be a better home for issue reports in the long term.",,,956549,ZngabitanT,2025-06-12 07:38:41.781000+00:00
+155348,6946,Gravity Spy Talk Forum Summaries,This board is for discussion surrounding weekly GRAVITYbot Talk Summaries.,3696809,"Gravity Spy Talk Summary: 2025-06-09
+",6062730,"Hi @aos11409,
+
+Thank you, very much, for your feedback and attention. It is indeed appreciated as this helps to better focus on relevant aspects for the bot’s improvement.
+
+Regarding:
+
+> As of yet, the bot does not follow any manual of style. Initially, the LLM model decided the structure for itself, which admittedly could use improvement. This is a particular interest that I had planned on asking about. Is there a preference for a style guide? I am in the process of reformatting the prompts, and I would happily look into a more standardized structure if it increases readability.
+
+From my experience as a technical writer in American English at a software company, the following are fine resources: William Strunk's *The Elements of Style* for solid writing foundations in a concise book and the Chicago Manual of Style (CMS) for comprehensive usage and styling. 
+
+In my opinion, Strunk’s guide contains in a nutshell all what is needed to write correctly; there are newer editions expanded. For extensive style formatting aspects, the CMS is detailed and widely used along other respectable manuals of style.
+
+Thank you.
+",,,1426093,Coralbell,2025-06-12 09:54:27.572000+00:00
+155349,6945,aLOG Summaries: Hanford (LHO) and Livingston (LLO),"This is a board dedicated to aLOG GRAVITYbot summaries of LIGO activity at two different laboratories: (1) Hanford, Washington (LHO) and (2) Livingston (LLO) near Baton Rouge, Louisiana. The observatories' electronic logbooks provide highly granular accounts of activities and environmental issues surrounding LIGO's interferometers. The summaries below are open for discussion around how these activities and environmental issues influence their operation and sensitivity and may contribute to glitches - or mitigate them.",3697845,"LHO aLOG Summary: 2025-06-10
+",6062738,"Great, thank you!.",,,1426093,Coralbell,2025-06-12 09:57:37.722000+00:00
+155355,6945,aLOG Summaries: Hanford (LHO) and Livingston (LLO),"This is a board dedicated to aLOG GRAVITYbot summaries of LIGO activity at two different laboratories: (1) Hanford, Washington (LHO) and (2) Livingston (LLO) near Baton Rouge, Louisiana. The observatories' electronic logbooks provide highly granular accounts of activities and environmental issues surrounding LIGO's interferometers. The summaries below are open for discussion around how these activities and environmental issues influence their operation and sensitivity and may contribute to glitches - or mitigate them.",3686103,"LHO aLOG Summary: 2025-05-27
+",6064012,"Yes, I fully agree. (And I'm happy to confirm that ""Issues"" is now on the menu. :))
+
+I do have a GitHub account but haven't looked beyond the repo's REDAME page yet. Everyone: If anyone who doesn't have a GitHub account but loves delving into the sources spots something there that would be worth documenting as an Issue or in the Discussion section, please do let me know!",,,956549,ZngabitanT,2025-06-13 07:03:03.918000+00:00
+155361,6945,aLOG Summaries: Hanford (LHO) and Livingston (LLO),"This is a board dedicated to aLOG GRAVITYbot summaries of LIGO activity at two different laboratories: (1) Hanford, Washington (LHO) and (2) Livingston (LLO) near Baton Rouge, Louisiana. The observatories' electronic logbooks provide highly granular accounts of activities and environmental issues surrounding LIGO's interferometers. The summaries below are open for discussion around how these activities and environmental issues influence their operation and sensitivity and may contribute to glitches - or mitigate them.",3700826,"LHO aLOG Summary: 2025-06-13
+",6064957,"Hi,
+
+One quick note. 
+
+Regarding:
+
+> [...] these periods.\n\n NOTICE:
+
+Since the word NOTICE was added to the byline, the bot does not start a new paragraph and adds those four characters before the word. In the Talk summary appeared correctly.
+
+Thank you.
+
+",,,1426093,Coralbell,2025-06-13 19:49:27.977000+00:00
+155362,6945,aLOG Summaries: Hanford (LHO) and Livingston (LLO),"This is a board dedicated to aLOG GRAVITYbot summaries of LIGO activity at two different laboratories: (1) Hanford, Washington (LHO) and (2) Livingston (LLO) near Baton Rouge, Louisiana. The observatories' electronic logbooks provide highly granular accounts of activities and environmental issues surrounding LIGO's interferometers. The summaries below are open for discussion around how these activities and environmental issues influence their operation and sensitivity and may contribute to glitches - or mitigate them.",3700825,"LLO aLOG Summary: 2025-06-13
+",6064958,"Hi,
+
+One quick note. 
+
+Regarding:
+
+> [...] these periods.\n\n NOTICE:
+
+Since the word NOTICE was added to the byline, the bot does not start a new paragraph and adds those four characters before the word. In the Talk summary appeared correctly.
+
+Thank you.",,,1426093,Coralbell,2025-06-13 19:49:48.540000+00:00
+155392,6945,aLOG Summaries: Hanford (LHO) and Livingston (LLO),"This is a board dedicated to aLOG GRAVITYbot summaries of LIGO activity at two different laboratories: (1) Hanford, Washington (LHO) and (2) Livingston (LLO) near Baton Rouge, Louisiana. The observatories' electronic logbooks provide highly granular accounts of activities and environmental issues surrounding LIGO's interferometers. The summaries below are open for discussion around how these activities and environmental issues influence their operation and sensitivity and may contribute to glitches - or mitigate them.",3700825,"LLO aLOG Summary: 2025-06-13
+",6066419,Thank you jelly_0wen @aos11409.,,,1426093,Coralbell,2025-06-15 09:57:56.126000+00:00
+155393,6945,aLOG Summaries: Hanford (LHO) and Livingston (LLO),"This is a board dedicated to aLOG GRAVITYbot summaries of LIGO activity at two different laboratories: (1) Hanford, Washington (LHO) and (2) Livingston (LLO) near Baton Rouge, Louisiana. The observatories' electronic logbooks provide highly granular accounts of activities and environmental issues surrounding LIGO's interferometers. The summaries below are open for discussion around how these activities and environmental issues influence their operation and sensitivity and may contribute to glitches - or mitigate them.",3700826,"LHO aLOG Summary: 2025-06-13
+",6066421,See the researcher's reply [here](+tab+https://www.zooniverse.org/projects/zooniverse/gravity-spy/talk/6945/3700825?comment=6066122).,,,1426093,Coralbell,2025-06-15 09:59:57.347000+00:00
+155399,6945,aLOG Summaries: Hanford (LHO) and Livingston (LLO),"This is a board dedicated to aLOG GRAVITYbot summaries of LIGO activity at two different laboratories: (1) Hanford, Washington (LHO) and (2) Livingston (LLO) near Baton Rouge, Louisiana. The observatories' electronic logbooks provide highly granular accounts of activities and environmental issues surrounding LIGO's interferometers. The summaries below are open for discussion around how these activities and environmental issues influence their operation and sensitivity and may contribute to glitches - or mitigate them.",3700826,"LHO aLOG Summary: 2025-06-13
+",6066727,"Some further remarks:
+
+- As discussed behind the scenes before, it would be much more useful if the clickable link texts of the logbook hyperlinks *always and consistently* followed the convention
+`[LHO:84922](+tab+https://alog.ligo-wa.caltech.edu/aLOG/index.php?callRep=84922)`
+instead of
+`[Beam Splitter Issue](https://alog.ligo-wa.caltech.edu/aLOG/index.php?callRep=84922)`
+(and similarly for LLO logbook links). The main reason is that having the entry number in the link text (not only in the URL) makes it visible to the Zooniverse Talk function: Participants who have stumbled upon a logbook entry e.g. in the course of looking at all entries from a certain date would then be able to search for the entry number here in Gravity Spy Talk and would be able to find a discussion of the entry if one exists.
+Merely repeating words like ""Beam Splitter Issue"" in the link text adds no value.
+Like the `+tab+` idiom and the byline, this is something that I would *not* leave to the LLM to get right - I'd hardwire it in a wrapper script that polishes the summary just before posting.
+
+- ""Green Reference"" in [LHO:84902](+tab+https://alog.ligo-wa.caltech.edu/aLOG/index.php?callRep=84902) is an oblique reference to the Arm-Length Stabilization (ALS) subsystem. And it weren't the green *lasers* that were reset - what was reset were the reference points of the ALS alignment sensors (cameras, quadrant photodiodes and wavefront sensors).
+Also, ALS issues won't ""introduce errors in calibrations"". (They might introduce lost time and operator headaches while trying to reacquire a lost lock...)
+
+- *No* ""[a]djustments were made to the Optical Mode Cleaner (OMC) phase rotation settings"" at the present time! The linked logbook entry [LHO:84933](+tab+https://alog.ligo-wa.caltech.edu/aLOG/index.php?callRep=84933) is a comment on an entry from January 2025. Commissioners and the operator on duty were merely checking up a bit of history while working on the post-maintenance-break calibration, and saw fit to add a clarifying remark and a plot to the older entry.
+
+- ""An earthquake occurred"".... many earthquakes occur every day on our restless planet. The Picket Fence isn't a ""device"" - it's a selected group from among the network of USGS (and Canadian) seismic monitoring stations, located in all directions as seen from Hanford, and each sufficiently far away to provide advance warning about incoming seismic waves in time to transition the seismic isolations and suspensions to earthquake mode in case of a major event.
+The specific earthquake that prompted this logbook entry [LHO:84975](+tab+https://alog.ligo-wa.caltech.edu/aLOG/index.php?callRep=84975) got [identified](+tab+https://earthquake.usgs.gov/earthquakes/eventpage/us6000qjm5/) in a subsequent comment.",,,956549,ZngabitanT,2025-06-15 16:10:59.653000+00:00
+155400,6945,aLOG Summaries: Hanford (LHO) and Livingston (LLO),"This is a board dedicated to aLOG GRAVITYbot summaries of LIGO activity at two different laboratories: (1) Hanford, Washington (LHO) and (2) Livingston (LLO) near Baton Rouge, Louisiana. The observatories' electronic logbooks provide highly granular accounts of activities and environmental issues surrounding LIGO's interferometers. The summaries below are open for discussion around how these activities and environmental issues influence their operation and sensitivity and may contribute to glitches - or mitigate them.",3700825,"LLO aLOG Summary: 2025-06-13
+",6066771,"Some further remarks:
+
+- The F1 OSEM issue (affecting the top stage of the ITMX quad suspension) was addressed and fixed the same day. It was not so much affecting ""the stability and accuracy of gravitational wave data measurements"" as causing outright locklosses, both from Observing and at late stages of lock acquisition while the input laser power is being ramped up. [LLO:77097](+tab+https://alog.ligo-la.caltech.edu/aLOG/index.php?callRep=77097) is a bit more explicit about this than the cited [LLO:77089](+tab+https://alog.ligo-la.caltech.edu/aLOG/index.php?callRep=77089).
+
+- It's not *the* ITMY ADC card, but *an* ADC card (one of several which convert analog signals from the IMTY HEPI to digital), as [LLO:77064](+tab+https://alog.ligo-la.caltech.edu/aLOG/index.php?callRep=77064) had correctly stated.
+But this isn't even the logbook entry that *should* have been referenced - it's just the operator's abbreviated summary of what was going on. The relevant logbook entry is [LLO:77058](+tab+https://alog.ligo-la.caltech.edu/aLOG/index.php?callRep=77058) along with its comments.
+
+- A turbomolecular pump isn't a ""sensor"", nor is its controller (electronics box). What [LLO:77091](+tab+https://alog.ligo-la.caltech.edu/aLOG/index.php?callRep=77091) really was about was putting the controller on vibration-damping Viton pads.
+Crucial context is missing here - that a turbomolecular pump is allowed to be running *at all* whilst observing is just because pumpdown of the HAM1 chamber after the long [upgrade incursion](+tab+/projects/zooniverse/gravity-spy/talk/329/3642584) isn't quite complete yet. As soon as the pressure has come down enough for the ion pumps to hold it down on their own, the TMP will be valved out and turned off.
+
+- HEPI is Hydraulic External Pre-Isolation. Not ""horizontal"", not ""earthquake"", nor ""protection"". It wasn't ""adjusted""; and once again, the mid-shift report [LLO:77070](+tab+https://alog.ligo-la.caltech.edu/aLOG/index.php?callRep=77070) is a secondary source - echoing the same primary story [LLO:77058](+tab+https://alog.ligo-la.caltech.edu/aLOG/index.php?callRep=77058) as above.
+",,,956549,ZngabitanT,2025-06-15 16:43:51.185000+00:00

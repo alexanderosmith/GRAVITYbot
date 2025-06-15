@@ -92,7 +92,7 @@ def alog_board_post(current_day, username=username, password=password):
 
         alog_sum.insert(0, f'## {l} aLOG Summary: {current_day}\n')
 
-        alog_sum = ''.join(alog_sum)+r'\n\n NOTICE: Summary created by GRAVITYbot, an LLM powered summarizer maintained by Gravity Spy researchers. Full documentation and development can be found at the [Syracuse CCDS GitHub](https://github.com/Syracuse-CCDS/GRAVITYbot). Any concerns, questions, or recommended updates can be directed to the Syracuse Gravity Spy research team.'
+        alog_sum = ''.join(alog_sum)+'\n\n NOTICE: Summary created by GRAVITYbot, an LLM powered summarizer maintained by Gravity Spy researchers. Full documentation and development can be found at the [Syracuse CCDS GitHub](https://github.com/Syracuse-CCDS/GRAVITYbot). Any concerns, questions, or recommended updates can be directed to the Syracuse Gravity Spy research team.'
         alog_sum = re.sub(r'https://', r'+tab+https://', alog_sum)
 
         # Final message
